@@ -1,0 +1,48 @@
+\chapter{Considerazioni finali e proposte per lavori futuri}
+\label{ch:conclusionilavorifuturi}
+
+In questo capitolo andremo a riportare alcune considerazioni circa i metodi discussi per il ranking delle tratte ferroviarie e delle stazioni che su di esse insistono al fine di proporre spunti per i lavori futuri. Inoltre verranno evidenziate alcune inesattezze riscontrate nei dataset utilizzati.
+\newline
+In conclusione è presente un riepilogo del lavoro svolto.
+\section{Proposte per lavori futuri sul metodo di ranking delle stazioni ferroviarie}
+\section{Proposte per lavori futuri sul metodo di ranking delle tratte ferroviarie}
+\section{Considerazioni sui dataset}
+Nella valutazione delle performance dei metodi proposti non è possibile prescindere dalla consapevolezza che i dataset utilizzati potrebbero essere incompleti o potrebbero presentare imprecisioni. 
+Uno spunto per dei lavori futuri potrebbe essere quello di utilizzare un dataset della rete ferroviaria e delle stazioni che insistono su di essa aggiornato, tale da limitare le inesattezze dei risultati. Infatti, in seguito ad accurate ricerche effettuate in rete, risulta evidente che alcune tratte, nonchè alcune stazioni situate lungo di esse, sono inattive o in fase di smantellamento. I portali che abbiamo utilizzato maggiormente sono quello proposto da Trenitalia (\url{http://www.rfi.it/rfi/LINEE-STAZIONI-TERRITORIO/Nelle-regioni/Abruzzo/La-rete-oggi-in:-Abruzzo}) e \url{http://www.ferrovieabbandonate.it/}.
+\newpage
+Qui di seguito alcune foto di stazioni ferroviarie ormai dismesse o in disuso: Archi (Fig. \ref{archi}) , Perano (Fig. \ref{perano}), Pettorano sul Gizio (Fig. \ref{pettorano}) e Civitaluparella (Fig. \ref{civitaluparella}).
+\begin{figure}[h]
+\centering
+\begin{minipage}[c]{.40\textwidth}
+\centering\setlength{\captionmargin}{0pt}%
+\includegraphics[width=.60\textwidth]{img/archi}
+\caption{Stazione di Archi}
+\label{archi}
+\end{minipage}%
+\hspace{10mm}%
+\begin{minipage}[c]{.40\textwidth}
+\centering\setlength{\captionmargin}{0pt}%
+\includegraphics[width=.60\textwidth]{img/perano}
+\caption{Stazione di Perano}
+\label{perano}
+\end{minipage}
+\begin{minipage}[c]{.40\textwidth}
+\centering\setlength{\captionmargin}{0pt}%
+\includegraphics[width=.60\textwidth]{img/pettorano}
+\caption{Stazione di Pettorano}
+\label{pettorano}
+\end{minipage}%
+\hspace{10mm}%
+\begin{minipage}[c]{.40\textwidth}
+\centering\setlength{\captionmargin}{0pt}%
+\includegraphics[width=.60\textwidth]{img/civitaluparella}
+\caption{Stazione di Civitaluparella}
+\label{civitaluparella}
+\end{minipage}
+\end{figure}
+
+E' necessaria inoltre un'altra riflessione circa i dataset utilizzati, quella circa il dataset delle zone in cui è stato deframmentato il territorio abruzzese. Il dataset in nostro possesso è l'output di un metodo che sfrutta un algoritmo che si basa sul \textit{Diagramma di Voronoi} per decomporre il territorio, per cui le zone ottenute potrebbero non rispecchiare in maniera coerente le caratteristiche morfologiche del terreno. Bisogna inoltre considerare che il valore numerico che quantifica la pericolosità di frana di ogni zona è strettamente legato alle curve di livello che sono presenti in tale zona e non tiene conto di quelle che sono le caratteristiche litologiche del terreno. 
+Uno spunto per i lavori futuri potrebbe essere quello di utilizzare un dataset delle zone che presenti maggiore affidabilità circa la morfologia e le caratteristiche del territorio.
+\section{Considerazioni finali}
+
+L’obiettivo di questo studio è stato fornire una classifica circa le stazioni e le linee ferroviarie in base al loro livello di esposizione al rischio frane. Sono stati proposti rispettivamente due metodi al fine di raggiungere tale scopo.  Successivamente è stata progettata una base di dati spaziale atta a contenere i dataset presi in input. Nel nostro caso di studio questi ultimi hanno interessato la regione Abruzzo. La base di dati spaziale è stata implementata tramite il DBMS PostgreSQL servendoci dell’estensione spaziale PostGIS. Sono state implementate delle UDF, e definite apposite query, tramite le quali poter raggiungere l’obiettivo preposto. Dopo un’analisi dei risultati ottenuti, si è proceduto alla discussione circa le criticità dei metodi e dei dataset in input. E' opportuno sottolineare come i metodi proposti non abbiano la pretesa di restituire valori assoluti circa l’esposizione al pericolo di frane, bensì quello di fornire una metodologia valida applicabile e ovviamente migliorabile per determinare delle classifiche grazie alle quali è possibile individuare le stazioni e le tratte ferroviarie che sono maggiormente esposte al pericolo di smottamenti. I risultati finali sono migliorabili sulla base degli spunti offerti durante la trattazione.  

@@ -1,0 +1,36 @@
+\chapter{Introduzione}
+
+\label{ch:introduzione}
+La mobilità delle persone e delle merci sono una componente essenziale del mercato interno dell'Unione Europea (UE) ed è di fondamentale importanza garantire la sua fattibilità al fine di salvaguardare la crescita economica.
+La rete ferroviaria ha un ruolo strategico in questo contesto almeno sotto due punti di vista:
+\begin{enumerate}
+\item Offre un impulso rilevante all'integrazione e all'efficienza dell'economia dell'UE.
+\item Facilita il libero movimento delle persone e delle merci garantendo una modalità di trasporto efficiente e sostenibile dal punto di vista ambientale. Secondo l’Agenzia europea dell’ambiente, le emissioni di $CO_2$ provenienti dal trasporto ferroviario sono
+3,5 volte inferiori, per tonnellata-chilometro, a quelle prodotte dal trasporto su strada. Di conseguenza, promuovere modalità di trasporto come quello su rotaia, piuttosto che su strada, permetterebbe all'UE di essere meno dipendente dall'importazione di petrolio e di ridurre l'inquinamento.
+\end{enumerate}
+
+Alla luce di queste considerazioni preliminari non sorprende che la sicurezza assumi un rilievo crescente in questo contesto; Una testimonianza di ciò è il regolamento su un metodo comune di sicurezza (CSM) per la valutazione del rischio e l’accertamento, rilasciato negli ultimi anni dall’agenzia ferroviaria europea (ERA) e dalla Commissione Europea [Regulation EU, No.402/2013, 2015].
+Un recente regolamento [GE/GN8642, 2014] pubblicato dalla Rail Safety and Standards Board Ltd (http://www.rssb.co.uk/) definisce “\textit{un pericolo, come una condizione che potrebbe portare a un incidente}”. A sua volta, la direttiva sulla sicurezza [2004/49/CE] del Parlamento europeo definisce un incidente come: “\textit{per 'incidente' si intende un evento improvviso indesiderato e non intenzionale o specifica catena di siffatti eventi aventi conseguenze dannose. Gli incidenti sono suddivisi nelle seguenti categorie: collisioni, deragliamenti, incidenti ai passaggi a livello, incidenti a persone causati da materiale rotolante in movimento, incendi ed altri.}”\newline
+
+Nel tempo sono stati sviluppati molti metodi per predire, prevenire e ridurre il numero di incidenti e per aumentare la sicurezza nel contesto ferroviario. Inoltre è fondamentale sottolineare il fatto che le tratte e le relative stazioni insistono su un territorio esposto, tra gli altri, al rischio idrogeologico. Di riflesso anche la rete ferroviaria e le relative stazioni che su di esso insistono lo sono. I deragliamenti dei treni sono il rischio principale di incidenti. [Lloyd et al., 2001], [Manning et al., 2008], [He et al., 2011] sono esempi di studi che hanno affrontato la questione. In tali studi si fa uso di metodi matematici classici. Ad esempio, [He et al. (2011)] fanno ricorso alla Principal Component Analysis per identificare un numero limitato di fattori che devono essere presi in considerazione per studiare la stabilità dei pendii rocciosi. Studi teorici come quelli appena citati sono molto interessanti perché aiutano a comprendere la complessità del problema, fornendo delle informazioni globali circa le variabili in gioco e come esse sono correlate, ma hanno il limite di non essere direttamente traducibili in piani di lavoro attuabili da parte di coloro che hanno responsabilità di garantire la sicurezza delle tratte ferroviarie e le relative stazioni.\newline
+
+Nel nostro documento si adotta un approccio differente, basato su metodi proposti nell'ambito della Geographical Information Science e riferiti allo studio di relazioni topologiche tra caratteristiche geografiche. Come vedremo, facendo ricorso a tali metodi, possibile identificare quali sono le potenziali pericolosità delle tratte ferroviarie e delle relative stazioni determinate dalle caratteristiche morfologiche e litologiche del terreno dove sono situate, dalla sua pendenza nonché dall'uso dello stesso (prevalentemente abitativo, prevalentemente ad uso coltivazione, ecc).\newline 
+
+Le frane costituiscono uno dei più importanti rischi naturali in molti paesi in tutto il mondo, [Brabb e Harrod, 1989]. Questo è il caso dell’Italia, dove le frane sono diffuse e provocano notevoli danni e decessi ogni anno, [Guzzetti, Stark, e Salvati, 2005], [Trigila et al., 2010]. Secondo il risultato di un recente studio effettuato da [Jaedicke et al. (2014)], “\textit{l'Italia ha il più alto numero di persone esposte al pericolo di frana tra i paesi europei.}”\newline
+
+Mantenendosi ad un alto livello di astrazione quello che si può anticipare del metodo che ci si accinge a presentare è che esso consente di fare delle valutazioni circa le potenziali pericolosità delle tratte ferroviarie e delle relative stazioni che insistono sul territorio oggetto di studio. Ciò consente di restituire agli utenti finali informazioni dettagliate per la localizzazione delle porzioni di tratte ferroviarie e delle stazioni ove prioritariamente è opportuno fare dei controlli periodici.
+La strategia proposta quindi supera i limiti posti dai controlli periodici sull'intero percorso ferroviario e su tutte le stazioni situate sul territorio, i quali risultano essere lunghi e, di conseguenza, costosi e non sempre utili come sostenuto da [Sadler et al., (2016)]. Utilizzando tale metodo sarà possibile individuare quali sono le porzioni di tratte ferroviarie e le stazioni le cui misure di controllo possono essere ridotte in modo sicuro, permettendo al settore ferroviario significativi risparmi di costi a favore del potenziamento dei controlli di porzioni di tratte ferroviarie e stazioni che hanno una pericolosità potenziale maggiore.\newline
+
+In sintesi, obiettivo dello studio metodologico-sperimentale descritto in questo documento è sviluppare una metodologia scientificamente robusta per l’identificazione degli hotspot ferroviari ad alto rischio e che sia di supporto nella definizione di una strategia di monitoraggio selettiva dello stato di sicurezza per una categoria di beni strategica per un Paese, ovvero la sua rete ferroviaria, rispetto all'esposizione della stessa ai movimenti franosi.\newline
+
+Le tratte ferroviarie e le relative stazioni sono dunque i due target da proteggere e data la loro diversa connotazione spaziale che le descrive vanno trattate ed analizzate separatamente. Infatti, le tratte sono modellabili con la geometria \textit{linea}, mentre le stazioni sono modellabili con la geometria \textit{punto}.\newline
+
+Lo strumento software da noi sviluppato è basato sull'uso di un Geo-DB arricchito con un ampio numero di User Defined Functions (UDF), tramite le quali è possibile effettuare delle elaborazioni complesse scrivendo delle queries SQL semplici alla portata della maggior parte dei tecnici che lavorano nel settore della sicurezza ferroviaria.
+
+$\{$ \textit{Continuare...} $\}$
+
+Il documento è organizzato come segue: nella Sezione 2 viene mostrata una panoramica degli strumenti e gli algoritmi utilizzati per valutare l’esposizione al rischio di frana delle stazioni ferroviarie dislocate sul territorio.
+
+$\{$ \textit{Continuare...} $\}$
+
+Il metodo proposto sarà sperimentato con riferimento alla rete ferroviaria Italiana dislocata all'interno del territorio della regione Abruzzo (Italia Centrale).

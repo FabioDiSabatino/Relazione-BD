@@ -1,0 +1,77 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+		oneside,titlepage,numbers=noenddot,headinclude,%1headlines,
+	 	footinclude=true,cleardoublepage=empty,
+		dottedtoc, % Make page numbers in the table of contents flushed right with dots leading to them
+		BCOR=5mm,paper=a4,fontsize=12pt, % Binding correction, paper type and font size
+		italian,american, % Languages, change this to your language(s)
+		]{scrreprt} 
+                
+% Includes the file which contains all the document configurations and packages - make sure to edit this file
+\input{classicthesis-config}
+
+\addbibresource{Bibliography.bib} 
+
+
+
+\begin{document}
+
+\frenchspacing % Reduces space after periods to make text more compact
+
+\raggedbottom % Makes all pages the height of the text on that page
+
+\selectlanguage{italian}
+
+\pagenumbering{roman} % Roman page numbering prior to the start of the thesis content (i, ii, iii, etc)
+
+\pagestyle{plain} % Suppress headers for the pre-content pages
+
+%----------------------------------------------------------------------------------------
+%	Frontespizio-Indice-Abstract
+%----------------------------------------------------------------------------------------
+
+\include{FrontBackMatter/Titlepage} % Main title page
+
+\cleardoublepage\include{FrontBackMatter/Contents} % Contents, list of figures/tables/listings and acronyms
+\cleardoublepage\include{FrontBackMatter/Abstract} % Abstract page
+\cleardoublepage
+
+\pagenumbering{arabic} 
+
+\cleardoublepage % Avoids problems with pdfbookmark
+
+%----------------------------------------------------------------------------------------
+%	Contenuto della relazione
+%----------------------------------------------------------------------------------------
+
+\include{Chapters/Introduzione}
+\include{Chapters/MaterialiEMetodologie}
+\include{Chapters/UnCasoDiStudio}
+\include{Chapters/RisultatiEDiscussione}
+\include{Chapters/ConclusioniLavoriFuturi}
+\cleardoublepage % Empty page before the start of the next part
+
+%----------------------------------------------------------------------------------------
+%	Appendici della relazione
+%----------------------------------------------------------------------------------------
+
+\appendix
+
+\part{Appendici}
+
+\include{Chapters/AppendiceA}
+\include{Chapters/AppendiceB}
+
+%----------------------------------------------------------------------------------------
+%	Bibliografia
+%----------------------------------------------------------------------------------------
+
+\cleardoublepage\include{FrontBackMatter/Bibliography} % Bibliography
+
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
