@@ -754,6 +754,7 @@ Il metodo proposto per classificare le stazioni (vedi Sez.\ref{metodoNuovo}) pu�
 
 
 \subsection{Metodo di calcolo}
+\label{metodoLinee}
 Poiché il NMC è stato progettato per classificare stazioni,  rappresentate attraverso dei punti geometrici, non può essere utilizzato così com'è per classificare le linee ferroviarie rappresentate invece attraverso linee geometriche. Di seguito in Fig.\ref{lineeFerroviarie} un esempio di tratta ferroviaria.
 
 \begin{figure}[bth]
@@ -767,7 +768,7 @@ Nonostante l'idea sembri essere molto semplice, ci sono tre questioni sulle qual
 \begin{enumerate}
 \item che passo di campionamento? la scelta di un passo piccolo giova alla correttezza del calcolo finale di \textit{exposure} della tratta ma aumenta significativamente i tempi di esecuzione del calcolo stesso.
 \item le linee sono semplici? le linee ferroviarie potrebbero avere delle traiettorie complesse, il metodo deve essere in grado di gestirle.
-\item come aggregare i punti campionati? dopo aver campionato una certa tratta e aver determinato i valori di \textit{exposure} di ogni punto della sequenza che la compongono, bisognerà aggregare in qualche modo tali risultati per poter aver un risultato utile e consultabile. \newline 
+\item come aggregare i punti campionati? dopo aver campionato una certa tratta e aver determinato i valori di \textit{exposure} di ogni punto della sequenza che la compongono, bisognerà aggregare in qualche modo tali risultati per poter aver un risultato utile e consultabile.  
 Il campionamento potrebbe generare un numero considerevole di punti che presi singolarmente non forniscono un contributo significato al problema in questione ( vedi \ref{ch:introduzione})
 \end{enumerate}
 L'estensione del NMC (d'ora in avanti indicato con NMCE) per le linee ferroviarie propone una soluzione per ognuna di queste problematiche. Nell'ordine in cui sono state precendetemente presentate: 
@@ -796,7 +797,7 @@ L'estensione del NMC (d'ora in avanti indicato con NMCE) per le linee ferroviari
 Come si evince dalla Fig.\ref{lineeSemplici}, la linea ferroviaria complessa in Fig.\ref{lineaComplessa} viene spezzata in tre linee semplici.
 
 \item una volta campionata la tratta semplice, come in Fig.\ref{puntiLinea}, si utilizza il NMC per determinare il valore di \textit{exposure} di ogni punto che la compone. \newline
-La linea ferroviaria viene quindi divisa in segmenti da 1 km ciascuno (fatta eccezione per l'ultimo segmento che potrebbe essere più piccolo) come in Fig.\ref{segmentiLinea}. Quindi il valore di \textit{exposure}  del segmento viene calcolato facendo la media aritmetica dell'\textit{exposure} dei punti campionati al suo interno. Di seguito in Fig.\ref{mediaExposure}  si propone un'esempio esplicativo, il colore del segmento tende sempre più al rosso all'aumentare del valore di \textit{exposure}.
+La linea ferroviaria viene quindi divisa in segmenti da 1 km ciascuno (fatta eccezione per l'ultimo segmento che potrebbe essere più piccolo) come in Fig.\ref{segmentiLinea}. Quindi il valore di \textit{exposure}  del segmento viene calcolato facendo la media aritmetica dell'\textit{exposure} dei punti campionati al suo interno. Di seguito in Fig.\ref{mediaExposure}  si propone un'esempio esplicativo, il colore del segmento tende sempre più al rosso all'aumentare del valore medio di \textit{exposure} dei punti contenuti nel segmento.
 
 \begin{figure}[bth]
 	\myfloatalign
@@ -804,10 +805,10 @@ La linea ferroviaria viene quindi divisa in segmenti da 1 km ciascuno (fatta ecc
 	{\label{segmentiLinea}
 		\includegraphics[width=.45\linewidth]{img/segmentiLinea}} \quad
 	\subfloat[Esempio di assegnazione exposure per i segmenti di una linea ferroviaria ]
-	{\label{lineeSemplici}
+	{\label{mediaExposure}
 		\includegraphics[width=.45\linewidth]{img/mediaExposure}} 
 	\caption[dove]{Esempio di divisione ogni 1 km di una linea ferroviaria e assegnazione dell'exposure  ad ogni suo segmento }
-	\label{fig:divisioneLinea}
+	\label{fig:aggregazioneLinea}
 \end{figure}
 
 
