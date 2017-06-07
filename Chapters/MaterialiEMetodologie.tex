@@ -758,7 +758,7 @@ Poiché il NMC è stato progettato per classificare stazioni,  rappresentate att
 
 \begin{figure}[bth]
   \centering
-  \includegraphics[width=0.8\textwidth]{img/exDeltaH}
+  \includegraphics[width=0.7\textwidth]{img/lineaFerroviaria}
   \caption{Esempio di rappresentazione geometrica di una linea ferroviaria } 
   \label{lineeFerroviarie}
 \end{figure}
@@ -770,7 +770,7 @@ Nonostante l'idea sembri essere molto semplice, ci sono tre questioni sulle qual
 \item come aggregare i punti campionati? dopo aver campionato una certa tratta e aver determinato i valori di \textit{exposure} di ogni punto della sequenza che la compongono, bisognerà aggregare in qualche modo tali risultati per poter aver un risultato utile e consultabile. \newline 
 Il campionamento potrebbe generare un numero considerevole di punti che presi singolarmente non forniscono un contributo significato al problema in questione ( vedi \ref{ch:introduzione})
 \end{enumerate}
-L'estensione del NMC (d'ora in avanti indicato con NMCE) per le linee ferroviarie propone una soluzione per ognuna di queste problematiche. Nell'ordine in cui sono stati precendetemente presentati: 
+L'estensione del NMC (d'ora in avanti indicato con NMCE) per le linee ferroviarie propone una soluzione per ognuna di queste problematiche. Nell'ordine in cui sono state precendetemente presentate: 
 \begin{enumerate}
 \item Il passo di campionamento scelto è di 300 mt, ma può essere facilmente modificato essendo un parametro del metodo.
 \item nel caso in cui una tratta abbia una traiettoria complessa, il NMCE rileva tale situazione e provvede a dividere la linea in due o più linee semplici. In Fig.\ref{fig:divisioneLinea} un esempio esplicativo.
@@ -779,16 +779,16 @@ L'estensione del NMC (d'ora in avanti indicato con NMCE) per le linee ferroviari
 \myfloatalign
 \subfloat[ Esempio di una linea ferroviaria complessa]
 {\label{lineaComplessa}
-\includegraphics[width=.45\linewidth]{img/pendenza1}} \quad
-\subfloat[ Esempio di linee semplici ottenute dalla divisione di \ref{lineaComplessa}]
+\includegraphics[width=.45\linewidth]{img/lineaComplessa}} \quad
+\subfloat[ Esempio di linee semplici ottenute dividendo la linea in Fig. \ref{lineaComplessa}]
 {\label{lineeSemplici}
-
-\includegraphics[width=.45\linewidth]{img/pendenza2}} 
+\includegraphics[width=.45\linewidth]{img/lineaSemplice}} 
 \caption[dove]{Esempio di una linea ferroviaria complessa e della divisione in più linee semplici}
 \label{fig:divisioneLinea}
 \end{figure}
+Come si evince dalla Fig.\ref{lineeSemplici}, la linea ferroviaria complessa in Fig.\ref{lineaComplessa} viene spezzata in tre linee semplici.
 
-\end{enumerate}
+\item una volta campionata la tratta semplice, si utilizzaril NMC per determinare il valore di \textit{exposure}  diper ogni punthe la compo. \newline.    numerate}
 
 
 
