@@ -372,6 +372,7 @@ Dalle \textit{tabelle di contingenza binaria} riferite relativamente alla fascia
 \end{itemize}
 %----------------------------------
 \subsection{Discussione dei risultati ottenuti}
+\label{discussioneRisultati}
 Alla luce dei risultati ottenuti dal confronto tra la classificazione in fasce ottenuta dall'elaborazione dell'output del metodo illustrato nella Sez. \ref{metodoNuovo} e la classificazione ufficiale e dai valori delle metriche utilizzate per valutare le performance del metodo proposto è stato possibile concludere che l'algoritmo presenta sì alcune limitazioni che andremo a discutere qui di seguito ma che ha buone performance e riesce generalmente (nell'87\% dei casi) a classificare correttamente le stazioni ferroviarie presenti sul territorio abruzzese.
 
 Le limitazioni del metodo proposto derivano dal fatto che l'algoritmo, nel calcolare il \textit{vettoreDirezionale}, prende in considerazione la curva di livello più vicina alla stazione ferroviaria a cui si riferisce e non sempre coincide con la direzione lungo la quale si propaga la pendenza più rilevante presente nelle vicinanze della stazione. Per maggiore chiarezza, qui di seguito, portiamo in esame due casi critici nei quali questa limitazione è ben visibile:
@@ -405,6 +406,19 @@ Le limitazioni del metodo proposto derivano dal fatto che l'algoritmo, nel calco
 %----------------------------------
 \section{Ranking e Valutazione delle linee ferroviarie}
 \subsection{Discussione dei risultati ottenuti}
-I risultati ottenuti applicando Il NMCE (vedi Sez.\ref{metodoLinee}) per la classificazione delle linee ferroviarie sono molto positivi, infatti i segmenti di 1 km che compongono le diverse linee ferroviarie hanno valori di \textit{exposure} corretti. Per la validazione di questi risultati è stato utilizzato il software QGIS e un suo plugin (vedi appendice \ref{qgis}) per la visualizzazione 3D di dati raster, in modo da poter verificare visivamente la correttezza dei valori di \textit{exposure} dei segmenti calcolati dal NMCE. \newline
- In alcuni casi tali segmenti hanno valori in contrasto con quelli di alcune stazioni segnalate come falsi negativi. \newline
-Ad esempio per quanto riguarda 
+I risultati ottenuti applicando Il NMCE (vedi Sez.\ref{metodoLinee}) per la classificazione delle linee ferroviarie sono molto positivi, infatti si è osservato che la maggior parte dei segmenti di  che compongono le diverse linee ferroviarie hanno valori di \textit{exposure} corretti. Per la validazione di questi risultati è stato utilizzato il software QGIS e un suo plugin (vedi appendice \ref{qgis}) per la visualizzazione 3D di dati raster, in modo da poter verificare visivamente la correttezza dei valori di \textit{exposure} dei segmenti calcolati dal NMCE. \newline
+ In alcuni casi il valore di \textit{exposure} dei segmenti in prossimità di una stazione sono in contrasto con la fascia assegnata a quest'ultima dal NMC. Questi casi corrispondono ai casi critici di cui abbiamo ampiamente parlato nelle sezioni \ref{analisicritica} e \ref{discussioneRisultati}.\\
+Ad esempio la stazione di Aversa sappiamo essere stata classificata erronaemente nella fascia \textit{Moderate} dal NMC. Tuttavia il NMCE classifica i segmenti in prossimità della stazione nella fascia \textit{High} (indicata con il colore rosso) come si evince dalla Fig.\ref{esempio1}. 
+ 
+\begin{figure}[bth]
+	\myfloatalign
+	\subfloat[ Vista 2D della stazione di Aversa e della linea ferroviaria che l'attraversa]
+	{\label{segmentiLinea}
+		\includegraphics[width=.45\linewidth]{img/aversaLinea}} \quad
+	\subfloat[Vista 3D della stazione di Aversa e della linea ferroviaria che l'attraversa ]
+	{\label{mediaExposure}
+		\includegraphics[width=.45\linewidth]{img/aversaLinea3}} 
+	\caption[dove]{Vista 2D e 3D della stazione di Aversa e della linea ferroviaria che l'attraversa }
+	\label{esempio1}
+\end{figure}
+ 
