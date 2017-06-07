@@ -73,6 +73,18 @@ Ad ogni $z_k$ è associato un valore numerico compreso tra $0$ e $1$, il quale q
 
 %---------------
 \section{Basi di dati spaziale}
+Si descrive in seguito la progettazione e conseguente realizzazione della basi di dati geografica realizzata per l'effettiva implementazione degli algoritmi precedentemente descritti.\\
+I dati raccolti nella basi dati sono relativi: 
+\begin{itemize}
+\item alle stazioni e linee ferroviarie abruzzesi con informazioni relative al nome e alla geometria;
+\item alla geometria dei confini dell'area geografica;
+\item alla geometria delle zone che vanno a partizionare in modo completo l'area con relative informazioni di rischio idrogeologico;
+\item alla geometria delle linee di livello presenti nel territorio di riferimento con la quota associata;
+\item ai risultati ottenuti dalle elaborazioni.
+\end{itemize}
+
+ 
+
 \subsection{Progettazione concettuale}
 Si procede ora con l’illustrare la progettazione concettuale della base di dati spaziale. Per ogni entità verranno mostrate:
 
@@ -82,10 +94,19 @@ Si procede ora con l’illustrare la progettazione concettuale della base di dat
 \item i vincoli di partecipazione nelle relazioni, con la notazione (min, max)
 \end{itemize}
 
-In Figura  ?? si riporta il modello E-R della base di dati spaziale, mentre in Tabella ?? sono elencate le entità con i relativi attributi, descrizione e attributi identificanti, ed infine in Tabella ?? l’elenco delle associazioni.
+In Figura \ref{fig:er} si riporta il modello E-R della base di dati spaziale, mentre in Tabella \ref{tab:erTabellaEntita} sono elencate le entità con i relativi attributi, descrizione e attributi identificanti, ed infine in Tabella \ref{tab:erTabellaAssociazioni} l’elenco delle associazioni.
+\pagebreak
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{img/er}
+	\caption{Diagramma E-R della base di dati}
+    \label{fig:er}
+\end{figure}
 
-%diagramma E-R
+Note:\\
+l'attributo \textit{numero} dell'entità \textit{Experiment\_railway} rappresenta il numero di tratta all'interno della linea. Nel caso di divisione delle linee in tratte da un km, allora corrisponde al km lungo la tratta.
+\pagebreak
 
 \begin{table}[h]
 \centering
@@ -107,11 +128,11 @@ In Figura  ?? si riporta il modello E-R della base di dati spaziale, mentre in T
 & presenti nel territorio di & \textit{name} & \\
 & riferimento. &\textit{geom}& \\  \hline
 
-\multirow{3}{*}\textit{Isoipse\_Abruzzo} & Entità relativa alle isoipse & \textit{gid} & \textit{gid}\\
+\multirow{3}{*}\textit{Isoipse} & Entità relativa alle isoipse & \textit{gid} & \textit{gid}\\
 & presenti nel territorio di & \textit{elevation} & \\
 & riferimento. &\textit{geom}& \\  \hline
 
-\multirow{3}{*}\textit{Railways} & Entità relativa alle linee ferroviarie & \textit{gid} & \textit{gid}\\
+\multirow{3}{*}\textit{Railway} & Entità relativa alle linee ferroviarie & \textit{gid} & \textit{gid}\\
 & presenti nel territorio di & \textit{name} & \\
 & riferimento. &\textit{geom}& \\  \hline
 
@@ -120,19 +141,19 @@ In Figura  ?? si riporta il modello E-R della base di dati spaziale, mentre in T
 &  ferroviarie presenti nel territorio &\textit{explosure}& \\
 &  di riferimento. && \\  \hline
 
-\multirow{4}{*}\textit{Experiment\_Station} & Entità relativa agli esperimenti & \textit{id} & \textit{id}\\
+\multirow{4}{*}\textit{Experiment\_station} & Entità relativa agli esperimenti & \textit{id} & \textit{id}\\
 & effettuati sulle stazioni & \textit{elevation} & \\
 & presenti nel territorio& \textit{slope} & \\
 & di riferimento. &\textit{explosure}& \\ \hline
 
-\multirow{4}{*}\textit{Experiment\_Railway} & Entità relativa agli esperimenti & \textit{id} & \textit{id}\\
+\multirow{4}{*}\textit{Experiment\_railway} & Entità relativa agli esperimenti & \textit{id} & \textit{id}\\
 & effettuati sulle linee ferroviarie  & \textit{geom} & \\
-& presenti nel territorio &\textit{km}& \\
-& di riferimento. & \textit{avg\_explosure}&\\ \hline
+& presenti nel territorio &\textit{numero}& \\
+& di riferimento. & \textit{explosure}&\\ \hline
 
 \end{tabular}
-\caption{blabla }
-\label{range}
+\caption{Tabella delle entità}
+\label{tab:erTabellaEntita}
 \end{table}
 
 \begin{table}[h]
@@ -158,15 +179,17 @@ In Figura  ?? si riporta il modello E-R della base di dati spaziale, mentre in T
 \hline
 
 \end{tabular}
-\caption{blablabla}
-\label{rangee}
+\caption{Tabella delle associazioni}
+\label{tab:erTabellaAssociazioni}
 \end{table}
+\clearpage
 
+\subsection{Progettazione logica}
+Il diagramma E-R in figura \ref{fig:er} viene tradotto nello schema logico rappresentato graficamente in figura \ref{fig:schemaLogico}
 
-
-
-
-
-
-
-
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{img/schemaLogico}
+	\caption{Schema logico}
+    \label{fig:schemaLogico}
+\end{figure}
