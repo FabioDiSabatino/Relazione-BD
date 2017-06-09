@@ -403,27 +403,27 @@ Le limitazioni del metodo proposto derivano dal fatto che l'algoritmo, nel calco
 \end{figure}
 \end{itemize}
 
-%----------------------------------
-\section{Ranking e Valutazione delle linee ferroviarie}
-\subsection{Discussione dei risultati ottenuti}
-I risultati ottenuti applicando Il NMCE (vedi Sez.\ref{metodoLinee}) per la classificazione delle linee ferroviarie sono molto positivi, infatti si è osservato che la maggior parte dei segmenti che compongono le diverse linee ferroviarie hanno valori di \textit{exposure} corretti. Per la validazione di questi risultati è stato utilizzato il software QGIS e un suo plugin (vedi appendice \ref{qgis}) per la visualizzazione 3D di dati raster, in modo da poter verificare visivamente la correttezza dei valori di \textit{exposure} dei segmenti calcolati dal NMCE. \newline
+%-------------------------DA RIFARE COMPLETAMENTE-------------------
+\section{Ranking  delle linee ferroviarie e discussione}
+
+I risultati ottenuti applicando il NMCE (vedi Sez.\ref{metodoLinee}) per la classificazione delle linee ferroviarie sono molto positivi, infatti si è osservato che la maggior parte dei segmenti che compongono le diverse linee ferroviarie hanno valori di \textit{exposure} corretti. Per la validazione di questi risultati è stato utilizzato il software QGIS e un suo plugin (vedi appendice \ref{qgis}) per la visualizzazione 3D di dati geografici, in modo da poter verificare visivamente la correttezza dei valori di \textit{exposure} dei segmenti calcolati dal NMCE. \newline
  In alcuni casi il valore di \textit{exposure} dei segmenti in prossimità di una stazione sono in contrasto con la fascia assegnata a quest'ultima dal NMC. Questi casi corrispondono ai casi critici di cui abbiamo ampiamente parlato nelle sezioni \ref{analisicritica} e \ref{discussioneRisultati}.\\
 Ad esempio la stazione di Aversa sappiamo essere stata classificata erronaemente nella fascia \textit{Moderate} dal NMC. Invece il NMCE classifica i segmenti in prossimità della stazione nella fascia \textit{High} (indicata con il colore rosso) come si evince dalla Fig.\ref{esempio1}. 
  
 \begin{figure}[bth]
 	\myfloatalign
-	\subfloat[ Vista 2D della stazione di Aversa e della linea ferroviaria che l'attraversa]
+	\subfloat[]
 	{\label{aversa2d}
 		\includegraphics[width=.45\linewidth]{img/aversaLinea}} \quad
-	\subfloat[Vista 3D della stazione di Aversa e della linea ferroviaria che l'attraversa ]
+	\subfloat[]
 	{\label{aversa3d}
 		\includegraphics[width=.45\linewidth]{img/aversaLinea3}} 
 	\caption[dove]{Vista 2D e 3D della stazione di Aversa e della linea ferroviaria che l'attraversa }
 	\label{esempio1}
 \end{figure}
 
-Questo avviene perché l'\textit{exposure} del segmento viene determinato dalla media aritmetica dell'\textit{exposure} di tre punti ( vedi Sez.\ref{metodoLinee}), di conseguenza se ci fosse all'interno di un segmento un punto per il quale il calcolo dell'\textit{exposure} è stato compromesso, a causa delle limitazione del NMC  già discusse nella Sez.\ref{discussioneRisultati},  l'effetto di tale punto nel determinare il valore finale di \textit{exposure} del segmento verrebbe attenuato dagli altri punti all'interno di esso. \\
-Il NMCE presenta una limitazione legata strettamente alle informazioni presenti nel \textit{dataset}, tale criticità corrisponde alla presenza di gallerie nelle linee ferroviarie. Il dataset utilizzato (vedi Sez.\ref{zone}) non possiede tali informazioni, dunque alcune tratte hanno segmenti che sono falsi positivi.\\
+Questo avviene perché il valore dell'\textit{exposure} è pari alla media aritmetica dell'\textit{exposure} di tre punti ( vedi Sez.\ref{metodoLinee}), di conseguenza se ci fosse all'interno di un segmento un punto per il quale il calcolo dell'\textit{exposure} è stato compromesso, a causa delle limitazione del NMC  già discusse nella Sez.\ref{discussioneRisultati}.
+Il NMCE presenta una limitazione legata strettamente alle informazioni nei dati di input, tale criticità corrisponde alla presenza di gallerie nelle linee ferroviarie. Il dataset utilizzato (vedi Sez.\ref{zone}) non possiede tali informazioni, dunque alcune tratte hanno segmenti che sono falsi positivi.\\
 Ad esempio nella linea ferroviaria Pescara-Roma dal km 154 al km 157 la linea ferroviaria prosegue all'interno di una galleria. Tuttavia il NMCE non è a conoscenza di questa situazione e crede che la tratta continui arrampicandosi sul pendio, di conseguenza i segmenti che costituiscono la tratta hanno valori di \textit{exposure} altissimi. Di seguito in Fig.\ref{esempio2} si propongono le schermate 2D e 3D catturate mediante QGIS.
  
  \begin{figure}[bth]
