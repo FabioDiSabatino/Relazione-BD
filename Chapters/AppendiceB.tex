@@ -4,7 +4,119 @@
 \label{risultati}
 \section{Classificazione completa delle stazioni tramite il NMC}
 \label{risultaticompleti}
-\section{Classificazione completa delle linee ferroviarie tramite il NMC}
+\section{Classificazione completa delle linee ferroviarie tramite il NMCE}
+Di seguito si mostrano i risultati ottenuti tramite il NMCE per le 9 linee ferroviarie forniti nei dati di input. Per ognuna di esse verranno mostrate due tabelle che riassumono i valori di \textit{exposure} dei segmenti  che le compongono.\\
+
+\subsection{Bologna-Bari}
+\centering
+	\begin{tabular}  {|c|c|c|c|} 
+	
+		\hline 
+		Numero di segmenti & \% in Low & \% in Moderate & \% in High \\ 
+		\hline 
+		125 & 56,8\% & 43,2\% & 0\% \\ 
+		\hline 
+	\end{tabular} 
+
+\begin{table}[bh]
+	\centering
+	\caption{Sintesi dei valori di \textit{exposure} per la linea Bologna-bari}
+	\label{my-label}
+	\begin{tabular}{|l|c|l|l|l|}
+		\hline
+		& \multicolumn{1}{l|}{Numero di segmenti} & Numbers                                                                                                                    & max exposure & avg exposure \\ \hline
+		LOW      & 71                                      & \begin{tabular}[c]{@{}l@{}}2-23  25-32 35-38\\ 44-49 54-57 60-63\\ 65-68 72 93-94\\ 101-105 107-113\\ 121-125\end{tabular} & 0,9443758754 & 0,3237692482 \\ \hline
+		MODERATE & 54                                      & \begin{tabular}[c]{@{}l@{}}1 24 33-34\\ 39-43 50-53 58-59\\ 64 69 70-71\\ 73-92 95-100 102\\ 106 114-120\end{tabular}      & 8,58597068   & 2,808810913  \\ \hline
+		HIGH     & $0$                                       &                                                                                                                            &              &              \\ \hline
+	\end{tabular}
+\end{table}
+
+\newpage
+\subsection{Ortona-Crocetta}
+\centering
+\begin{tabular}  {|c|c|c|c|} 
+	
+	\hline 
+	Numero di segmenti & \% in Low & \% in Moderate & \% in High \\ 
+	\hline 
+	36 & 36\% & 64\% & 0\% \\ 
+	\hline 
+\end{tabular} 
+
+\begin{table}[bh]
+	\centering
+	\caption{Sintesi dei valori di \textit{exposure per la linea Ortona-Crocetta}}
+	\label{my-label}
+	\begin{tabular}{|l|c|l|l|l|}
+		\hline
+		& \multicolumn{1}{l|}{Numero di segmenti} & Numbers   & max exposure & avg exposure \\ \hline
+		LOW      & 13                                      & 3-15      & 0,7777983649 & 0,245232976  \\ \hline
+		MODERATE & 23                                      & 1-2 16-36 & 10,21509432  & 3,759937833  \\ \hline
+		HIGH     & 0                                       &           &              &              \\ \hline
+	\end{tabular}
+\end{table}
+
+\newpage
+\subsection{Marina di San Vito - Castel di Sangro}
+\centering
+\begin{tabular}  {|c|c|c|c|} 
+	
+	\hline 
+	Numero di segmenti & \% in Low & \% in Moderate & \% in High \\ 
+	\hline 
+	105  & 16\% & 83\% & 1\% \\ 
+	\hline 
+\end{tabular} 
+\begin{table}[bh]
+	\centering
+	\caption{exposure per la linea Marina di San Vito - Castel di Sangro }
+	\label{my-label}
+	\begin{tabular}{|l|c|l|l|l|}
+		\hline
+		& \multicolumn{1}{l|}{Numero di segmenti} & Numbers                                                                                       & max exposure & avg exposure \\ \hline
+		LOW      & 17                                      & \begin{tabular}[c]{@{}l@{}}14-21 35 39\\ 43 93-97 103\end{tabular}                            & 0,7777983649 & 0,4015290067 \\ \hline
+		MODERATE & 87                                      & \begin{tabular}[c]{@{}l@{}}1-13 22-34 36-38\\ 40-42 44-63 65-92\\ 98-102 104-105\end{tabular} & 10,21509432  & 6,124790459  \\ \hline
+		HIGH     & 1                                       & \multicolumn{1}{c|}{64}                                                                       & 20,4253592   & 20,4253592   \\ \hline
+	\end{tabular}
+\end{table}
+
+\newpage
+\subsection{Roma-Pescara}
+
+\centering
+\begin{tabular}  {|c|c|c|c|} 
+	
+	\hline 
+	Numero di segmenti & \% in Low & \% in Moderate & \% in High \\ 
+	\hline 
+	170  & 35\% & 52\% & 13\% \\ 
+	\hline 
+\end{tabular} 
+
+\begin{table}[bh]
+	\centering
+	\caption{exposure per la linea Roma-Pescara}
+	\label{my-label}
+	\begin{tabular}{|l|c|l|l|l|}
+		\hline
+		& \multicolumn{1}{l|}{Numero di segmenti} & Numbers                                                                                                                                                                           & max exposure  & avg exposure \\ \hline
+		LOW      & 61                                      & \begin{tabular}[c]{@{}l@{}}1-16 18-22 25-26\\ 30 36 53-56 60-73\\ 108 122-124 129-133\\ 138 139 140-145\\ 166-169\end{tabular}                                                    & 0,05581949089 & 0,2258576073 \\ \hline
+		MODERATE & 87                                      & \begin{tabular}[c]{@{}l@{}}17 23 24\\ 27-29 31-35 37-44\\ 51-52 57-59 61\\ 63 64 74-76 \\ 79-85 91-95 99 \\ 101-107 109-121\\ 125-128 134-137 \\ 146-153 159-165 170\end{tabular} & 18,27710597   & 5,991583624  \\ \hline
+		HIGH     & 22                                      & \begin{tabular}[c]{@{}l@{}}45-50 77-78 86-90 \\ 96-98 100 154-158\end{tabular}                                                                                                    & 76,54443068   & 37,56807977  \\ \hline
+	\end{tabular}
+\end{table}
+
+\newpage
+\subsection{Avezzano-Roccasecca}
+
+\subsection{Archi stazione-Atessa}
+
+\subsection{Sulmona-Carpinone}
+
+\subsection{Rieti- L'Aquila-Sulmona}
+
+\subsection{Teramo-Giulianova}
+
 
 \section{Classificazione ufficiale delle stazioni utilizzata per la validazione }
 \label{risultatiUfficiali}
