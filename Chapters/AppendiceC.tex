@@ -1,0 +1,39 @@
+\chapter{UDF}
+\label{udf}
+\section{UDF del NMC}
+\label{udfnmc}
+\subsection{quotamedia}
+
+
+\begin{lstlisting}[style=mySQL]
+CREATE or REPLACE FUNCTION quotaMediazoneVicine(buffer GEOMETRY) RETURNS VOID
+	LANGUAGE plpgsql
+	as $$
+
+	DECLARE
+		area RECORD;
+		linea RECORD;
+		quotamedia FLOAT;
+		contatore INT;
+	BEGIN
+		quotamedia:=0;
+		contatore:=0;
+		FOR area IN (SELECT * FROM dataset) LOOP
+			IF(st_intersects(area.geom, buffer)) THEN
+				FOR linea IN (SELECT * FROM lineelvl) LOOP
+					IF st_intersects(area.geom,linea.geom) THEN
+						quotamedia:=quotamedia+linea.elevation;
+						contatore:=contatore+1;
+					END IF;
+				END LOOP;
+				IF contatore>0 THEN
+					quotamedia=quotamedia/contatore;
+				END IF;
+				INSERT INTO zoneVicine(geom, quotamedia, szk)                                  VALUES (area.geom, quotamedia, area.szk);
+				quotamedia:=0;
+				contatore:=0;
+			END IF;
+		END LOOP;
+	END;
+$$;
+\end{lstlisting}

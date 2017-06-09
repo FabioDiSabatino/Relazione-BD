@@ -74,6 +74,7 @@
 
 \usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
 
+
 %------------------------------------------------
 
 % Package to generate and customize Algorithm as per ACM style
@@ -162,26 +163,55 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 %----------------------------------------------------------------------------------------
 %	CODE LISTINGS SETUP
 %----------------------------------------------------------------------------------------
+\usepackage{color}
+ 
+\usepackage[dvipsnames]{xcolor}
 
-\usepackage{listings} 
+\definecolor{keywords}{RGB}{255, 255, 255}
+\definecolor{cobalt}{rgb}{0.0, 0.28, 0.67}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+
+\usepackage{listings,lstautogobble} 
 %\lstset{emph={trueIndex,root},emphstyle=\color{BlueViolet}}%\underbar} % For special keywords
-\lstset{language=[LaTeX]Tex,%C++ % Specify the language(s) for listings here
-morekeywords={PassOptionsToPackage,selectlanguage},
-keywordstyle=\color{RoyalBlue}, % Add \bfseries for bold
-basicstyle=\small\ttfamily, % Makes listings a smaller font size and a different font
+
+\lstloadlanguages{SQL} % load java, needed because of option 'savemem'
+
+\lstdefinestyle{mySQL}{
+%language=SQL,%C++ % Specify the language(s) for listings here
+%keywordstyle=\color{RoyalBlue}, % Add \bfseries for bold
+%keywordstyle=\color{black},
+keywordstyle=[2]\color{cobalt},
+keywordstyle=[3]\color{RoyalBlue}, 
+keywordstyle=[4]\color{orange},
+keywordstyle=[5]\color{yellow},
+basicstyle=\footnotesize\ttfamily, % Makes listings a smaller font size and a different font
 %identifierstyle=\color{NavyBlue}, % Color of text inside brackets
 commentstyle=\color{Green}\ttfamily, % Color of comments
 stringstyle=\rmfamily, % Font type to use for strings
 numbers=left, % Change left to none to remove line numbers
 numberstyle=\scriptsize, % Font size of the line numbers
-stepnumber=5, % Increment of line numbers
+stepnumber=1, % Increment of line numbers
 numbersep=8pt, % Distance of line numbers from code listing
 showstringspaces=false, % Sets whether spaces in strings should appear underlined
 breaklines=true, % Force the code to stay in the confines of the listing box
 %frameround=ftff, % Uncomment for rounded frame
 %frame=single, % Frame border - none/leftline/topline/bottomline/lines/single/shadowbox/L
-belowcaptionskip=.75\baselineskip % Space after the "Listing #: Desciption" text and the listing box
-}
+tabsize=2,
+autogobble=true,
+belowcaptionskip=.75\baselineskip, % Space after the "Listing #: Desciption" text and the listing box
+keywords=[2]{CREATE, or, REPLACE, FUNCTION, LANGUAGE, as, DECLARE, BEGIN, END, RETURNS, FOR, LOOP, IF, THEN, END IF, END LOOP},
+keywords=[3]{SELECT, IN, FROM, INTO, INSERT, VALUES},
+keywords=[4]{quotaMediazoneVicine},
+keywords=[5]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+%----morekeywords={REPLACE, FUNCTION, GEOMETRY, RETURNS, VOID, LANGUAGE, DECLARE, RECORD, BEGIN, FOR, LOOP, IF, }%copy and paste
+%keywords=[2]{CREATE, or, REPLACE, FUNCTION, LANGUAGE, as, DECLARE, BEGIN, END},
+%keywords=[3]{FOR, LOOP, IF, THEN, END IF, END LOOP},
+ }
 
 %----------------------------------------------------------------------------------------
 %	HYPERREFERENCES
