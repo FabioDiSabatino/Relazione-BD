@@ -72,9 +72,9 @@ Ad ogni $z_k$ è associato un valore numerico compreso tra $0$ e $1$, il quale q
 
 
 %---------------
-\section{Basi di dati spaziale}
-Si descrive in seguito la progettazione e conseguente realizzazione della basi di dati geografica realizzata per l'effettiva implementazione degli algoritmi precedentemente descritti.\\
-I dati raccolti nella basi dati sono relativi: 
+\section{Base di dati spaziale}
+Si descrive in seguito la progettazione e conseguente realizzazione della base di dati geografica realizzata per l'effettiva implementazione degli algoritmi precedentemente descritti.\\
+I dati da memorizzare sono: 
 \begin{itemize}
 \item alle stazioni e linee ferroviarie abruzzesi con informazioni relative al nome e alla geometria;
 \item alla geometria dei confini dell'area geografica;
@@ -86,7 +86,7 @@ I dati raccolti nella basi dati sono relativi:
  
 
 \subsection{Progettazione concettuale}
-Si procede ora con l’illustrare la progettazione concettuale della base di dati spaziale. Per ogni entità verranno mostrate:
+Per ogni entità verranno mostrate:
 
 \begin{itemize}
 \item gli attributi
@@ -105,7 +105,7 @@ In Figura \ref{fig:er} si riporta il modello E-R della base di dati spaziale, me
 \end{figure}
 
 Note:\\
-l'attributo \textit{numero} dell'entità \textit{Experiment\_railway} rappresenta il numero di tratta all'interno della linea. Nel caso di divisione delle linee in tratte da un km, allora corrisponde al km lungo la tratta.
+l'attributo \textit{number} dell'entità \textit{Experiment\_railway}  rappresenta il numero del segmento relativo alla linea ferroviaria di appartenenza. Nel caso di divisione delle linee in tratte da 1 km,  corrisponde anche al km lungo la tratta.
 \pagebreak
 
 \begin{table}[h]
@@ -115,7 +115,7 @@ l'attributo \textit{numero} dell'entità \textit{Experiment\_railway} rappresent
 \textbf{Entità} & \textbf{Descrizione} & $\mathbf{Attributi}$ & \textbf{ID} \\
 \hline
 
-\multirow{3}{*}\textit{Geoarea} & Entià relativa al territorio di & \textit{gid} & \textit{gid}\\
+\multirow{3}{*}\textit{Geoarea} & Entità relativa al territorio di & \textit{gid} & \textit{gid}\\
 & interesse. Nel nostro caso è la & \textit{geom} & \\&regione Abruzzo.&&\\ 
 \hline
 
