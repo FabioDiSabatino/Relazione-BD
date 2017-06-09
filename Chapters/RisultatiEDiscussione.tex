@@ -402,39 +402,99 @@ Le limitazioni del metodo proposto derivano dal fatto che l'algoritmo, nel calco
 \caption[]{Stazione Ferroviaria di Vigliano d'Abruzzo}\label{fig:vigliano}
 \end{figure}
 \end{itemize}
+\newpage
+\section{Ranking e Valutazione delle Linee Ferroviarie}
+In questa sezione andremo a discutere i risultati ottenuti applicando il metodo NMCE presentato in Sez. \ref{metodoLinee} per la determinazione della classifica delle linee ferroviarie in relazione al grado di esposizione al rischio idrogeologico.\newline \newline
+Il metodo ha restituito $690$ segmenti in quanto abbiamo definito la lunghezza di ognuno pari a $1$km ed il valore di \textit{exposure} di ognuno varia da un valore massimo di $130$ ad un valore minimo di $0$. A fronte di tali risultati abbiamo ritenuto opportuno, per analogia al caso delle stazioni ferroviarie, utilizzare il medesimo meccanismo di classificazione in tre fasce di rischio:
+\begin{itemize}
+	\item High
+	\item Moderate
+	\item Low
+\end{itemize}
+La tabella \ref{rangeLinee} mostra la suddetta divisione in fasce di rischio, gli intervalli in cui i segmenti sono stati divisi secondo il valore di \textit{exposure}, il numero e la percentuale sul totale dei segmenti appartenenti ad una determinata fascia. Come nel caso delle stazioni ferroviarie ad ogni fascia abbiamo associato un colore identificativo.
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\rowcolor{lightgray}
+\textbf{Fascia} & \textbf{Intervallo valori Exp$\mathbf{\_}$$\mathbf{segmento}$} & $\mathbf{\#segmenti}$ & \textbf{\%} \\
+\hline
+\rowcolor{flamingopink}
+High & 20 < Exp$\_$$b_i$ < 50 & 226 & 11,31\%\\
+\hline
+\rowcolor{icterine}
+Moderate & 1 < Exp$\_$$b_i$ < 20 & 386 & 55,94\%\\
+\hline
+\rowcolor{inchworm}
+Low & $0$ < Exp$\_$$b_i$ < 1 & 226 & 32,75\%\\
+\hline
+\end{tabular}
+\caption{Aggregazione dei segmenti in base al valore di \textit{exposure} }
+\label{rangeLinee}
+\end{table}
+Come è possibile notare chiaramente dai dati riportati in tabella \ref{rangeLinee} solo una bassa percentuale de segmenti presenta un livello di esposizione al rischio di frane tale da far emergere il bisogno di controlli più frequenti (livello di esposizione \textit{High}). Da tali risultati si ha quindi la conferma dell'utilità del lavoro esposto, in particolare per gli addetti al controllo della rete ferroviaria: viene ridotto al $11,31\%$ il numero di segmenti di rete ferroviaria da manutenere più frequentemente; ciò comporta senza ombra di dubbio una riduzione, in termini di costi e di tempi, per gli addetti ai lavori.
+La classifica riportata in tabella \ref{top20segmenti} mostra i primi venti (di $690$) segmenti con relativo valore di \textit{exposure} e linea di appartenenza.
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\rowcolor{lightgray}
+n. & Linea Ferroviaria          & \# Segmento & Valore di Exp. del Segmento \\ \hline \rowcolor{flamingopink}
+1  & Sulmona - L'Aquila - Rieti & $15$        & $130,14$                    \\ \hline \rowcolor{flamingopink}
+2  & Sulmona - L'Aquila - Rieti & $14$        & $107,79$                    \\ \hline \rowcolor{flamingopink}
+3  & Sulmona - L'Aquila - Rieti & $17$        & $103,77$                    \\ \hline \rowcolor{flamingopink}
+4  & Sulmona - L'Aquila - Rieti & $16$        & $93,95$                     \\ \hline \rowcolor{flamingopink}
+5  & Sulmona - Carpinone        & $57$        & $82,19$                     \\ \hline \rowcolor{flamingopink}
+6  & Pescara - Roma             & $47$        & $76,54$                     \\ \hline \rowcolor{flamingopink}
+7  & Pescara - Roma             & $46$        & $74,56$                     \\ \hline \rowcolor{flamingopink}
+8  & Sulmona - L'Aquila - Rieti & $13$        & $71,89$                     \\ \hline \rowcolor{flamingopink}
+9  & Sulmona - Carpinone        & $10$        & $64,49$                     \\ \hline \rowcolor{flamingopink}
+10 & Pescara - Roma             & $158$       & $62,02$                     \\ \hline \rowcolor{flamingopink}
+11 & Sulmona - Carpinone        & $58$        & $61,57$                     \\ \hline \rowcolor{flamingopink}
+12 & Pescara - Roma             & $78$        & $59,00$                     \\ \hline \rowcolor{flamingopink}
+13 & Sulmona - Carpinone        & $56$        & $55,16$                     \\ \hline \rowcolor{flamingopink}
+14 & Sulmona - L'Aquila - Rieti & $37$        & $53,91$                     \\ \hline \rowcolor{flamingopink}
+15 & Pescara - Roma             & $50$        & $51,42$                     \\ \hline \rowcolor{flamingopink}
+16 & Roccasecca - Avezzano      & $35$        & $50,76$                     \\ \hline \rowcolor{flamingopink}
+17 & Sulmona - L'Aquila - Rieti & $23$        & $49,65$                     \\ \hline \rowcolor{flamingopink}
+18 & Sulmona - Carpinone        & $62$        & $48,71$                     \\ \hline \rowcolor{flamingopink}
+19 & Sulmona - Carpinone        & $36$        & $48,04$                     \\ \hline \rowcolor{flamingopink}
+20 & Sulmona - Carpinone        & $41$        & $47,93$                     \\ \hline 
+\end{tabular}
+\caption{Classifica generale dei primi venti (di $690$) segmenti con relativo valore di \textit{exposure} e linea di appartenenza}
+\label{top20segmenti}
+\end{table} 
 
-%-------------------------DA RIFARE COMPLETAMENTE-------------------
-\section{Ranking  delle linee ferroviarie e discussione}
-
-I risultati ottenuti applicando il NMCE (vedi Sez.\ref{metodoLinee}) per la classificazione delle linee ferroviarie sono molto positivi, infatti si è osservato che la maggior parte dei segmenti che compongono le diverse linee ferroviarie hanno valori di \textit{exposure} corretti. Per la validazione di questi risultati è stato utilizzato il software QGIS e un suo plugin (vedi appendice \ref{qgis}) per la visualizzazione 3D di dati geografici, in modo da poter verificare visivamente la correttezza dei valori di \textit{exposure} dei segmenti calcolati dal NMCE. \newline
- In alcuni casi il valore di \textit{exposure} dei segmenti in prossimità di una stazione sono in contrasto con la fascia assegnata a quest'ultima dal NMC. Questi casi corrispondono ai casi critici di cui abbiamo ampiamente parlato nelle sezioni \ref{analisicritica} e \ref{discussioneRisultati}.\\
-Ad esempio la stazione di Aversa sappiamo essere stata classificata erronaemente nella fascia \textit{Moderate} dal NMC. Invece il NMCE classifica i segmenti in prossimità della stazione nella fascia \textit{High} (indicata con il colore rosso) come si evince dalla Fig.\ref{esempio1}. 
+Si espone qui di seguito un'analisi puntuale dei risultati per ogni linea ferroviaria.
+%I risultati ottenuti applicando il NMCE (vedi Sez.\ref{metodoLinee}) per la classificazione delle linee ferroviarie sono molto positivi, infatti si è osservato che la maggior parte dei segmenti che compongono le diverse linee ferroviarie hanno valori di \textit{exposure} corretti. Per la validazione di questi risultati è stato utilizzato il software QGIS e un suo plugin (vedi appendice \ref{qgis}) per la visualizzazione 3D di dati geografici, in modo da poter verificare visivamente la correttezza dei valori di \textit{exposure} dei segmenti calcolati dal NMCE. \newline
+ %In alcuni casi il valore di \textit{exposure} dei segmenti in prossimità di una stazione sono in contrasto con la fascia assegnata a quest'ultima dal NMC. Questi casi corrispondono ai casi critici di cui abbiamo ampiamente parlato nelle sezioni \ref{analisicritica} e \ref{discussioneRisultati}.\\
+%Ad esempio la stazione di Aversa sappiamo essere stata classificata erronaemente nella fascia \textit{Moderate} dal NMC. Invece il NMCE classifica i segmenti in prossimità della stazione nella fascia \textit{High} (indicata con il colore rosso) come si evince dalla Fig.\ref{esempio1}. 
  
-\begin{figure}[bth]
-	\myfloatalign
-	\subfloat[]
-	{\label{aversa2d}
-		\includegraphics[width=.45\linewidth]{img/aversaLinea}} \quad
-	\subfloat[]
-	{\label{aversa3d}
-		\includegraphics[width=.45\linewidth]{img/aversaLinea3}} 
-	\caption[dove]{Vista 2D e 3D della stazione di Aversa e della linea ferroviaria che l'attraversa }
-	\label{esempio1}
-\end{figure}
+%\begin{figure}[bth]
+	%\myfloatalign
+	%\subfloat[]
+	%{\label{aversa2d}
+	%	\includegraphics[width=.45\linewidth]{img/aversaLinea}} \quad
+	%\subfloat[]
+	%{\label{aversa3d}
+	%	\includegraphics[width=.45\linewidth]{img/aversaLinea3}} 
+	%\caption[dove]{Vista 2D e 3D della stazione di Aversa e della %linea ferroviaria che l'attraversa }
+	%\label{esempio1}
+%\end{figure}
 
-Questo avviene perché il valore dell'\textit{exposure} è pari alla media aritmetica dell'\textit{exposure} di tre punti ( vedi Sez.\ref{metodoLinee}), di conseguenza se ci fosse all'interno di un segmento un punto per il quale il calcolo dell'\textit{exposure} è stato compromesso, a causa delle limitazione del NMC  già discusse nella Sez.\ref{discussioneRisultati}.
-Il NMCE presenta una limitazione legata strettamente alle informazioni nei dati di input, tale criticità corrisponde alla presenza di gallerie nelle linee ferroviarie. Il dataset utilizzato (vedi Sez.\ref{zone}) non possiede tali informazioni, dunque alcune tratte hanno segmenti che sono falsi positivi.\\
-Ad esempio nella linea ferroviaria Pescara-Roma dal km 154 al km 157 la linea ferroviaria prosegue all'interno di una galleria. Tuttavia il NMCE non è a conoscenza di questa situazione e crede che la tratta continui arrampicandosi sul pendio, di conseguenza i segmenti che costituiscono la tratta hanno valori di \textit{exposure} altissimi. Di seguito in Fig.\ref{esempio2} si propongono le schermate 2D e 3D catturate mediante QGIS.
+%Questo avviene perché il valore dell'\textit{exposure} è pari alla media aritmetica dell'\textit{exposure} di tre punti ( vedi Sez.\ref{metodoLinee}), di conseguenza se ci fosse all'interno di un segmento un punto per il quale il calcolo dell'\textit{exposure} è stato compromesso, a causa delle limitazione del NMC  già discusse nella Sez.\ref{discussioneRisultati}.
+%Il NMCE presenta una limitazione legata strettamente alle informazioni nei dati di input, tale criticità corrisponde alla presenza di gallerie nelle linee ferroviarie. Il dataset utilizzato (vedi Sez.\ref{zone}) non possiede tali informazioni, dunque alcune tratte hanno segmenti che sono falsi positivi.\\
+%Ad esempio nella linea ferroviaria Pescara-Roma dal km 154 al km 157 la linea ferroviaria prosegue all'interno di una galleria. Tuttavia il NMCE non è a conoscenza di questa situazione e crede che la tratta continui arrampicandosi sul pendio, di conseguenza i segmenti che costituiscono la tratta hanno valori di \textit{exposure} altissimi. Di seguito in Fig.\ref{esempio2} si propongono le schermate 2D e 3D catturate mediante QGIS.
  
- \begin{figure}[bth]
- 	\myfloatalign
- 	\subfloat[ Vista 2D della tratta Pescara-Roma dal km 154 al 157]
- 	{\label{2dPescaraRoma}
- 		\includegraphics[width=.45\linewidth]{img/esempioGalleria2}} \quad
- 	\subfloat[Vista 3D della tratta Pescara-Roma dal km 154 al 157 ]
- 	{\label{3dPescaraRoma}
- 		\includegraphics[width=.45\linewidth]{img/esempioGalleria3}} 
- 	\caption[dove]{Vista 2D e 3D  della tratta Pescara-Roma dal km 154 al 157 }
- 	\label{esempio2}
- \end{figure}
+ %\begin{figure}[bth]
+ %	\myfloatalign
+ %	\subfloat[ Vista 2D della tratta Pescara-Roma dal km 154 al 157]
+ %	{\label{2dPescaraRoma}
+ %		\includegraphics[width=.45\linewidth]{img/esempioGalleria2}} \quad
+ 	%\subfloat[Vista 3D della tratta Pescara-Roma dal km 154 al 157 ]
+ 	%{\label{3dPescaraRoma}
+ 	%	\includegraphics[width=.45\linewidth]{img/esempioGalleria3}} 
+ %	\caption[dove]{Vista 2D e 3D  della tratta Pescara-Roma dal km 154 al 157 }
+% 	\label{esempio2}
+ %\end{figure}
  
