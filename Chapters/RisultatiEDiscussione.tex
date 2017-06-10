@@ -92,7 +92,6 @@ Il NMC restituisce valori in , quindi utilizzare un'equazione lineare per aggreg
 Al fine di poter valutare le performance del metodo proposto nella Sez. \ref{metodoNuovo} abbiamo confrontato la classificazione in fasce delle stazioni ottenuta in base ai valori di \textit{exposure} con la classificazione in fasce delle stazioni ferroviarie presenti sul territorio realizzata dai membri dei gruppi partecipanti al Laboratorio di Basi di Dati II nell'A.A. 2016/2017 tramite un'indagine visiva del territorio ove tali edifici sono situati. L'ipotesi di lavoro implicita è che tale classificazione "umana", indicata d'ora in avanti come classificazione ufficiale, sia corretta per definizione. Pertanto i risultati ottenuti dal metodo discusso nella Sez. \ref{metodoNuovo} saranno tanto più soddisfacenti quanto più questi si avvicineranno ai dati ufficiali.
 
 La tabella che riporta la classificazione in fasce ufficiale delle stazioni ferroviarie nella sua completezza è presente in appendice \ref{risultatiUfficiali}, mentre qui di seguito, in tabella \ref{fasciaHighUfficiale}, sono stati riportati i record delle stazioni che sono stati classificati ufficialmente in fascia \textit{High}.
-\newpage
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|c|}
@@ -568,9 +567,98 @@ Low      & $71$          & $56,80$ \\ \hline
 \caption{Analisi statistica della classificazione in fasce di rischio dei segmenti della linea Ortona - Crocetta}
 \label{percentualeortonacrocetta}
 \end{table}
-
-%\subsection{Linea Marina di San Vito - Castel di Sangro}
-%\subsection{Linea Pescara - Roma}
+\newpage
+\subsection{Linea Marina di San Vito - Castel di Sangro}
+Si riportano in Tabella \ref{classificamarinadisanvitocasteldisangro} i primi dieci (di 125) segmenti di tale tratta ferroviaria ordinati in maniera decrescente rispetto il valore di \textit{exposure}.
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\rowcolor{lightgray}
+n. & \# Segmento & Valore di Exp. del Segmento \\ \hline \rowcolor{flamingopink}
+1  & $64$        & $20,43$                      \\ \hline \rowcolor{icterine}
+2  & $78$        & $17,92$                      \\ \hline \rowcolor{icterine}
+3  & $79$        & $17,10$                      \\ \hline \rowcolor{icterine}
+4  & $73$        & $17,04$                      \\ \hline \rowcolor{icterine}
+5  & $68$        & $15,80$                      \\ \hline \rowcolor{icterine}
+6  & $76$        & $15,55$                      \\ \hline \rowcolor{icterine}
+7  & $56$       & $15,54$                      \\ \hline \rowcolor{icterine}
+8  & $77$        & $14,32$                      \\ \hline \rowcolor{icterine}
+9  & $70$        & $14,28$                      \\ \hline \rowcolor{icterine}
+10 & $75$        & $13,91$                      \\ \hline
+\end{tabular}
+\caption{Classifica dei primi dieci (di 105) segmenti appartenenti alla linea Marina di San Vito - Castel di Sangro}
+\label{classificamarinadisanvitocasteldisangro}
+\end{table}
+\newline
+La Figura \ref{sanvitocasteldisangro} mostra invece una visione d'insieme della classificazione in fasce di rischio dei segmenti che compongono la linea.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.4\linewidth]{img/sanvitocasteldisangro.jpeg}
+\caption{Visione d'insieme della classificazione in fasce di rischio dei segmenti della linea Marina di San Vito - Castel di Sangro}
+\label{sanvitocasteldisangro}
+\end{figure}
+\newline
+Analizzando i risultati esposti in Tabella \ref{percentualesanvitocasteldisangro} si evince che in questa linea solo il $0,95\%$ dei segmenti si trova in fascia \textit{High} e quindi deve essere sottoposto a controlli più frequenti vista la sua esposizione al rischio idrogeologico. 
+Per una visione completa della classificazione dei segmenti della linea Marina di San Vito - Castel di Sangro si rimanda alla lettura dell'appendice \ref{app:sanvitocasteldisangro}.
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline \rowcolor{lightgray}
+Fascia   & \# Segmenti & \%    \\ \hline \rowcolor{flamingopink}
+High     & $1$           & $0,95$     \\ \hline \rowcolor{icterine}
+Moderate & $87$          & $82,86$ \\ \hline \rowcolor{inchworm}
+Low      & $17$          & $16,19$ \\ \hline
+\end{tabular}
+\caption{Analisi statistica della classificazione in fasce di rischio dei segmenti della linea Marina di San Vito - Castel di Sangro}
+\label{percentualesanvitocasteldisangro}
+\end{table}
+\newpage
+\subsection{Linea Pescara - Roma}
+Si riportano in Tabella \ref{classificapescararoma} i primi dieci (di 170) segmenti di tale tratta ferroviaria ordinati in maniera decrescente rispetto il valore di \textit{exposure}.
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\rowcolor{lightgray}
+n. & \# Segmento & Valore di Exp. del Segmento \\ \hline \rowcolor{flamingopink}
+1  & $47$        & $76,54$                      \\ \hline \rowcolor{flamingopink}
+2  & $46$        & $74,56$                      \\ \hline \rowcolor{flamingopink}
+3  & $158$        & $62,02$                      \\ \hline \rowcolor{flamingopink}
+4  & $78$        & $59,00$                      \\ \hline \rowcolor{flamingopink}
+5  & $50$        & $46,78$                      \\ \hline \rowcolor{flamingopink}
+6  & $88$        & $45,87$                      \\ \hline \rowcolor{flamingopink}
+7  & $157$       & $45,87$                      \\ \hline \rowcolor{flamingopink}
+8  & $48$        & $45,59$                      \\ \hline \rowcolor{flamingopink}
+9  & $98$        & $38,57$                      \\ \hline \rowcolor{flamingopink}
+10 & $89$        & $36,85$                      \\ \hline
+\end{tabular}
+\caption{Classifica dei primi dieci (di 170) segmenti appartenenti alla linea Pescara - Roma}
+\label{classificapescararoma}
+\end{table}
+\newline
+La Figura \ref{pescararoma} mostra invece una visione d'insieme della classificazione in fasce di rischio dei segmenti che compongono la linea.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.4\linewidth]{img/romapescara.jpeg}
+\caption{Visione d'insieme della classificazione in fasce di rischio dei segmenti della linea Pescara - Roma}
+\label{pescararoma}
+\end{figure}
+\newline
+Analizzando i risultati esposti in Tabella \ref{percentualepescararoma} si evince che in questa linea solo il $12,94\%$ dei segmenti si trova in fascia \textit{High} e quindi deve essere sottoposto a controlli più frequenti vista la sua esposizione al rischio idrogeologico. 
+Per una visione completa della classificazione dei segmenti della linea Pescara - Roma si rimanda alla lettura dell'appendice \ref{app:pescararoma}.
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline \rowcolor{lightgray}
+Fascia   & \# Segmenti & \%    \\ \hline \rowcolor{flamingopink}
+High     & $22$           & $12,94$     \\ \hline \rowcolor{icterine}
+Moderate & $87$          & $51,18$ \\ \hline \rowcolor{inchworm}
+Low      & $61$          & $35,88$ \\ \hline
+\end{tabular}
+\caption{Analisi statistica della classificazione in fasce di rischio dei segmenti della linea Pescara - Roma}
+\label{percentualepescararoma}
+\end{table}
 %\subsection{Linea Roccasecca - Avezzano}
 %\subsection{Linea Archi Stazione - Atessa}
 %\subsection{Linea Sulmona - Carpinone}
