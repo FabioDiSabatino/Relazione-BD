@@ -888,4 +888,30 @@ Low      & $18$          & $69,23,$ \\ \hline
 \caption{Analisi statistica della classificazione in fasce di rischio dei segmenti della linea Giulianova - Teramo}
 \label{percentualegiulianovateramo}
 \end{table}
- 
+\newpage
+\subsection{Discussione dei risultati ottenuti}
+Per la validazione dei risultati ottenuti dall'applicazione del metodo NMCE, discusso nella Sezione \ref{metodoLinee}, sono stati utilizzati il software QGIS, presentato in appendice \ref{qgis}, e GoogleMaps, con lo scopo di verificare, almeno dal punto di vista visivo, la classificazione in fasce di rischio ottenuta. 
+ Un ulteriore controllo è stato realizzato confrontando la fascia di rischio associata al segmento della linea ferroviaria e la fascia di rischio associata alla stazione che insiste su di esso: In alcuni casi la fascia del segmento è in contrasto con la fascia assegnata alla stazione ferroviaria dal NMC. Questi casi corrispondono ai casi critici di cui abbiamo ampiamente parlato nella sezione \ref{discussioneRisultati}. Ad esempio la stazione di Aversa sappiamo essere stata classificata erroneamente nella fascia \textit{Moderate} dal NMC. Invece il NMCE classifica i segmenti in prossimità della stazione nella fascia \textit{High} come si evince dalla Fig.\ref{aversalinea}
+\begin{figure}[bth]
+\myfloatalign
+\subfloat[]
+{\includegraphics[width=0.4\linewidth]{img/aversaLinea}} \quad
+\subfloat[]
+{\includegraphics[width=0.4\linewidth]{img/AversaLinea3}} 
+\caption{Vista $2$D (a) e $3$D (b) della stazione di Aversa e della linea ferroviaria che l’attraversa}\label{aversalinea}
+
+\end{figure}
+\newline
+Il metodo NMCE presenta inoltre una criticità che determina in alcuni casi la presenza di \textit{falsi positivi}: L'assenza di un dataset che informi circa la presenza di gallerie ferroviarie: Il metodo, non avendo conoscenza della loro presenza o meno, non riesce ad individuare le situazioni in cui i binari della linea ferroviaria proseguono all'interno di una galleria e crede che la tratta prosegui arrampicandosi sul il pendio, generando così valori di \textit{exposure} errati.
+In Figura \ref{} è possibile osservare una di queste situazioni critiche, corrispondenti alla tratta ferroviaria Pescara - Roma, dal km $154$ al km $157$, mentre in Figura \ref{esempiogalleria} è possibile osservare la stessa tratta fotografata tramite GoogleMaps.
+\begin{figure}[bth]
+\myfloatalign
+\subfloat[]
+{\includegraphics[width=0.4\linewidth]{img/esempioGalleria2}} \quad
+\subfloat[]
+{\includegraphics[width=0.4\linewidth]{img/esempioGalleria3}} 
+\caption{ Vista $2$D (a) e $3$D (b) della tratta Pescara - Roma dal km $154$ al $157$}
+\label{esempiogalleria}
+\end{figure}
+
+%inserire immagine googlemaps e revisionare paginazione

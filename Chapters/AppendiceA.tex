@@ -106,9 +106,9 @@ Come abbiamo già discusso nella Sez. \ref{nostraProposta} le zone presenti sul 
 \item Una volta individuate tutte le zone adiacenti alla zona presa in esame, che indicheremo con $z_{adiacente}$, opero un'operazione di aggregazione ovvero unisco la $z_{bordo}$ con la $z_{adiacente}$ più piccola. Se dall'unione risulta che l'area è ancora troppo piccola ripeto l'operazione di aggregazione.
 \end{itemize}
 \subsection{Conclusioni}
-Le operazioni realizzate sia sul bordo che all’interno per realizzare le aggregazioni, così come le abbiamo pensate ed implementate, risultano essere molto pesanti, anzi quasi infattibili per un numero così elevato di elementi.
-
+Le operazioni realizzate per realizzare il dataset così come le abbiamo pensate, risultano essere molto pesanti e i tempi di esecuzione sono molto lunghi, ragion per cui non sono state mai eseguite per intero ma per alcune aree. 
 \section{QuantumGIS}
+\label{qgis}
 Uno strumento software che è risultato indispensabile nello studio metodologico-sperimentale descritto in questo documento è il software QuantumGIS (QGIS) nella versione 2.18.2. Trattasi di un software open source, scritto in C+ e distribuito sotto licenza GNU General Public License, orientato ad agevolare coloro che hanno esigenza di operare su dati geografici/territoriali. La versione che abbiamo utilizzato supporta moltissimi formati raster e vettoriali, supporto che si amplia con l'uso dei plugins esterni, come ad esempio Qgis2threejs e QuickWKT. \newline
 Il plugin \textbf{Qgis2threejs} è un visualizzatore 3D basato sulla tecnologia WebGL e sulla libreria Javascript three.js che ci è risultato molto utile nello studio della morfologia del terreno e di conseguenza nella validazione dei risultati ottenuti dai metodi descritti in questo documento. 
 Un altro plugin che ci è risultato utile nello studio è \textbf{QuickWKT}, ovvero un plugin in grado di mostrare facilmente i dati WKT / WKB in QGIS. \newline
