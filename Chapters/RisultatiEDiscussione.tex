@@ -404,9 +404,8 @@ Le limitazioni del metodo proposto derivano dal fatto che l'algoritmo, nel calco
 \end{itemize}
 \newpage
 \section{Ranking e Valutazione delle Linee Ferroviarie}
-\label{valutazioneLinee}
 In questa sezione andremo a discutere i risultati ottenuti applicando il metodo NMCE presentato in Sez. \ref{metodoLinee} per la determinazione della classifica delle linee ferroviarie in relazione al grado di esposizione al rischio idrogeologico.\newline \newline
-Il metodo ha restituito $690$ segmenti in quanto abbiamo definito la lunghezza di ognuno pari a $1$km ed il valore di \textit{exposure} di ognuno varia da un valore massimo di $130$ ad un valore minimo di $0$. A fronte di tali risultati abbiamo ritenuto opportuno, per analogia al caso delle stazioni ferroviarie, utilizzare il medesimo meccanismo di classificazione in tre fasce di rischio:
+Il metodo ha restituito $690$ segmenti in quanto abbiamo definito la lunghezza di ognuno pari a $1$ km ed il valore di \textit{exposure} di ognuno varia da un valore massimo di $130$ ad un valore minimo di $0$. A fronte di tali risultati abbiamo ritenuto opportuno, per analogia al caso delle stazioni ferroviarie, utilizzare il medesimo meccanismo di classificazione in tre fasce di rischio:
 \begin{itemize}
 	\item High
 	\item Moderate
@@ -433,8 +432,17 @@ Low & $0$ < Exp$\_$$b_i$ < 1 & 226 & 32,75\%\\
 \caption{Aggregazione dei segmenti in base al valore di \textit{exposure} }
 \label{rangeLinee}
 \end{table}
-Come è possibile notare chiaramente dai dati riportati in tabella \ref{rangeLinee} solo una bassa percentuale de segmenti presenta un livello di esposizione al rischio di frane tale da far emergere il bisogno di controlli più frequenti (livello di esposizione \textit{High}). Da tali risultati si ha quindi la conferma dell'utilità del lavoro esposto, in particolare per gli addetti al controllo della rete ferroviaria: viene ridotto al $11,31\%$ il numero di segmenti di rete ferroviaria da manutenere più frequentemente; ciò comporta senza ombra di dubbio una riduzione, in termini di costi e di tempi, per gli addetti ai lavori.
-La classifica riportata in tabella \ref{top20segmenti} mostra i primi venti (di $690$) segmenti con relativo valore di \textit{exposure} e linea di appartenenza.
+\newline
+Come è possibile notare chiaramente dai dati riportati in tabella \ref{rangeLinee} solo una bassa percentuale de segmenti presenta un livello di esposizione al rischio di frane tale da far emergere il bisogno di controlli più frequenti (livello di esposizione \textit{High}). Da tali risultati si ha quindi la conferma dell'utilità del lavoro esposto, in particolare per gli addetti al controllo della rete ferroviaria: viene ridotto al $11,31\%$ il numero di segmenti di rete ferroviaria da manutenere più frequentemente; ciò comporta senza ombra di dubbio una riduzione, in termini di costi e di tempi, per gli addetti ai lavori.\newline
+In Figura \ref{rankinglinee} è possibile avere una visione d'insieme dei risultati ottenuti dall'applicazione del metodo NMCE sui segmenti delle linee che compongono la rete ferroviaria abruzzese, si noti come ogni segmento in figura ha lo stesso colore della fascia di rischio a cui appartiene.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.4\linewidth]{img/reteRanking.jpeg}
+	\caption{Visione d'insieme della classificazione in fasce di rischio dei segmenti della rete ferroviaria abruzzese}
+	\label{rankinglinee}
+\end{figure}
+\newpage
+La classifica riportata in tabella \ref{top20segmenti} mostra i primi venti (di $690$) segmenti ordinati in maniera decrescente rispetto il relativo valore di \textit{exposure}. In riferimento al singolo segmento, per ognuno di essi vengono mostrati la linea di appartenenza, il numero del segmento e il relativo valore di \textit{exposure}.
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|c|c|c|}
@@ -465,37 +473,61 @@ n. & Linea Ferroviaria          & \# Segmento & Valore di Exp. del Segmento \\ \
 \caption{Classifica generale dei primi venti (di $690$) segmenti con relativo valore di \textit{exposure} e linea di appartenenza}
 \label{top20segmenti}
 \end{table} 
-
+\newpage
 Si espone qui di seguito un'analisi puntuale dei risultati per ogni linea ferroviaria.
-%I risultati ottenuti applicando il NMCE (vedi Sez.\ref{metodoLinee}) per la classificazione delle linee ferroviarie sono molto positivi, infatti si è osservato che la maggior parte dei segmenti che compongono le diverse linee ferroviarie hanno valori di \textit{exposure} corretti. Per la validazione di questi risultati è stato utilizzato il software QGIS e un suo plugin (vedi appendice \ref{qgis}) per la visualizzazione 3D di dati geografici, in modo da poter verificare visivamente la correttezza dei valori di \textit{exposure} dei segmenti calcolati dal NMCE. \newline
- %In alcuni casi il valore di \textit{exposure} dei segmenti in prossimità di una stazione sono in contrasto con la fascia assegnata a quest'ultima dal NMC. Questi casi corrispondono ai casi critici di cui abbiamo ampiamente parlato nelle sezioni \ref{analisicritica} e \ref{discussioneRisultati}.\\
-%Ad esempio la stazione di Aversa sappiamo essere stata classificata erronaemente nella fascia \textit{Moderate} dal NMC. Invece il NMCE classifica i segmenti in prossimità della stazione nella fascia \textit{High} (indicata con il colore rosso) come si evince dalla Fig.\ref{esempio1}. 
- 
-%\begin{figure}[bth]
-	%\myfloatalign
-	%\subfloat[]
-	%{\label{aversa2d}
-	%	\includegraphics[width=.45\linewidth]{img/aversaLinea}} \quad
-	%\subfloat[]
-	%{\label{aversa3d}
-	%	\includegraphics[width=.45\linewidth]{img/aversaLinea3}} 
-	%\caption[dove]{Vista 2D e 3D della stazione di Aversa e della %linea ferroviaria che l'attraversa }
-	%\label{esempio1}
-%\end{figure}
 
-%Questo avviene perché il valore dell'\textit{exposure} è pari alla media aritmetica dell'\textit{exposure} di tre punti ( vedi Sez.\ref{metodoLinee}), di conseguenza se ci fosse all'interno di un segmento un punto per il quale il calcolo dell'\textit{exposure} è stato compromesso, a causa delle limitazione del NMC  già discusse nella Sez.\ref{discussioneRisultati}.
-%Il NMCE presenta una limitazione legata strettamente alle informazioni nei dati di input, tale criticità corrisponde alla presenza di gallerie nelle linee ferroviarie. Il dataset utilizzato (vedi Sez.\ref{zone}) non possiede tali informazioni, dunque alcune tratte hanno segmenti che sono falsi positivi.\\
-%Ad esempio nella linea ferroviaria Pescara-Roma dal km 154 al km 157 la linea ferroviaria prosegue all'interno di una galleria. Tuttavia il NMCE non è a conoscenza di questa situazione e crede che la tratta continui arrampicandosi sul pendio, di conseguenza i segmenti che costituiscono la tratta hanno valori di \textit{exposure} altissimi. Di seguito in Fig.\ref{esempio2} si propongono le schermate 2D e 3D catturate mediante QGIS.
- 
- %\begin{figure}[bth]
- %	\myfloatalign
- %	\subfloat[ Vista 2D della tratta Pescara-Roma dal km 154 al 157]
- %	{\label{2dPescaraRoma}
- %		\includegraphics[width=.45\linewidth]{img/esempioGalleria2}} \quad
- 	%\subfloat[Vista 3D della tratta Pescara-Roma dal km 154 al 157 ]
- 	%{\label{3dPescaraRoma}
- 	%	\includegraphics[width=.45\linewidth]{img/esempioGalleria3}} 
- %	\caption[dove]{Vista 2D e 3D  della tratta Pescara-Roma dal km 154 al 157 }
-% 	\label{esempio2}
- %\end{figure}
+\subsection{Linea Bologna - Bari}
+Si riportano in Tabella \ref{classificabolognabari} i primi dieci (di 125) segmenti di tale tratta ferroviaria ordinati in maniera decrescente rispetto il valore di \textit{exposure}.
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\rowcolor{lightgray}
+n. & \# Segmento & Valore di Exp. del Segmento \\ \hline \rowcolor{icterine}
+1  & $41$        & $8,59$                      \\ \hline \rowcolor{icterine}
+2  & $90$        & $6,43$                      \\ \hline \rowcolor{icterine}
+3  & $40$        & $6,07$                      \\ \hline \rowcolor{icterine}
+4  & $53$        & $5,05$                      \\ \hline \rowcolor{icterine}
+5  & $42$        & $4,84$                      \\ \hline \rowcolor{icterine}
+6  & $91$        & $4,82$                      \\ \hline \rowcolor{icterine}
+7  & $116$       & $4,78$                      \\ \hline \rowcolor{icterine}
+8  & $84$        & $4,70$                      \\ \hline \rowcolor{icterine}
+9  & $85$        & $4,57$                      \\ \hline \rowcolor{icterine}
+10 & $86$        & $4,27$                      \\ \hline
+\end{tabular}
+\caption{Classifica dei primi dieci (di 125) segmenti appartenenti alla linea Bologna - Bari}
+\label{classificabolognabari}
+\end{table}
+\newline
+La Figura \ref{bolognabari} mostra invece una visione d'insieme della classificazione in fasce di rischio dei segmenti che compongono la linea.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.4\linewidth]{img/bolognabari.jpeg}
+\caption{Visione d'insieme della classificazione in fasce di rischio dei segmenti della linea Bologna - Bari}
+\label{bolognabari}
+\end{figure}
+\newline
+Analizzando i risultati esposti in Tabella \ref{} si evince che in questa linea non ci sono segmenti che destano preoccupazione circa il rischio di smottamenti. 
+Per una visione completa della classificazione dei segmenti della linea Bologna - Bari si rimanda alla lettura dell'appendice \ref{app:bolognabari}.
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline \rowcolor{lightgray}
+Fascia   & \# Segmenti & \%    \\ \hline \rowcolor{flamingopink}
+High     & $0$           & $0$     \\ \hline \rowcolor{icterine}
+Moderate & $54$          & $43,20$ \\ \hline \rowcolor{inchworm}
+Low      & $71$          & $56,80$ \\ \hline
+\end{tabular}
+\caption{Analisi statistica della classificazione in fasce di rischio dei segmenti della linea Bologna - Bari}
+\label{percentualebolognabari}
+\end{table}
+
+%\subsection{Linea Ortona - Crocetta}
+%\subsection{Linea Marina di San Vito - Castel di Sangro}
+%\subsection{Linea Pescara - Roma}
+%\subsection{Linea Roccasecca - Avezzano}
+%\subsection{Linea Archi Stazione - Atessa}
+%\subsection{Linea Sulmona - Carpinone}
+%\subsection{Linea Sulmona - L'Aquila - Rieti}
+%\subsection{Linea Giulianova - Teramo}
  
