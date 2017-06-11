@@ -183,6 +183,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 \lstloadlanguages{SQL} % load java, needed because of option 'savemem'
 
 \lstdefinestyle{mySQL}{
+texcl=true,
 %language=SQL,%C++ % Specify the language(s) for listings here
 %keywordstyle=\color{RoyalBlue}, % Add \bfseries for bold
 %keywordstyle=\color{black},
@@ -207,13 +208,9 @@ breaklines=true, % Force the code to stay in the confines of the listing box
 tabsize=2,
 autogobble=true,
 belowcaptionskip=.75\baselineskip, % Space after the "Listing #: Desciption" text and the listing box
-keywords=[2]{CREATE, or, REPLACE, FUNCTION, LANGUAGE, as, DECLARE, BEGIN, END, RETURNS, FOR, LOOP, IF, THEN, END IF, END LOOP},
-keywords=[3]{SELECT, IN, FROM, INTO, INSERT, VALUES, WHERE},
-keywords=[4]{quotaMediazoneVicine},
-keywords=[5]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
-%----morekeywords={REPLACE, FUNCTION, GEOMETRY, RETURNS, VOID, LANGUAGE, DECLARE, RECORD, BEGIN, FOR, LOOP, IF, }%copy and paste
-%keywords=[2]{CREATE, or, REPLACE, FUNCTION, LANGUAGE, as, DECLARE, BEGIN, END},
-%keywords=[3]{FOR, LOOP, IF, THEN, END IF, END LOOP},
+keywords=[2]{CREATE, or, REPLACE, FUNCTION, LANGUAGE, as, DECLARE, BEGIN, END, RETURNS, FOR, LOOP, IF, THEN, END IF, END LOOP, RETURN, ELSE},
+keywords=[3]{SELECT, IN, FROM, INTO, INSERT, VALUES, WHERE, UPDATE, SET, DELETE, NOT, ORDER BY, AND, OR},
+keywords=[4]{quotaMediazoneVicine, stimaQuotaStazione, dislivelloPiuVicino}
  }
 
 %----------------------------------------------------------------------------------------
