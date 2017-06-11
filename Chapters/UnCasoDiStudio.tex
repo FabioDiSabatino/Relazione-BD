@@ -73,14 +73,14 @@ Ad ogni $z_k$ è associato un valore numerico compreso tra $0$ e $1$, il quale q
 
 %---------------
 \section{Base di dati spaziale}
-Si descrive in seguito la progettazione e conseguente realizzazione della base di dati geografica realizzata per l'effettiva implementazione degli algoritmi precedentemente descritti.\\
+Si descrive in seguito la progettazione e conseguente realizzazione della base di dati geografica realizzata per un efficace implementazione degli algoritmi precedentemente descritti. Una base di dati spaziale accompagnata da un opportuno SGBD permette infatti di operare in modo agevole e naturale con dati geometrici, offrendo una gamma di operatori spaziali ottimizzati per la loro elaborazione. \\
 I dati da memorizzare sono: 
 \begin{itemize}
-\item alle stazioni e linee ferroviarie abruzzesi con informazioni relative al nome e alla geometria;
-\item alla geometria dei confini dell'area geografica;
-\item alla geometria delle zone che vanno a partizionare in modo completo l'area con relative informazioni di rischio idrogeologico;
-\item alla geometria delle linee di livello presenti nel territorio di riferimento con la quota associata;
-\item ai risultati ottenuti dalle elaborazioni.
+\item le stazioni e le linee ferroviarie abruzzesi con informazioni relative al nome e alla geometria;
+\item la geometria dei confini dell'area geografica;
+\item la geometria delle zone che vanno a partizionare in modo completo l'area con relative informazioni di rischio idrogeologico;
+\item la geometria delle linee di livello presenti nel territorio di riferimento con la quota associata;
+\item i risultati ottenuti dalle elaborazioni.
 \end{itemize}
 
  
@@ -105,7 +105,7 @@ In Figura \ref{fig:er} si riporta il modello E-R della base di dati spaziale, me
 \end{figure}
 
 Note:\\
-l'attributo \textit{number} dell'entità \textit{Experiment\_railway}  rappresenta il numero del segmento relativo alla linea ferroviaria di appartenenza. Nel caso di divisione delle linee in tratte da 1 km,  corrisponde anche al km lungo la tratta.
+l'attributo \textit{number} dell'entità \textit{Experiment\_railway}  rappresenta il numero del segmento relativo alla linea ferroviaria di appartenenza. Questo valore non è identificativo tra tutti i segmenti, ma solo tra i segmenti della linea al quale appartiene, quindi ad esempio su ogni linea sarà presente il segmento con \textit{number} pari ad uno.
 \pagebreak
 
 \begin{table}[h]
@@ -138,18 +138,18 @@ l'attributo \textit{number} dell'entità \textit{Experiment\_railway}  rappresen
 
 \multirow{3}{*}\textit{Sampling\_point} & Entità relativa ai punti individuati & \textit{id} & \textit{id}\\
 & come campionamento delle linee  & \textit{geom} & \\
-&  ferroviarie presenti nel territorio &\textit{explosure}& \\
+&  ferroviarie presenti nel territorio &\textit{exposure}& \\
 &  di riferimento. && \\  \hline
 
 \multirow{4}{*}\textit{Experiment\_station} & Entità relativa agli esperimenti & \textit{id} & \textit{id}\\
 & effettuati sulle stazioni & \textit{elevation} & \\
 & presenti nel territorio& \textit{slope} & \\
-& di riferimento. &\textit{explosure}& \\ \hline
+& di riferimento. &\textit{exposure}& \\ \hline
 
 \multirow{4}{*}\textit{Experiment\_railway} & Entità relativa agli esperimenti & \textit{id} & \textit{id}\\
 & effettuati sulle linee ferroviarie  & \textit{geom} & \\
-& presenti nel territorio &\textit{numero}& \\
-& di riferimento. & \textit{explosure}&\\ \hline
+& presenti nel territorio &\textit{number}& \\
+& di riferimento. & \textit{exposure}&\\ \hline
 
 \end{tabular}
 \caption{Tabella delle entità}

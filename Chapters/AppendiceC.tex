@@ -18,7 +18,7 @@ La funzione calcola la quota delle zone che intersecano il buffer attraverso la 
 
 \begin{table}[]
 \centering
-\caption{Tabella di mappatura dei nomi}
+\caption{Tabella di corrispondenza dei nomi}
 \label{mapTb1}
 \begin{tabular}{|c|c|}
 \hline
@@ -79,7 +79,7 @@ La funzione calcola una stima della quota della stazione attraverso una media po
 
 \begin{table}[]
 \centering
-\caption{Tabella di mappatura dei nomi}
+\caption{Tabella di corrispondenza dei nomi}
 \label{mapTb2}
 \begin{tabular}{|l|l|}
 \hline
@@ -168,7 +168,7 @@ La funzione calcola la somma delle pendenze tra le linee di livello lungo il vet
 
 \begin{table}[h]
 \centering
-\caption{Tabella di mappatura dei nomi}
+\caption{Tabella di corrispondenza dei nomi}
 \label{mapTb3}
 \begin{tabular}{|l|l|}
 \hline
@@ -280,7 +280,7 @@ Rappresenta la main function che richiama le altre UDF. Salva il risultato dei c
 
 \begin{table}[h]
 \centering
-\caption{Tabella di mappatura dei nomi}
+\caption{Tabella di corrispondenza dei nomi}
 \label{mapTb3}
 \begin{tabular}{|l|l|}
 \hline
@@ -343,7 +343,7 @@ CREATE or REPLACE FUNCTION esposizione(tabInput text, alphaSlope FLOAT, raggioBu
 				END IF;
 			END LOOP;
 			exp:=exp+(fattorePendenzaPiuVicina*pesoPendenza);
-			INSERT INTO tabella_risultati(id, geom, quota, pendenza, exposure) VALUES (stazione.gid, stazione.geom, quotaStimataStazione, (fattorePendenzaPiuVicina*pesoPendenza), exp);
+			INSERT INTO tabella_risultati(id, quota, pendenza, exposure) VALUES (stazione.gid, quotaStimataStazione, (fattorePendenzaPiuVicina*pesoPendenza), exp);
 		END LOOP;
 
 		-- cancellazione tabelle di appoggio --
