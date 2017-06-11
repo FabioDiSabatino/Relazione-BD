@@ -30,35 +30,39 @@ Isoipse       & lineelvl \\ \hline
 
 \newpage
 \begin{lstlisting}[style=mySQL]
-CREATE or REPLACE FUNCTION quotaMediazoneVicine(buffer GEOMETRY) RETURNS VOID
+CREATE or REPLACE FUNCTION quotaMediaZoneVicine(buffer GEOMETRY) RETURNS VOID
 	LANGUAGE plpgsql
 	as $$
 	DECLARE
-    -- variabili di ausilio per il calcolo --
+		-- variabili di ausilio per il calcolo --
 		zona RECORD;
 		linea RECORD;
 		quotamedia FLOAT;
 		contatore INT;
 	BEGIN
-    -- inizializzazione delle variabili per il calcolo della quota media delle zone--
+		-- inizializzazione delle variabili per il calcolo della quota media delle zone --
 		quotamedia:=0;
 		contatore:=0;
 		-- pulizia della tabella di appoggio --
 		DELETE FROM zoneVicine;
-    -- ciclo su tutte le zone della geoarea che intersecano il buffer --
-		FOR zona IN (SELECT * FROM zone WHERE st_intersects(zona.geom, buffer)) LOOP
-      -- ciclo su tutte le linee di livello che intersecano la zona in esame --
-      FOR linea IN (SELECT * FROM lineelvl WHERE st_intersects(zona.geom,linea.geom)) LOOP
-        -- somma della quota delle linee di livello --
-        quotamedia:=quotamedia+linea.elevation;
-        contatore:=contatore+1;
-      END LOOP;
-      IF contatore>0 THEN
-        quotamedia=quotamedia/contatore;
-      END IF;
-      INSERT INTO zoneVicine(geom, quotamedia, szk)VALUES (zona.geom, quotamedia, zona.szk);
-      quotamedia:=0;
-      contatore:=0;
+		-- ciclo su tutte le partizioni della geoarea che intersecano il buffer --
+		FOR zona IN (SELECT * FROM zone) LOOP
+			IF(st_intersects(zona.geom, buffer)) THEN
+				-- ciclo su tutte le linee di livello che intersecano la zona in esame --
+				FOR linea IN (SELECT * FROM lineelvl) LOOP
+					IF st_intersects(zona.geom,linea.geom) THEN
+						-- somma della quota delle linee di livello --
+						quotamedia:=quotamedia+linea.elevation;
+						contatore:=contatore+1;
+					END IF;
+				END LOOP;
+				IF contatore>0 THEN
+					quotamedia=quotamedia/contatore;
+				END IF;
+				INSERT INTO zoneVicine(geom, quotamedia, szk)VALUES (zona.geom, quotamedia, zona.szk);
+				quotamedia:=0;
+				contatore:=0;
+			END IF;
 		END LOOP;
 	END;
 $$;
@@ -101,28 +105,29 @@ CREATE or REPLACE FUNCTION stimaQuotaStazione(gidStazione INTEGER, geomStazione 
 		altezzaStazione INT;
 		risultatiFun INT [2];
 	BEGIN
-		-- pulizia della tabella di appoggio --
+		-- pulizia della tabella --
 		DELETE FROM tempo;
 		-- ciclo sulle zone che intersecano il buffer centrato sulla stazione --
 		FOR areaVicina IN (SELECT * FROM zoneVicine) LOOP
-			-- ciclo sulle linee di livello che intersecano la zona in esame --
-			FOR linea IN (SELECT * FROM lineelvl WHERE st_intersects(areaVicina.geom,linea.geom)) LOOP
-				-- inserimento nella tabella tempo l'intersezione tra la zona e la linea, con la quota associata alla linea --
-				INSERT INTO tempo( geom, elevation) VALUES(
-				(SELECT st_multi(st_intersection(areaVicina.geom,linea.geom))), linea.elevation);
+		-- ciclo sulle linee di livello che intersecano la zona in esame --
+			FOR linea IN (SELECT * FROM lineelvl) LOOP
+				IF st_intersects(areaVicina.geom,linea.geom) THEN
+					-- inserimento nella tabella tempo l'intersezione tra la zona e la linea, con la quota associata alla linea --
+					INSERT INTO tempo( geom, elevation) VALUES((SELECT st_multi(st_intersection(areaVicina.geom,linea.geom))), linea.elevation);
+				END IF;
 			END LOOP;
 		END LOOP;
 		-- dmin conterrà il valore della distanza tra la linea di livello più vicina e la stazione --
-		dmin:=10000;       
-		 -- dquasimin conterrà il valore della distanza tra la seconda linea di livello più vicina e la stazione -- 
-		dquasimin:=10000;  
-		-- idmin conterrà l'identificativo della linea a distanza minore dalla stazione --		
-		idmin:=0;          
-		 -- idquasimin conterrà l'identificativo della seconda linea a distanza minore dalla stazione -- 
-		idquasimin:=0;     
+		dmin:=10000;        
+		-- dquasimin conterrà il valore della distanza tra la seconda linea di livello più vicina e la stazione --
+		dquasimin:=10000;   
+		-- idmin conterrà l'identificativo della linea a distanza minore dalla stazione --
+		idmin:=0;           
+		-- idquasimin conterrà l'identificativo della seconda linea a distanza minore dalla stazione --
+		idquasimin:=0;      
 
-	-- ciclo sui segmenti di linea che intersecano le zone che intersecano con il buffer --
-	FOR lineaInZonaVicina IN (SELECT * FROM tempo) LOOP
+		-- ciclo sui segmenti di linea che intersecano le zone che intersecano con il buffer centrato sulla stazione --
+		FOR lineaInZonaVicina IN (SELECT * FROM tempo) LOOP
 			dist:=st_distance(geomStazione, lineaInZonaVicina.geom);
 			IF dist<=dmin THEN
 				dquasimin:=dmin;
@@ -139,7 +144,7 @@ CREATE or REPLACE FUNCTION stimaQuotaStazione(gidStazione INTEGER, geomStazione 
 			dquasimin:=dmin;
 			idquasimin:=idmin;
 		END IF;
-	-- calcolo della quota della stazione come media ponderata delle quote delle linee di livello più vicina ad essa --
+		-- calcolo della quota della stazione come media ponderata delle quote delle linee di livello più vicina ad essa --
 		altezzaStazione:=((SELECT tempo.elevation FROM tempo WHERE id=idmin)*dquasimin+(SELECT tempo.elevation FROM tempo WHERE id=idquasimin)*dmin)/(dmin+dquasimin);
 		UPDATE stazioni SET quota=altezzaStazione WHERE stazioni.gid=gidStazione;
 		risultatiFun[0]=altezzaStazione;
@@ -195,11 +200,13 @@ CREATE or REPLACE FUNCTION dislivelloPiuVicino(buffer GEOMETRY, raggioBuffer FLO
 		-- pulizia della tabella di appoggio --
 		DELETE FROM tempo1;
 		-- ciclo sulle linee di livello che intersano il buffer centrato sulla stazione --
-		FOR linea IN (SELECT * FROM lineelvl WHERE st_intersects(buffer,linea.geom)) LOOP
+		FOR linea IN (SELECT * FROM lineelvl) LOOP
+			IF st_intersects(buffer,linea.geom) THEN
 			-- inserimento in una tabella dell'intersezione tra la linea e il buffer, con la quota associata e l'id --
 			INSERT INTO tempo1(id, geom, elevation) SELECT linea.gid, (SELECT st_multi(st_intersection(buffer,linea.geom))), linea.elevation WHERE NOT exists(SELECT tempo1.id FROM tempo1 WHERE tempo1.id=linea.gid);
+			END IF;
 		END LOOP;
-		-- costruzione del vettore direzionale --
+		 -- costruzione del vettore direzionale --
 		puntoVicino:=st_closestpoint((SELECT tempo.geom FROM tempo WHERE id=idLineaPiuVicina),(geomStazione));
 		azimuth:=st_azimuth(geomStazione,puntoVicino);
 		lunghezzaLinea:=raggioBuffer+1;
@@ -207,8 +214,8 @@ CREATE or REPLACE FUNCTION dislivelloPiuVicino(buffer GEOMETRY, raggioBuffer FLO
 
 		-- ciclo sui segmenti di linee di livello che intersecano il buffer --
 		FOR lineaInBuffer IN(SELECT * FROM tempo1)LOOP
-			-- aggiornamento delle ennumple in tempo1 con la distanza con la stazione calcolata lungo il vettore direzionale --
 			IF st_intersects(lineaInBuffer.geom, vettoreDirezionale) THEN
+				-- aggiornamento delle ennumple in tempo1 con la distanza con la stazione calcolata lungo il vettore direzionale --
 				UPDATE tempo1 SET distanza=(SELECT st_distance(geomStazione, st_intersection(lineaInBuffer.geom, vettoreDirezionale))) WHERE tempo1.id=lineaInBuffer.id;
 			ELSE
 				DELETE FROM tempo1 WHERE tempo1.id=lineaInBuffer.id;
@@ -256,6 +263,93 @@ CREATE or REPLACE FUNCTION dislivelloPiuVicino(buffer GEOMETRY, raggioBuffer FLO
 			END IF;
 		END LOOP;
 		RETURN sommaPendenza;
+	END;
+$$;
+\end{lstlisting}
+
+\subsection{esposizione}
+Rappresenta la main function che richiama le altre UDF. Salva il risultato dei calcoli nella \textit{tabella\_risultati}\\
+\textbf{Input:}
+\begin{itemize}
+\item \textit{tabInput text} corrisponde al nome della tabella contenente i punti sul quale si vuole calcolare l'exposure. 
+\item \textit{raggioBuffer FLOAT} rappresenta il raggio del buffer circolare espresso in \textit{m}.
+\item \textit{alphaSlope FLOAT} rappresenta il parametro che da un peso al fattore pendenza.
+\item \textit{raggioBuffer FLOAT } rappresenta il raggio del buffer circolare centrato sulla stazione espresso in \textit{m}.
+\end{itemize}
+\textbf{Output:} \textit{VOID} 
+
+\begin{table}[h]
+\centering
+\caption{Tabella di mappatura dei nomi}
+\label{mapTb3}
+\begin{tabular}{|l|l|}
+\hline
+Schema logico       & UDF                \\ \hline
+elevation           & quota              \\
+slope               & pendenza           \\
+experiment\_station & tabella\_risultati \\ \hline
+\end{tabular}
+\end{table}
+
+\newpage
+\begin{lstlisting}[style=mySQL]
+CREATE or REPLACE FUNCTION esposizione(tabInput text, alphaSlope FLOAT, raggioBuffer FLOAT) RETURNS VOID
+	LANGUAGE plpgsql
+	as $$
+	DECLARE
+		-- variabili di ausilio per il calcolo --
+		stazione RECORD;
+		raggio FLOAT;
+		buffer geometry;
+		idLineaPiuVicina INT;
+		fattorePendenzaPiuVicina FLOAT;
+		areaVicina RECORD;
+		percentualeCopertura FLOAT;
+		exp FLOAT;
+		pesoPendenza FLOAT;
+		quotaArray INT [2];
+		quotaStimataStazione INT;
+	BEGIN
+		pesoPendenza:=alphaSlope; -- pesopendenza rappresenta alphaSlope
+		raggio:=raggioBuffer; -- parametro che indica il raggio del buffer circolare centrato sulla stazione --
+		-- pulizia della tabella per evitare risultati doppi --
+		DELETE FROM tabella_risultati;
+		-- creazione delle tabelle di appoggio tempo, tempo1 e zoneVicine --
+		CREATE TABLE zoneVicine( id SERIAL  PRIMARY KEY, geom geometry(MULTIPOLYGON), quotamedia FLOAT, szk FLOAT);
+		CREATE TABLE tempo(id SERIAL PRIMARY KEY, geom geometry(MULTILINESTRING), elevation INT);
+		CREATE TABLE tempo1(id INT PRIMARY KEY, geom geometry(MULTILINESTRING),elevation INT, distanza FLOAT);
+
+		-- ciclo su tutte le stazioni --
+		FOR stazione IN  EXECUTE 'SELECT * FROM '|| tabInput ||' WHERE gid=3'  LOOP
+			exp:=0;
+			buffer:=st_buffer(stazione.geom, raggio);
+
+			-- chiamate alle udf che vanno a calcolare i coefficienti necessari per il calcolo dell'exposure --
+			PERFORM quotaMediaZoneVicine(buffer);
+			quotaArray:=(SELECT stimaQuotaStazione(stazione.gid, stazione.geom));
+			idLineaPiuVicina:=quotaArray[1];
+			quotaStimataStazione:=quotaArray[0];
+			fattorePendenzaPiuVicina:=(SELECT dislivelloPiuVicino(buffer, raggio, stazione.geom, quotaStimataStazione, idLineaPiuVicina));
+
+		-- ciclo sulle zone che che intersecano il buffer --
+		FOR areaVicina IN (SELECT * FROM zoneVicine) LOOP
+				percentualeCopertura:=0;
+				percentualeCopertura:=(SELECT st_area(st_intersection(areaVicina.geom,buffer))/st_area(areaVicina.geom));
+				IF st_intersects(stazione.geom,areaVicina.geom) OR st_distance(stazione.geom,areaVicina.geom)<1
+				THEN
+					exp:=exp+percentualeCopertura*areaVicina.szk*((@(quotaStimataStazione-areaVicina.quotamedia)));
+				ELSE
+					exp=exp+(percentualeCopertura*areaVicina.szk*((@(quotaStimataStazione-areaVicina.quotamedia)))/(st_distance(stazione.geom,areaVicina.geom))^1);
+				END IF;
+			END LOOP;
+			exp:=exp+(fattorePendenzaPiuVicina*pesoPendenza);
+			INSERT INTO tabella_risultati(id, geom, quota, pendenza, exposure) VALUES (stazione.gid, stazione.geom, quotaStimataStazione, (fattorePendenzaPiuVicina*pesoPendenza), exp);
+		END LOOP;
+
+		-- cancellazione tabelle di appoggio --
+		DROP TABLE zoneVicine;
+		DROP TABLE tempo;
+		DROP TABLE tempo1;
 	END;
 $$;
 \end{lstlisting}
