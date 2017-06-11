@@ -2,37 +2,60 @@
 \label{udf}
 \section{UDF del NMC}
 \label{udfnmc}
-\subsection{quotamedia}
+\justify
+In questa sezione verranno mostrate tutte le User Defined Function (da qui in avanti indicate con l'acronimo UDF) che implementano NMC e che quindi calcolano del valore di exposure delle stazione ferroviarie.\\ Il linguaggio utilizzato nelle UDF è PL/pgSQL offerto da PostgreSQL, in particolare sono state fruttatele una serie di funzioni fornite dall’estensione spaziale PostGIS.\\
+La struttura utilizzata per l'utilizzo delle UDF consiste in nell'esecuzione di una funzione principale denominata \textit{esposizione} che richiama 3 UDF. Queste vengono eseguite consecutivamente in quanto l'elaborazione dell'una prevede l'utilizzo dei risultati dell'elaborazione della precedente. \\
+All'interno dell'UDF \textit{esposizione} per ogni stazione analizzata vengono richiamate nell'ordine le UDF \textit{quotaMediaZoneVicine}, \textit{quotaStazione} e \textit{dislivelloPiuVicino}. Le 4 UDF citate vanno a implementare i 4 algoritmi descritti nella sezione \ref{algoritmonmc}. In Particolare \textit{quotaMediaZoneVicine} implementa \textit{averageElevationNearZones} , \textit{quotaStazione} implementa \textit{elevationBuild}, \textit{dislivelloPiuVicino} implementa \textit{slopeFactor} ed infine \textit{esposizione} implementa \textit{computeExposure}.\\
+Poiché lo scopo di questa sezione è mostrare come sono state implementate le cose e non quello di spiegarne la logica di funzionamento, all'interno delle UDF per semplicità realizzativa è stato utilizzato un naming diverso rispetto a quello utilizzato precedentemente. Per questo motivo prima di ogni UDF verrà mostrata una tabella riassuntiva che mostra come questi nomi sono stati mappati.   
 
+\subsection{quotaMediaZoneVicine}
+La funzione calcola la quota delle zone che intersecano il buffer attraverso la media delle \textit{elevation} delle linee di livello che intersecano ognuna di queste zone. Inoltre la funzione conserva nella tabella \textit{zoneVicine} tutte le zone che intersecano il buffer con la quota media calcolata in mo da consentire alle successive UDF un immediato utilizzo di questi risultati.
+\begin{itemize}
+\item \textbf{input} \textit{buffer GEOMETRY} rappresenta la geometria del buffer circolare centrato sulla stazione in esame.
+\item \textbf{output} \textit{VOID}
+\end{itemize} 
 
+\begin{table}[]
+\centering
+\caption{tabella di mappatura dei nomi}
+\label{mapTb1}
+\begin{tabular}{|c|c|}
+\hline
+Schema logico & UDF      \\ \hline
+Zones         & zone     \\
+Isoipse       & lineelvl \\ \hline
+\end{tabular}
+\end{table}
+
+\newpage
 \begin{lstlisting}[style=mySQL]
 CREATE or REPLACE FUNCTION quotaMediazoneVicine(buffer GEOMETRY) RETURNS VOID
 	LANGUAGE plpgsql
 	as $$
-
 	DECLARE
-		area RECORD;
+    -- variabili di ausilio per il calcolo --
+		zona RECORD;
 		linea RECORD;
 		quotamedia FLOAT;
 		contatore INT;
 	BEGIN
+    -- inizializzazione delle variabili per il calcolo della quota media delle zone--
 		quotamedia:=0;
 		contatore:=0;
-		FOR area IN (SELECT * FROM dataset) LOOP
-			IF(st_intersects(area.geom, buffer)) THEN
-				FOR linea IN (SELECT * FROM lineelvl) LOOP
-					IF st_intersects(area.geom,linea.geom) THEN
-						quotamedia:=quotamedia+linea.elevation;
-						contatore:=contatore+1;
-					END IF;
-				END LOOP;
-				IF contatore>0 THEN
-					quotamedia=quotamedia/contatore;
-				END IF;
-				INSERT INTO zoneVicine(geom, quotamedia, szk)                                  VALUES (area.geom, quotamedia, area.szk);
-				quotamedia:=0;
-				contatore:=0;
-			END IF;
+    -- ciclo su tutte le zone della geoarea che intersecano il buffer --
+		FOR zona IN (SELECT * FROM zone WHERE st_intersects(zona.geom, buffer)) LOOP
+      -- ciclo su tutte le linee di livello che intersecano la zona in esame --
+      FOR linea IN (SELECT * FROM lineelvl WHERE st_intersects(zona.geom,linea.geom)) LOOP
+        -- somma della quota delle linee di livello --
+        quotamedia:=quotamedia+linea.elevation;
+        contatore:=contatore+1;
+      END LOOP;
+      IF contatore>0 THEN
+        quotamedia=quotamedia/contatore;
+      END IF;
+      INSERT INTO zoneVicine(geom, quotamedia, szk)VALUES (zona.geom, quotamedia, zona.szk);
+      quotamedia:=0;
+      contatore:=0;
 		END LOOP;
 	END;
 $$;

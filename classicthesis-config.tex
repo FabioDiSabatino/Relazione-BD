@@ -104,7 +104,7 @@ maxbibnames=10, % default: 3, et al.
 natbib=true % natbib compatibility mode (\citep and \citet still work)
 }{biblatex}
 \usepackage{biblatex}
- 
+\usepackage{ragged2e}
  %------------------------------------------------
 
 \PassOptionsToPackage{fleqn}{amsmath} % Math environments and more by the AMS 
@@ -169,6 +169,7 @@ natbib=true % natbib compatibility mode (\citep and \citet still work)
 
 \definecolor{keywords}{RGB}{255, 255, 255}
 \definecolor{cobalt}{rgb}{0.0, 0.28, 0.67}
+\definecolor{darkgray}{rgb}{0.66, 0.66, 0.66}
  
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -189,9 +190,11 @@ keywordstyle=[2]\color{cobalt},
 keywordstyle=[3]\color{RoyalBlue}, 
 keywordstyle=[4]\color{orange},
 keywordstyle=[5]\color{yellow},
-basicstyle=\footnotesize\ttfamily, % Makes listings a smaller font size and a different font
+basicstyle=\scriptsize\ttfamily, % Makes listings a smaller font size and a different font
 %identifierstyle=\color{NavyBlue}, % Color of text inside brackets
-commentstyle=\color{Green}\ttfamily, % Color of comments
+commentstyle=\color{darkgray}\ttfamily, % Color of comments
+morecomment=[l]{--}, % l is for line comment
+morecomment=[s]{/*}{*/}, % s is for start and end delimiter
 stringstyle=\rmfamily, % Font type to use for strings
 numbers=left, % Change left to none to remove line numbers
 numberstyle=\scriptsize, % Font size of the line numbers
@@ -205,7 +208,7 @@ tabsize=2,
 autogobble=true,
 belowcaptionskip=.75\baselineskip, % Space after the "Listing #: Desciption" text and the listing box
 keywords=[2]{CREATE, or, REPLACE, FUNCTION, LANGUAGE, as, DECLARE, BEGIN, END, RETURNS, FOR, LOOP, IF, THEN, END IF, END LOOP},
-keywords=[3]{SELECT, IN, FROM, INTO, INSERT, VALUES},
+keywords=[3]{SELECT, IN, FROM, INTO, INSERT, VALUES, WHERE},
 keywords=[4]{quotaMediazoneVicine},
 keywords=[5]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 %----morekeywords={REPLACE, FUNCTION, GEOMETRY, RETURNS, VOID, LANGUAGE, DECLARE, RECORD, BEGIN, FOR, LOOP, IF, }%copy and paste
