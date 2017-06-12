@@ -20,7 +20,7 @@ Rappresenta la main function che richiama le altre UDF.
 \textbf{Input:}
 \begin{itemize}
 \item \textit{tabInput text} corrisponde al nome della tabella contenente i punti sul quale si vuole calcolare l'exposure. 
-\item \textit{stessaTab BOOL} corrisponde a un booleano che se posto a \textit{TRUE} permette di salvare i risultati nella stessa tabella di input altrimenti li conserva nella tabella di default \textit{tabella\_risultati}. 
+\item \textit{stessaTab BOOL} corrisponde a un booleano che se posto a \textit{TRUE} permette di salvare i risultati nella stessa tabella di input altrimenti li conserva nella tabella di default \textit{tabella\_risultati}. I parametri dell'UDF \textit{tabInput} e \textit{stessaTab} sono stati inseriti per dare un maggior grado di libertà al codice in modo da poter essere riutilizzato come verrà fatto in seguito dal NMCE. 
 \item \textit{raggioBuffer FLOAT} rappresenta il raggio del buffer circolare espresso in \textit{m}.
 \item \textit{alphaSlope FLOAT} rappresenta il parametro che da un peso al fattore pendenza.
 \item \textit{raggioBuffer FLOAT } rappresenta il raggio del buffer circolare centrato sulla stazione espresso in \textit{m}.
@@ -29,7 +29,7 @@ Rappresenta la main function che richiama le altre UDF.
 
 \begin{table}[h]
 \centering
-\caption{Tabella di corrispondenza dei nomi UDF esposizione}
+\caption{Tabella di corrispondenza dei nomi per l'UDF esposizione}
 \label{mapTb3}
 \begin{tabular}{|l|l|}
 \hline
@@ -115,7 +115,7 @@ La funzione calcola la quota delle zone che intersecano il buffer attraverso la 
 
 \begin{table}[h]
 \centering
-\caption{Tabella di corrispondenza dei nomi UDF quotaMediaZoneVicine}
+\caption{Tabella di corrispondenza dei nomi per l'UDF quotaMediaZoneVicine}
 \label{mapTb1}
 \begin{tabular}{|c|c|}
 \hline
@@ -175,7 +175,7 @@ La funzione calcola una stima della quota della stazione attraverso una media po
 
 \begin{table}[h]
 \centering
-\caption{Tabella di corrispondenza dei nomi UDF stimaQuotaStazione}
+\caption{Tabella di corrispondenza dei nomi per l'UDF stimaQuotaStazione}
 \label{mapTb2}
 \begin{tabular}{|l|l|}
 \hline
@@ -264,7 +264,7 @@ La funzione calcola la somma delle pendenze tra le linee di livello lungo il vet
 
 \begin{table}[h]
 \centering
-\caption{Tabella di corrispondenza dei nomi UDF dislivelloPiuVicino}
+\caption{Tabella di corrispondenza dei nomi per l'UDF dislivelloPiuVicino}
 \label{mapTb3}
 \begin{tabular}{|l|l|}
 \hline
@@ -374,35 +374,45 @@ Poiché lo scopo di questa sezione è mostrare come sono state implementate le c
 L'invocazione alla main function \textit{esposizione\_linee} eseguita durante la sperimentazione è la seguente:
 
 \begin{lstlisting}[style=mySQL]
-SELECT esposizione_linee();
+SELECT esposizione_linee(300, 1000);
 \end{lstlisting}     
 
 \subsection{esposizione\_linee}
-Rappresenta la main function che richiama le altre UDF.
+Rappresenta la main function che richiama le altre UDF.\\
+\textbf{Input:} 
+\begin{itemize}
+\item \textit{passoCampionamto INTEGER} definisce il passo di campionamento espresso in \textit{m} delle linee ferroviarie.
+\item \textit{lunghezzaSegmento INTEGER} definisce la lunghezza che si vuole dare ai segmenti che formano le linee ferroviarie.
+\end{itemize}
+\textbf{Output:} \textit{VOID} 
 
 \begin{lstlisting}[style=mySQL]
-CREATE or REPLACE FUNCTION esposizione_linee() RETURNS VOID
+CREATE or REPLACE FUNCTION esposizione_linee(passoCampionamento INT, lunghezzaSegmento INT) RETURNS VOID
 	LANGUAGE plpgsql
 	as $$
 	DECLARE
 	BEGIN
+		-- creazione tabella di appoggio --
+		CREATE TABLE only_line(id SERIAL PRIMARY KEY, old_id INT, geom geometry(LINESTRING), p INTEGER[]);
 		PERFORM semplificaLinee();
-		PERFORM campiona();
-		PERFORM dividiInSegmenti();
-    -- richiamo della main function del NMC
+		PERFORM campiona(passoCampionamento);
+		PERFORM dividiInSegmenti(lunghezzaSegmento);
+		-- richiamo della main function del NMC
 		PERFORM esposizione('punti_linea', TRUE, 5, 500);
 		PERFORM expSegmenti();
+		-- cancellazione tabella di appoggio --
+		DROP TABLE only_line;
 	END;
 $$;
 \end{lstlisting}
 
 \subsection{semplificaLinee}
-La funzione a partire dalle \textit{MultiLineString} che rappresentano le linee ferroviarie ricava delle geometrie più semplici ossia \textit{Linestring}.\\
+La funzione a partire dalle \textit{MultiLineString} che rappresentano le linee ferroviarie ricava delle geometrie più semplici ossia \textit{Linestring} e le salva nella tabella \textit{only\_line}.\\
 
 \begin{table}[h]
 \centering
-\caption{Tabella di corrispondenza dei nomi UDF semplificaLinee}
-\label{mapTb3}
+\caption{Tabella di corrispondenza dei nomi per l'UDF semplificaLinee}
+\label{mapTb4}
 \begin{tabular}{|l|l|}
 \hline
 Schema logico       & UDF                \\ \hline
@@ -436,12 +446,16 @@ $$;
 
 \subsection{campiona}
 Funzione che campiona la le linee semplici presenti nella tabella \textit{only\_line} contente le \textit{Linestring} ricavate dalle linee ferroviarie.\\
-
+\textbf{Input:} 
+\begin{itemize}
+\item \textit{passo INTEGER} definisce il passo di campionamento.
+\end{itemize}
+\textbf{Output:} \textit{VOID} 
 
 \begin{table}[h]
 \centering
-\caption{Tabella di corrispondenza dei nomi UDF campiona}
-\label{mapTb3}
+\caption{Tabella di corrispondenza dei nomi per l'UDF campiona}
+\label{mapTb5}
 \begin{tabular}{|l|l|}
 \hline
 Schema logico       & UDF                \\ \hline
@@ -450,20 +464,18 @@ Sampling\_point          & punti\_linea              \\ \hline
 \end{table}
 
 \begin{lstlisting}[style=mySQL]
-CREATE or REPLACE FUNCTION campiona() RETURNS VOID
+CREATE or REPLACE FUNCTION campiona(passo INT) RETURNS VOID
 	LANGUAGE plpgsql
 	as $$
 	DECLARE
 		-- variabili di ausilio --
 		linea RECORD;
-		passo INT;
 		percentuale FLOAT;
 		lunghezzaLinea FLOAT;
 		lineaPrecedente INT;
 		i INT;
 	BEGIN
 		ALTER SEQUENCE punti_linea_gid_seq RESTART WITH 1;
-		passo:=300;
 		lineaPrecedente:=0;
 		-- ciclo sulle linee semplici ricavate dalle linee ferroviarie --
 		FOR linea in (SELECT * FROM only_line ORDER BY id) LOOP
@@ -475,6 +487,117 @@ CREATE or REPLACE FUNCTION campiona() RETURNS VOID
 				INSERT INTO punti_linea(old_id, geom) VALUES (linea.old_id, (SELECT st_lineinterpolatepoint(linea.geom, percentuale*i)));
 				i:=i+1;
 			END LOOP;
+		END LOOP;
+	END;
+$$;
+\end{lstlisting}
+
+\subsection{dividiInSegmenti}
+Funzione che divide la le linee semplici, presenti nella tabella \textit{only\_line} contente le \textit{Linestring} ricavate dalle linee ferroviarie, in segmenti di lunghezza fissa.\\
+\textbf{Input:} 
+\begin{itemize}
+\item \textit{passo INTEGER} definisce il la lunghezza dei segmenti che si vuole ottenere.
+\end{itemize}
+\textbf{Output:} \textit{VOID} 
+
+\begin{table}[h]
+\centering
+\caption{Tabella di corrispondenza dei nomi per l'UDF dividiInSegmenti}
+\label{mapTb6}
+\begin{tabular}{|l|l|}
+\hline
+Schema logico       & UDF                \\ \hline
+Experiment\_railway          & segmenti              \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{lstlisting}[style=mySQL]
+CREATE or REPLACE FUNCTION dividiInSegmenti(passo INT) RETURNS VOID
+	LANGUAGE plpgsql
+	as $$
+	DECLARE
+		-- variabili di ausilio --
+		linea RECORD;
+		lineaPrecedente INT;
+		lunghezzaLinea FLOAT;
+		percentuale FLOAT;
+		i INT;
+		startFraction FLOAT;
+		endFraction FLOAT;
+	BEGIN
+		passo:=1000;
+		lineaPrecedente:=0;
+		ALTER SEQUENCE segmenti_id_seq RESTART WITH 1;
+		-- ciclo sulle linee semplici ricate dalle linne ferroviarie --
+		FOR linea IN (SELECT * FROM only_line ORDER BY old_id, p DESC ) LOOP
+			-- numero viene riazzerato quando si comincia la divisione di una nuova linea --
+			IF lineaPrecedente!=linea.old_id THEN
+				ALTER SEQUENCE segmenti_numero_seq RESTART WITH 1;
+			END IF;
+			lineaPrecedente:=linea.old_id;
+			lunghezzaLinea:=st_length(linea.geom);
+			percentuale:=(passo*1)/lunghezzaLinea;
+			i:=1;
+			-- ciclo fino al superamento della lunghezza della linea --
+			WHILE (passo*i)<lunghezzaLinea LOOP
+				startFraction:=percentuale*(i-1);
+				endFraction:=(percentuale*(i-1))+percentuale;
+				INSERT INTO segmenti(old_id, geom) VALUES (linea.old_id,  ST_LineSubstring(linea.geom, startFraction, endFraction));
+				i:=i+1;
+			END LOOP;
+			-- controlli per l'ultimo segmento della linea --
+			IF (passo*i)>=lunghezzaLinea AND passo*(i-1)!=lunghezzaLinea AND percentuale<=1 THEN
+				INSERT INTO segmenti(old_id, geom) VALUES (linea.old_id, ST_LineSubstring(linea.geom, endFraction, 1));
+			END IF;
+			IF percentuale>1 THEN
+				INSERT INTO segmenti(old_id, geom) VALUES (linea.old_id,  ST_LineSubstring(linea.geom, 0, 1));
+			END IF;
+		END LOOP;
+	END;
+$$;
+\end{lstlisting}
+
+\subsection{expSegmenti}
+Funzione che per ogni segmento delle linee ferroviarie calcola un valore di \textit{exposure} pari alla media del valore di \textit{exposure} dei punti campionati che interseca.\\
+
+\begin{table}[h]
+\centering
+\caption{Tabella di corrispondenza dei nomi per l'UDF dividiInSegmenti}
+\label{mapTb6}
+\begin{tabular}{|l|l|}
+\hline
+Schema logico       & UDF                \\ \hline
+Experiment\_railway          & segmenti              \\ 
+Sampling\_point          & punti\_linea              \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{lstlisting}[style=mySQL]
+CREATE or REPLACE FUNCTION expSegmenti() RETURNS VOID
+	LANGUAGE plpgsql
+	as $$
+	DECLARE
+		-- variabili di ausilio --
+		segmento RECORD;
+		punto RECORD;
+		exp FLOAT;
+		contatore INT;
+	BEGIN
+		-- ciclo su tutti i segmenti --
+		FOR segmento IN (SELECT * FROM segmenti) LOOP
+			contatore:=0;
+			exp:=0;
+			-- ciclo su tutti i punti della stassa linea del segmento --
+			FOR punto in (SELECT * FROM punti_linea WHERE punti_linea.old_id=segmento.old_id) LOOP
+				IF (st_distance(segmento.geom, punto.geom)<1) THEN
+					exp:=exp+punto.exposure;
+					contatore:=contatore+1;
+				END IF;
+			END LOOP;
+			IF contatore!=0 THEN
+				exp:=exp/contatore;
+			END IF;
+			UPDATE segmenti SET exp_segmento=exp WHERE segmenti.id=segmento.id;
 		END LOOP;
 	END;
 $$;
