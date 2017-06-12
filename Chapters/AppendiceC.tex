@@ -6,7 +6,104 @@
 In questa sezione verranno mostrate tutte le User Defined Function (da qui in avanti indicate con l'acronimo UDF) che implementano NMC e che quindi calcolano del valore di exposure delle stazione ferroviarie.\\ Il linguaggio utilizzato nelle UDF è PL/pgSQL offerto da PostgreSQL, in particolare sono state fruttatele una serie di funzioni fornite dall’estensione spaziale PostGIS.\\
 La struttura utilizzata per l'esecuzione delle UDF consiste in una funzione principale denominata \textit{esposizione} che richiama le altre UDF. Queste vengono eseguite consecutivamente in quanto l'elaborazione dell'una prevede l'utilizzo dei risultati dell'elaborazione della precedente. \\
 All'interno dell'UDF \textit{esposizione} per ogni stazione analizzata vengono richiamate nell'ordine le UDF \textit{quotaMediaZoneVicine}, \textit{stimaQuotaStazione} e \textit{dislivelloPiuVicino}. Le 4 UDF citate vanno a implementare i 4 algoritmi descritti nella sezione \ref{algoritmonmc}. In Particolare \textit{quotaMediaZoneVicine} implementa \textit{averageElevationNearZones} , \textit{stimaQuotaStazione} implementa \textit{elevationBuild}, \textit{dislivelloPiuVicino} implementa \textit{slopeFactor} ed infine \textit{esposizione} implementa \textit{computeExposure}.\\
-Poiché lo scopo di questa sezione è mostrare come sono state implementate le cose e non quello di spiegarne la logica di funzionamento, all'interno delle UDF per semplicità realizzativa è stato utilizzato un naming diverso rispetto a quello utilizzato precedentemente. Per questo motivo prima di ogni UDF verrà mostrata una tabella riassuntiva che mostra come questi nomi sono stati mappati.   
+Poiché lo scopo di questa sezione è mostrare come sono state implementate le cose e non quello di spiegarne la logica di funzionamento, all'interno delle UDF per semplicità realizzativa è stato utilizzato un naming diverso rispetto a quello utilizzato precedentemente. Per questo motivo prima di ogni UDF verrà mostrata una tabella riassuntiva che mostra come questi nomi sono stati mappati.\\
+L'invocazione alla main function \textit{esposizione} eseguita durante la sperimentazione è la seguente:
+
+\begin{lstlisting}[style=mySQL]
+SELECT esposizione('stazioni', FALSE, 5, 500);
+\end{lstlisting}   
+
+Dai parametri della funzione si osserva che il fattore \textit{alpha\_slope} è settato a 5, mentre il raggio del buffer è posto pari a 500 m.
+
+\subsection{esposizione}
+Rappresenta la main function che richiama le altre UDF.
+\textbf{Input:}
+\begin{itemize}
+\item \textit{tabInput text} corrisponde al nome della tabella contenente i punti sul quale si vuole calcolare l'exposure. 
+\item \textit{stessaTab BOOL} corrisponde a un booleano che se posto a \textit{TRUE} permette di salvare i risultati nella stessa tabella di input altrimenti li conserva nella tabella di default \textit{tabella\_risultati}. 
+\item \textit{raggioBuffer FLOAT} rappresenta il raggio del buffer circolare espresso in \textit{m}.
+\item \textit{alphaSlope FLOAT} rappresenta il parametro che da un peso al fattore pendenza.
+\item \textit{raggioBuffer FLOAT } rappresenta il raggio del buffer circolare centrato sulla stazione espresso in \textit{m}.
+\end{itemize}
+\textbf{Output:} \textit{VOID} 
+
+\begin{table}[h]
+\centering
+\caption{Tabella di corrispondenza dei nomi UDF esposizione}
+\label{mapTb3}
+\begin{tabular}{|l|l|}
+\hline
+Schema logico       & UDF                \\ \hline
+elevation           & quota              \\
+slope               & pendenza           \\
+experiment\_station & tabella\_risultati \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{lstlisting}[style=mySQL]
+CREATE or REPLACE FUNCTION esposizione(tabInput text, stessaTab BOOL, alphaSlope FLOAT, raggioBuffer FLOAT) RETURNS VOID
+	LANGUAGE plpgsql
+	as $$
+	DECLARE
+		-- variabili di ausilio per il calcolo --
+		stazione RECORD;
+		raggio FLOAT;
+		buffer geometry;
+		idLineaPiuVicina INT;
+		fattorePendenzaPiuVicina FLOAT;
+		areaVicina RECORD;
+		percentualeCopertura FLOAT;
+		exp FLOAT;
+		pesoPendenza FLOAT;
+		quotaArray INT [2];
+		quotaStimataStazione INT;
+	BEGIN
+		pesoPendenza:=alphaSlope; -- pesopendenza rappresenta alphaSlope
+		raggio:=raggioBuffer; -- parametro che indica il raggio del buffer circolare centrato sulla stazione --
+		-- pulizia della tabella per evitare risultati doppi --
+		DELETE FROM tabella_risultati;
+		-- creazione delle tabelle di appoggio tempo, tempo1 e zoneVicine --
+		CREATE TABLE zoneVicine( id SERIAL  PRIMARY KEY, geom geometry(MULTIPOLYGON), quotamedia FLOAT, szk FLOAT);
+		CREATE TABLE tempo(id SERIAL PRIMARY KEY, geom geometry(MULTILINESTRING), elevation INT);
+		CREATE TABLE tempo1(id INT PRIMARY KEY, geom geometry(MULTILINESTRING),elevation INT, distanza FLOAT);
+
+		-- ciclo su tutte le stazioni --
+		FOR stazione IN  EXECUTE 'SELECT * FROM '|| tabInput ||' WHERE gid=3'  LOOP
+			exp:=0;
+			buffer:=st_buffer(stazione.geom, raggio);
+
+			-- chiamate alle udf che vanno a calcolare i coefficienti necessari per il calcolo dell'exposure --
+			PERFORM quotaMediaZoneVicine(buffer);
+			quotaArray:=(SELECT stimaQuotaStazione(stazione.gid, stazione.geom));
+			idLineaPiuVicina:=quotaArray[1];
+			quotaStimataStazione:=quotaArray[0];
+			fattorePendenzaPiuVicina:=(SELECT dislivelloPiuVicino(buffer, raggio, stazione.geom, quotaStimataStazione, idLineaPiuVicina));
+
+		-- ciclo sulle zone che che intersecano il buffer --
+		FOR areaVicina IN (SELECT * FROM zoneVicine) LOOP
+				percentualeCopertura:=0;
+				percentualeCopertura:=(SELECT st_area(st_intersection(areaVicina.geom,buffer))/st_area(areaVicina.geom));
+				IF st_intersects(stazione.geom,areaVicina.geom) OR st_distance(stazione.geom,areaVicina.geom)<1
+				THEN
+					exp:=exp+percentualeCopertura*areaVicina.szk*((@(quotaStimataStazione-areaVicina.quotamedia)));
+				ELSE
+					exp=exp+(percentualeCopertura*areaVicina.szk*((@(quotaStimataStazione-areaVicina.quotamedia)))/(st_distance(stazione.geom,areaVicina.geom))^1);
+				END IF;
+			END LOOP;
+			exp:=exp+(fattorePendenzaPiuVicina*pesoPendenza);
+			INSERT INTO tabella_risultati(id, quota, pendenza, exposure) VALUES (stazione.gid, quotaStimataStazione, (fattorePendenzaPiuVicina*pesoPendenza), exp);
+			IF stessaTab THEN
+				EXECUTE ( 'UPDATE '|| tabInput ||' SET exposure='|| exp ||' WHERE '|| tabInput ||'.id='|| stazione.gid ||'');
+			END IF;
+		END LOOP;
+
+		-- cancellazione tabelle di appoggio --
+		DROP TABLE zoneVicine;
+		DROP TABLE tempo;
+		DROP TABLE tempo1;
+	END;
+$$;
+\end{lstlisting}
 
 \subsection{quotaMediaZoneVicine}
 La funzione calcola la quota delle zone che intersecano il buffer attraverso la media delle \textit{elevation} delle linee di livello che intersecano ognuna di queste zone. Inoltre la funzione conserva nella tabella \textit{zoneVicine} tutte le zone che intersecano il buffer con la quota media calcolata in modo da consentire alle successive UDF un immediato utilizzo di questi risultati.\\
@@ -16,9 +113,9 @@ La funzione calcola la quota delle zone che intersecano il buffer attraverso la 
 \end{itemize}
 \textbf{Output:} \textit{VOID} 
 
-\begin{table}[]
+\begin{table}[h]
 \centering
-\caption{Tabella di corrispondenza dei nomi}
+\caption{Tabella di corrispondenza dei nomi UDF quotaMediaZoneVicine}
 \label{mapTb1}
 \begin{tabular}{|c|c|}
 \hline
@@ -28,7 +125,6 @@ Isoipse       & lineelvl \\ \hline
 \end{tabular}
 \end{table}
 
-\newpage
 \begin{lstlisting}[style=mySQL]
 CREATE or REPLACE FUNCTION quotaMediaZoneVicine(buffer GEOMETRY) RETURNS VOID
 	LANGUAGE plpgsql
@@ -77,9 +173,9 @@ La funzione calcola una stima della quota della stazione attraverso una media po
 \end{itemize}
 \textbf{Output:} \textit{INT[]} la funziona ritorna un array di interi di due elementi dove il primo elemento corrisponde alla quota stimata della stazione, mentre il secondo contiene l'identificativo della linea più vicina all'interno della tabella \textit{tempo}.
 
-\begin{table}[]
+\begin{table}[h]
 \centering
-\caption{Tabella di corrispondenza dei nomi}
+\caption{Tabella di corrispondenza dei nomi UDF stimaQuotaStazione}
 \label{mapTb2}
 \begin{tabular}{|l|l|}
 \hline
@@ -168,7 +264,7 @@ La funzione calcola la somma delle pendenze tra le linee di livello lungo il vet
 
 \begin{table}[h]
 \centering
-\caption{Tabella di corrispondenza dei nomi}
+\caption{Tabella di corrispondenza dei nomi UDF dislivelloPiuVicino}
 \label{mapTb3}
 \begin{tabular}{|l|l|}
 \hline
@@ -267,96 +363,6 @@ CREATE or REPLACE FUNCTION dislivelloPiuVicino(buffer GEOMETRY, raggioBuffer FLO
 $$;
 \end{lstlisting}
 
-\subsection{esposizione}
-Rappresenta la main function che richiama le altre UDF. Salva il risultato dei calcoli nella \textit{tabella\_risultati}\\
-\textbf{Input:}
-\begin{itemize}
-\item \textit{tabInput text} corrisponde al nome della tabella contenente i punti sul quale si vuole calcolare l'exposure. 
-\item \textit{stessaTab BOOL} corrisponde a un booleano che se posto a \textit{TRUE} permette di salvare i risultati nella stessa tabella di input.
-\item \textit{raggioBuffer FLOAT} rappresenta il raggio del buffer circolare espresso in \textit{m}.
-\item \textit{alphaSlope FLOAT} rappresenta il parametro che da un peso al fattore pendenza.
-\item \textit{raggioBuffer FLOAT } rappresenta il raggio del buffer circolare centrato sulla stazione espresso in \textit{m}.
-\end{itemize}
-\textbf{Output:} \textit{VOID} 
-
-\begin{table}[h]
-\centering
-\caption{Tabella di corrispondenza dei nomi}
-\label{mapTb3}
-\begin{tabular}{|l|l|}
-\hline
-Schema logico       & UDF                \\ \hline
-elevation           & quota              \\
-slope               & pendenza           \\
-experiment\_station & tabella\_risultati \\ \hline
-\end{tabular}
-\end{table}
-
-\newpage
-\begin{lstlisting}[style=mySQL]
-CREATE or REPLACE FUNCTION esposizione(tabInput text, stessaTab BOOL, alphaSlope FLOAT, raggioBuffer FLOAT) RETURNS VOID
-	LANGUAGE plpgsql
-	as $$
-	DECLARE
-		-- variabili di ausilio per il calcolo --
-		stazione RECORD;
-		raggio FLOAT;
-		buffer geometry;
-		idLineaPiuVicina INT;
-		fattorePendenzaPiuVicina FLOAT;
-		areaVicina RECORD;
-		percentualeCopertura FLOAT;
-		exp FLOAT;
-		pesoPendenza FLOAT;
-		quotaArray INT [2];
-		quotaStimataStazione INT;
-	BEGIN
-		pesoPendenza:=alphaSlope; -- pesopendenza rappresenta alphaSlope
-		raggio:=raggioBuffer; -- parametro che indica il raggio del buffer circolare centrato sulla stazione --
-		-- pulizia della tabella per evitare risultati doppi --
-		DELETE FROM tabella_risultati;
-		-- creazione delle tabelle di appoggio tempo, tempo1 e zoneVicine --
-		CREATE TABLE zoneVicine( id SERIAL  PRIMARY KEY, geom geometry(MULTIPOLYGON), quotamedia FLOAT, szk FLOAT);
-		CREATE TABLE tempo(id SERIAL PRIMARY KEY, geom geometry(MULTILINESTRING), elevation INT);
-		CREATE TABLE tempo1(id INT PRIMARY KEY, geom geometry(MULTILINESTRING),elevation INT, distanza FLOAT);
-
-		-- ciclo su tutte le stazioni --
-		FOR stazione IN  EXECUTE 'SELECT * FROM '|| tabInput ||' WHERE gid=3'  LOOP
-			exp:=0;
-			buffer:=st_buffer(stazione.geom, raggio);
-
-			-- chiamate alle udf che vanno a calcolare i coefficienti necessari per il calcolo dell'exposure --
-			PERFORM quotaMediaZoneVicine(buffer);
-			quotaArray:=(SELECT stimaQuotaStazione(stazione.gid, stazione.geom));
-			idLineaPiuVicina:=quotaArray[1];
-			quotaStimataStazione:=quotaArray[0];
-			fattorePendenzaPiuVicina:=(SELECT dislivelloPiuVicino(buffer, raggio, stazione.geom, quotaStimataStazione, idLineaPiuVicina));
-
-		-- ciclo sulle zone che che intersecano il buffer --
-		FOR areaVicina IN (SELECT * FROM zoneVicine) LOOP
-				percentualeCopertura:=0;
-				percentualeCopertura:=(SELECT st_area(st_intersection(areaVicina.geom,buffer))/st_area(areaVicina.geom));
-				IF st_intersects(stazione.geom,areaVicina.geom) OR st_distance(stazione.geom,areaVicina.geom)<1
-				THEN
-					exp:=exp+percentualeCopertura*areaVicina.szk*((@(quotaStimataStazione-areaVicina.quotamedia)));
-				ELSE
-					exp=exp+(percentualeCopertura*areaVicina.szk*((@(quotaStimataStazione-areaVicina.quotamedia)))/(st_distance(stazione.geom,areaVicina.geom))^1);
-				END IF;
-			END LOOP;
-			exp:=exp+(fattorePendenzaPiuVicina*pesoPendenza);
-			INSERT INTO tabella_risultati(id, quota, pendenza, exposure) VALUES (stazione.gid, quotaStimataStazione, (fattorePendenzaPiuVicina*pesoPendenza), exp);
-			IF stessaTab THEN
-				EXECUTE ( 'UPDATE '|| tabInput ||' SET exposure='|| exp ||' WHERE '|| tabInput ||'.id='|| stazione.gid ||'');
-			END IF;
-		END LOOP;
-
-		-- cancellazione tabelle di appoggio --
-		DROP TABLE zoneVicine;
-		DROP TABLE tempo;
-		DROP TABLE tempo1;
-	END;
-$$;
-\end{lstlisting}
 
 \section{UDF del NMCE}
 \label{udfnmce}
@@ -364,14 +370,38 @@ In questa sezione verranno mostrate tutte le UDF che implementano NMCE e che con
 Così come per le stazioni ferroviarie la struttura utilizzata per l'esecuzione delle UDF relative alle linee ferroviarie consiste in una funzione principale denominata \textit{esposizione\_linee} che richiama le altre UDF.
 Queste vengono eseguite consecutivamente in quanto l'elaborazione dell'una prevede l'utilizzo dei risultati dell'elaborazione della precedente. \\
 All'interno dell'UDF \textit{esposizione\_linee} vengono richiamate nell'ordine le UDF \textit{semplificaLinee}, \textit{campiona}, \textit{dividiInSegmenti}, \textit{esposizione} e \textit{expSegmenti}.
-Poiché lo scopo di questa sezione è mostrare come sono state implementate le cose e non quello di spiegarne la logica di funzionamento, all'interno delle UDF per semplicità realizzativa è stato utilizzato un naming diverso rispetto a quello utilizzato precedentemente. Per questo motivo prima di ogni UDF verrà mostrata una tabella riassuntiva che mostra come questi nomi sono stati mappati.   
+Poiché lo scopo di questa sezione è mostrare come sono state implementate le cose e non quello di spiegarne la logica di funzionamento, all'interno delle UDF per semplicità realizzativa è stato utilizzato un naming diverso rispetto a quello utilizzato precedentemente. Per questo motivo prima di ogni UDF verrà mostrata una tabella riassuntiva che mostra come questi nomi sono stati mappati. 
+L'invocazione alla main function \textit{esposizione\_linee} eseguita durante la sperimentazione è la seguente:
+
+\begin{lstlisting}[style=mySQL]
+SELECT esposizione_linee();
+\end{lstlisting}     
+
+\subsection{esposizione\_linee}
+Rappresenta la main function che richiama le altre UDF.
+
+\begin{lstlisting}[style=mySQL]
+CREATE or REPLACE FUNCTION esposizione_linee() RETURNS VOID
+	LANGUAGE plpgsql
+	as $$
+	DECLARE
+	BEGIN
+		PERFORM semplificaLinee();
+		PERFORM campiona();
+		PERFORM dividiInSegmenti();
+    -- richiamo della main function del NMC
+		PERFORM esposizione('punti_linea', TRUE, 5, 500);
+		PERFORM expSegmenti();
+	END;
+$$;
+\end{lstlisting}
 
 \subsection{semplificaLinee}
 La funzione a partire dalle \textit{MultiLineString} che rappresentano le linee ferroviarie ricava delle geometrie più semplici ossia \textit{Linestring}.\\
 
 \begin{table}[h]
 \centering
-\caption{Tabella di corrispondenza dei nomi}
+\caption{Tabella di corrispondenza dei nomi UDF semplificaLinee}
 \label{mapTb3}
 \begin{tabular}{|l|l|}
 \hline
@@ -399,6 +429,52 @@ CREATE or REPLACE FUNCTION semplificaLinee() RETURNS VOID
 			ELSE
 				INSERT INTO only_line(geom, old_id) VALUES (lineaSemplice, linea.gid);
 			END IF;
+		END LOOP;
+	END;
+$$;
+\end{lstlisting}
+
+\subsection{campiona}
+Funzione che campiona la le linee semplici presenti nella tabella \textit{only\_line} contente le \textit{Linestring} ricavate dalle linee ferroviarie.\\
+
+
+\begin{table}[h]
+\centering
+\caption{Tabella di corrispondenza dei nomi UDF campiona}
+\label{mapTb3}
+\begin{tabular}{|l|l|}
+\hline
+Schema logico       & UDF                \\ \hline
+Sampling\_point          & punti\_linea              \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{lstlisting}[style=mySQL]
+CREATE or REPLACE FUNCTION campiona() RETURNS VOID
+	LANGUAGE plpgsql
+	as $$
+	DECLARE
+		-- variabili di ausilio --
+		linea RECORD;
+		passo INT;
+		percentuale FLOAT;
+		lunghezzaLinea FLOAT;
+		lineaPrecedente INT;
+		i INT;
+	BEGIN
+		ALTER SEQUENCE punti_linea_gid_seq RESTART WITH 1;
+		passo:=300;
+		lineaPrecedente:=0;
+		-- ciclo sulle linee semplici ricavate dalle linee ferroviarie --
+		FOR linea in (SELECT * FROM only_line ORDER BY id) LOOP
+			lunghezzaLinea:=st_length(linea.geom);
+			percentuale:=(passo*1)/lunghezzaLinea;
+			i:=1;
+			-- ciclo fino a che con il campionamento non si supera la lunghezza della linestring --
+			WHILE (passo*i)<lunghezzaLinea LOOP
+				INSERT INTO punti_linea(old_id, geom) VALUES (linea.old_id, (SELECT st_lineinterpolatepoint(linea.geom, percentuale*i)));
+				i:=i+1;
+			END LOOP;
 		END LOOP;
 	END;
 $$;
