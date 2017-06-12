@@ -1,14 +1,12 @@
 \chapter{Risultati e loro discussione} 
 \label{ch:risultatiediscussione} 
 
-Nella sezione \ref{ch:risultatiediscussione} verranno illustrati i risultati più significativi ottenuti dall'applicazione dei metodi esposti (vedi Sez.\ref{ch:materialandmethods}) per il calcolo del ranking, rispettivamente delle stazioni e delle tratte ferroviarie.
+In questo capitolo verranno illustrati i risultati più significativi ottenuti dall'applicazione dei metodi esposti (vedi Sez.\ref{ch:materialandmethods}) per il calcolo del ranking, rispettivamente delle stazioni (Sez. \ref{ranking:Stazione}) e delle tratte ferroviarie (Sez. \ref{ranking:linee}).
 Per i risultati completi si rimanda alla lettura dell'appendice \ref{risultati}.
 \section{Ranking e  Valutazione delle stazioni ferroviarie}
-
+\label{ranking:Stazione}
 Applicando il metodo discusso nella Sez. \ref{metodoNuovo} abbiamo ottenuto i risultati che andremo qui di seguito ad illustrare.
 Tali risultati sono stati utilizzati per realizzare una classifica delle stazioni in base al loro grado di esposizione al pericolo idrogeologico.
-
-%inserire parte introduttiva che richiama i dati in analisi a quale tabella/colonna appartengono della bd..
 
 Il valore di \textit{exposure} ottenuto per le stazioni in analisi  varia da un valore minimo di $0$ ad un massimo di $50$. A fronte di tali risultati si è deciso di definire tre diverse fasce di esposizione al pericolo in base alle quali aggregare le stazioni all'interno della classifica:
 \begin{itemize}
@@ -16,7 +14,7 @@ Il valore di \textit{exposure} ottenuto per le stazioni in analisi  varia da un 
 \item \textit{Moderate}
 \item \textit{Low}
 \end{itemize}
-La Tabella n°\ref{range} mostra la suddetta suddivisione in fasce di rischio, gli intervalli in cui le stazioni sono state divise secondo il valore di \textit{exposure}, il numero e la percentuale sul totale delle stazioni appartenenti ad una determinata fascia. Inoltre ad ogni fascia è stato associato un colore identificativo.
+La Tabella \ref{range} mostra la suddetta suddivisione in fasce di rischio, gli intervalli in cui le stazioni sono state divise secondo il valore di \textit{exposure}, il numero e la percentuale sul totale delle stazioni appartenenti ad una determinata fascia. Inoltre ad ogni fascia è stato associato un colore identificativo.
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|c|c|c|}
@@ -38,9 +36,9 @@ Low & $0$ < Exp$\_$$b_i$ < 1 & 46 & 40,35\%\\
 \label{range}
 \end{table}
 
-Come si evince dalla tabella \ref{range} tale suddivisione in fasce non è lineare ma bensì frutto di un'analisi critica (vedi Sez.  \ref{analisicritica}) del metodo discusso (vedi Sez. \ref{metodoNuovo}) e dei risultati ottenuti. Inoltre è possibile notare come la maggioranza delle stazioni presenta un livello di esposizione al rischio \textit{Moderate} mentre solo il 5,26\% presenta valori di \textit{exposure} tali da far emergere il bisogno di controlli più frequenti (fascia \textit{High}).
+Come si evince dalla Tabella \ref{range} tale suddivisione in fasce non è lineare ma bensì frutto di un'analisi critica (vedi Sez.  \ref{analisicritica}) del metodo discusso (vedi Sez. \ref{metodoNuovo}) e dei risultati ottenuti. Inoltre è possibile notare come la maggioranza delle stazioni presenta un livello di esposizione al rischio \textit{Moderate} mentre solo il 5,26\% presenta valori di \textit{exposure} tali da far emergere il bisogno di controlli più frequenti (fascia \textit{High}).
 
-Nella tabella \ref{classifica} si riportano i primi dieci record, appartenenti alla classifica delle stazioni ordinati in modo decrescente rispetto il valore di \textit{exposure}. In riferimento alla singola stazione, per ogni record vengono quindi mostrati la posizione all'interno della classifica, l'identificativo, il nome e il suo valore di \textit{exposure}.
+Nella Tabella \ref{classifica} si riportano i primi dieci record, appartenenti alla classifica delle stazioni ordinati in modo decrescente rispetto il valore di \textit{exposure}. In riferimento alla singola stazione, per ogni record vengono quindi mostrati la posizione all'interno della classifica, l'identificativo, il nome e il suo valore di \textit{exposure}.
 
 \begin{table}[h]
 \centering
@@ -50,46 +48,44 @@ Nella tabella \ref{classifica} si riportano i primi dieci record, appartenenti a
 \textbf{n.} & \textbf{id Stazione} & \textbf{Nome Stazione Ferroviaria} & \textbf{Valore di \textit{exposure}} \\
 \hline
 \rowcolor{flamingopink}
-1 & 114 & Acciano & 49,85 \\
+$1$ & $114$ & Acciano & $49,85$ \\
 \hline
 \rowcolor{flamingopink}
-2 & 54 & Fontecchio & 42,68 \\
+$2$ & $54$ & Fontecchio & $42,68$ \\
 \hline
 \rowcolor{flamingopink}
-3 & 44 & Sant'Ilario & 31,73 \\
+$3$ & $44$ & $Sant'Ilario$ & $31,73$ \\
 \hline
 \rowcolor{flamingopink}
-4 & 38 & Pettorano Sul Gizio & 31,14 \\
+$4$ & $38$ & Pettorano Sul Gizio & $31,14$ \\
 \hline
 \rowcolor{flamingopink}
-5 & 94 & Isca d'Archi & 22,71 \\
+$5$ & $94$ & Isca d'Archi & $22,71$ \\
 \hline
 \rowcolor{flamingopink}
-6 & 66 & Prezza & 20,54 \\
+$6$ & $66$ & Prezza & $20,54$ \\
 \hline
 \rowcolor{icterine}
-7 & 33 & Bussi & 19,98 \\
+$7$ & $33$ & Bussi & $19,98$ \\
 \hline
 \rowcolor{icterine}
-8 & 81 & Capistrello & 18,57 \\
+$8$ & $81$ & Capistrello & $18,57$ \\
 \hline
 \rowcolor{icterine}
-9 & 91 & Civitaluparella & 16,32 \\
+$9$ & $91$ & Civitaluparella & $16,32$ \\
 \hline
 \rowcolor{icterine}
-10 & 63 & Sella di Corno & 14,24 \\
+$10$ & $63$ & Sella di Corno & $14,24$ \\
 \hline
 \end{tabular}
 \caption{Classifica delle prime dieci stazioni ordinata in base al valore di \textit{exposure}}
 \label{classifica}
 \end{table}
-%inserire appendice dove sta la classificazione ufficiale
-%discutere se inserire l'ordinamento della classifica ufficiale
 \subsection{Analisi critica del Nuovo Metodo Proposto}
 \label{analisicritica}
-Osservando i risultati ottenuti dall'applicazione del metodo di cui abbiamo discusso nella Sez. \ref{metodoNuovo} abbiamo potuto osservare come i valori di \textit{exposure} delle stazioni ferroviarie non presentano una distribuzione\newline "\textit{omogenea/lineare}" lungo l'asse dei numeri reali bensì risultano "aggregati" in gruppi di valori i quali ci hanno guidato nella definizione dei range di valori per ogni fascia che abbiamo presentato nella Tab. \ref{range}.
-Il NMC restituisce valori in , quindi utilizzare un'equazione lineare per aggregare le stazioni in 3 fasce in base al loro valore di \textit{exposure} risulterebbe errato.
-Al fine di poter valutare le performance del metodo proposto nella Sez. \ref{metodoNuovo} abbiamo confrontato la classificazione in fasce delle stazioni ottenuta in base ai valori di \textit{exposure} con la classificazione in fasce delle stazioni ferroviarie presenti sul territorio realizzata dai membri dei gruppi partecipanti al Laboratorio di Basi di Dati II nell'A.A. 2016/2017 tramite un'indagine visiva del territorio ove tali edifici sono situati. L'ipotesi di lavoro implicita è che tale classificazione "umana", indicata d'ora in avanti come classificazione ufficiale, sia corretta per definizione. Pertanto i risultati ottenuti dal metodo discusso nella Sez. \ref{metodoNuovo} saranno tanto più soddisfacenti quanto più questi si avvicineranno ai dati ufficiali.
+Osservando i risultati ottenuti dall'applicazione del metodo di cui abbiamo discusso nella Sez. \ref{metodoNuovo} abbiamo potuto osservare come i valori di \textit{exposure} delle stazioni ferroviarie non presentano una distribuzione\newline "\textit{omogenea/lineare}" lungo l'asse dei numeri reali bensì risultano "aggregati" in gruppi di valori i quali ci hanno guidato nella definizione dei range di valori per ogni fascia che abbiamo presentato nella Tabella \ref{range}.
+Il NMC restituisce valori in , quindi utilizzare un'equazione lineare per aggregare le stazioni in $3$ fasce in base al loro valore di \textit{exposure} risulterebbe errato.
+Al fine di poter valutare le performance del metodo proposto nella Sez. \ref{metodoNuovo} abbiamo confrontato la classificazione in fasce delle stazioni ottenuta in base ai valori di \textit{exposure} con la classificazione in fasce delle stazioni ferroviarie presenti sul territorio realizzata dai membri dei gruppi partecipanti al Laboratorio di Basi di Dati II nell'A.A. $2016$/$2017$ tramite un'indagine visiva del territorio ove tali edifici sono situati. L'ipotesi di lavoro implicita è che tale classificazione "umana", indicata d'ora in avanti come classificazione ufficiale, sia corretta per definizione. Pertanto i risultati ottenuti dal metodo discusso nella Sez. \ref{metodoNuovo} saranno tanto più soddisfacenti quanto più questi si avvicineranno ai dati ufficiali.
 
 La tabella che riporta la classificazione in fasce ufficiale delle stazioni ferroviarie nella sua completezza è presente in appendice \ref{risultatiUfficiali}, mentre qui di seguito, in tabella \ref{fasciaHighUfficiale}, sono stati riportati i record delle stazioni che sono stati classificati ufficialmente in fascia \textit{High}.
 \begin{table}[h]
@@ -100,25 +96,25 @@ La tabella che riporta la classificazione in fasce ufficiale delle stazioni ferr
 \textbf{id Stazione} & \textbf{Nome Stazione Ferroviaria} \\
 \hline
 \rowcolor{flamingopink}
-44 & Sant'Ilario \\
+$44$ & Sant'Ilario \\
 \hline
 \rowcolor{flamingopink}
-65 & Aversa \\\hline
+$65$ & Aversa \\\hline
 \rowcolor{flamingopink}
-54 & Fontecchio \\\hline
+$54$ & Fontecchio \\\hline
 \rowcolor{flamingopink}
-38 & Pettorano sul Gizio \\\hline
+$38$ & Pettorano sul Gizio \\\hline
 \rowcolor{flamingopink}
-114 & Acciano \\\hline
+$114$ & Acciano \\\hline
 \rowcolor{flamingopink}
-62 & Vigliano d'Abruzzo \\
+$62$ & Vigliano d'Abruzzo \\
 \hline
 \end{tabular}
 \caption{Elenco delle stazioni ferroviarie ufficialmente in fascia \textit{High}}
 \label{fasciaHighUfficiale}
 \end{table}
 
-Lo studio delle performance del metodo è stato realizzato mediante la \textit{tabella di contingenza} (detta anche \textit{matrice di errore} o \textit{di confusione}). Ogni colonna di tale tabella rappresenta le istanze in una fascia "prevista" (\textit{Predicted Classes}) mentre le righe rappresentano le istanze in una fascia reale (\textit{Actual Classes}). La corrispondente \textit{tabella di contingenza} (tabella \ref{tabellaContingenza}) riassume i risultati ottenuti con il metodo. 
+Lo studio delle performance del metodo è stato realizzato mediante la \textit{tabella di contingenza} (detta anche \textit{matrice di errore} o \textit{di confusione}). Ogni colonna di tale tabella rappresenta le istanze in una fascia "prevista" (\textit{Predicted Classes}) mentre le righe rappresentano le istanze in una fascia reale (\textit{Actual Classes}). La corrispondente \textit{tabella di contingenza} (Tabella \ref{tabellaContingenza}) riassume i risultati ottenuti con il metodo. 
 
 \begin{table}[h]
 \centering
@@ -141,7 +137,7 @@ Lo studio delle performance del metodo è stato realizzato mediante la \textit{t
 \label{tabellaContingenza}
 \end{table}
 
-Osservando i dati contenuti nella tabella \ref{tabellaContingenza} è possibile ricavare le seguenti deduzioni:
+Osservando i dati contenuti nella Tabella \ref{tabellaContingenza} è possibile ricavare le seguenti deduzioni:
 \begin{itemize}
 \item Delle 6 stazioni classificate ufficialmente in fascia \textit{High} il metodo ha previsto che 2 di queste sono in fascia \textit{Moderate};
 \item Delle 61 stazioni classificate ufficialmente in fascia \textit{Moderate} il metodo ha previsto che 2 di queste sono in fascia \textit{High} mentre 6 sono in fascia \textit{Low};
@@ -149,7 +145,7 @@ Osservando i dati contenuti nella tabella \ref{tabellaContingenza} è possibile 
 \item Le stazioni correttamente classificate dal nostro metodo sono localizzate lungo la diagonale della tabella.
 \end{itemize}
 
-Dall'esame della \textit{letteratura} del settore del \textit{Machine Learning} emerge che la maniera più semplice di effettuare misurazioni circa le performance della predizione restituita dal metodo adottato consiste nel ricondurre il problema della classificazione dei risultati ottenuti al caso di \textit{tabella di contingenza binaria}, ossia al caso nel quale sia coinvolta una sola classe alla volta. Il problema può essere quindi formulato come segue:
+Dall'esame della letteratura del settore del \textit{Machine Learning} emerge che la maniera più semplice di effettuare misurazioni circa le performance della predizione restituita dal metodo adottato consiste nel ricondurre il problema della classificazione dei risultati ottenuti al caso di \textit{tabella di contingenza binaria}, ossia al caso nel quale sia coinvolta una sola classe alla volta. Il problema può essere quindi formulato come segue:
 \newline
 \newline
 \textit{Dati n valori (v1, v2, …, vn) e una classe (C), costruire la tabella di contingenza binaria che riassume
@@ -158,7 +154,7 @@ quale si vuole misurare la efficacia. Evidentemente il valore v1 potrà cadere i
 v2, …., vn.}
 \newline
 \newline
-Dalla tabella \ref{tabellaContingenza} è possibile ricavare le seguenti \textit{tabelle di contingenza} riferite relativamente alla fascia \textit{High} (Tabella \ref{tabellaHigh}), alla fascia \textit{Moderate} (Tabella \ref{tabellaModerate}) e alla fascia \textit{Low} (Tabella \ref{tabellaLow}).
+Dalla Tabella \ref{tabellaContingenza} è possibile ricavare le seguenti \textit{tabelle di contingenza} riferite relativamente alla fascia \textit{High} (Tabella \ref{tabellaHigh}), alla fascia \textit{Moderate} (Tabella \ref{tabellaModerate}) e alla fascia \textit{Low} (Tabella \ref{tabellaLow}).
 
 \begin{table}[h]
 \centering
@@ -180,7 +176,7 @@ Dalla tabella \ref{tabellaContingenza} è possibile ricavare le seguenti \textit
 \label{tabellaHigh}
 \end{table}
 
-\textbf{Segue un commento alla tabella \ref{tabellaHigh}}
+\textbf{Segue un commento alla Tabella \ref{tabellaHigh}}
 
 Prima Riga:
 \begin{itemize}
@@ -217,7 +213,7 @@ questo momento chiameremo questi casi \textit{Falsi Positivi});
 \label{tabellaModerate}
 \end{table}
 
-\textbf{Segue un commento alla tabella \ref{tabellaModerate}}
+\textbf{Segue un commento alla Tabella \ref{tabellaModerate}}
 
 Prima Riga:
 \begin{itemize}
@@ -251,7 +247,7 @@ Seconda Riga:
 \label{tabellaLow}
 \end{table}
 
-\textbf{Segue un commento alla tabella \ref{tabellaLow}}
+\textbf{Segue un commento alla Tabella \ref{tabellaLow}}
 
 Prima Riga:
 \begin{itemize}
@@ -265,7 +261,7 @@ Seconda Riga:
 \item Il numero 61 denota le stazioni che l’algoritmo ha classificato correttamente come \textbf{non} di classe \textit{Low}.
 \end{itemize}
 
-Prima di elencare le metriche che abbiamo adottato per giudicare le performance del metodo è utile introdurre la tabella \ref{tabellaParametri}, nella quale andremo ad evidenziare i sei parametri che descrivono la \textit{tabella di contingenza binaria}, ovvero: P, N, VP, FP, FN, VN, a ciascuno dei quali corrisponde un valore intero.
+Prima di elencare le metriche che abbiamo adottato per giudicare le performance del metodo è utile introdurre la Tabella \ref{tabellaParametri}, nella quale andremo ad evidenziare i sei parametri che descrivono la \textit{tabella di contingenza binaria}, ovvero: P, N, VP, FP, FN, VN, a ciascuno dei quali corrisponde un valore intero.
 
 In letteratura sono state proposte molte metriche per giudicare le performance di un algoritmo che restituisca la realtà osservata, le più diffuse verranno elencate di seguito. Si segnala inoltre che il valore di ciascuna di essere esprime una probabilità, quindi oscilla tra $0$ e $1$.
 
@@ -403,6 +399,7 @@ Le limitazioni del metodo proposto derivano dal fatto che l'algoritmo, nel calco
 \end{itemize}
 \newpage
 \section{Ranking e Valutazione delle Linee Ferroviarie}
+\label{ranking:linee}
 In questa sezione andremo a discutere i risultati ottenuti applicando il metodo NMCE presentato in Sez. \ref{metodoLinee} per la determinazione della classifica delle linee ferroviarie in relazione al grado di esposizione al rischio idrogeologico.\newline \newline
 Il metodo ha restituito $690$ segmenti in quanto abbiamo definito la lunghezza di ognuno pari a $1$ km ed il valore di \textit{exposure} di ognuno varia da un valore massimo di $130$ ad un valore minimo di $0$. A fronte di tali risultati abbiamo ritenuto opportuno, per analogia al caso delle stazioni ferroviarie, utilizzare il medesimo meccanismo di classificazione in tre fasce di rischio:
 \begin{itemize}
@@ -410,7 +407,7 @@ Il metodo ha restituito $690$ segmenti in quanto abbiamo definito la lunghezza d
 	\item Moderate
 	\item Low
 \end{itemize}
-La tabella \ref{rangeLinee} mostra la suddetta divisione in fasce di rischio, gli intervalli in cui i segmenti sono stati divisi secondo il valore di \textit{exposure}, il numero e la percentuale sul totale dei segmenti appartenenti ad una determinata fascia. Come nel caso delle stazioni ferroviarie ad ogni fascia abbiamo associato un colore identificativo.
+La Tabella \ref{rangeLinee} mostra la suddetta divisione in fasce di rischio, gli intervalli in cui i segmenti sono stati divisi secondo il valore di \textit{exposure}, il numero e la percentuale sul totale dei segmenti appartenenti ad una determinata fascia. Come nel caso delle stazioni ferroviarie ad ogni fascia abbiamo associato un colore identificativo.
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|c|c|c|}
@@ -432,42 +429,42 @@ Low & $0$ < Exp$\_$$b_i$ < 1 & 226 & 32,75\%\\
 \label{rangeLinee}
 \end{table}
 \newline
-Come è possibile notare chiaramente dai dati riportati in tabella \ref{rangeLinee} solo una bassa percentuale de segmenti presenta un livello di esposizione al rischio di frane tale da far emergere il bisogno di controlli più frequenti (livello di esposizione \textit{High}). Da tali risultati si ha quindi la conferma dell'utilità del lavoro esposto, in particolare per gli addetti al controllo della rete ferroviaria: viene ridotto al $11,31\%$ il numero di segmenti di rete ferroviaria da manutenere più frequentemente; ciò comporta senza ombra di dubbio una riduzione, in termini di costi e di tempi, per gli addetti ai lavori.\newline
+Come è possibile notare chiaramente dai dati riportati in Tabella \ref{rangeLinee} solo una bassa percentuale de segmenti presenta un livello di esposizione al rischio di frane tale da far emergere il bisogno di controlli più frequenti (livello di esposizione \textit{High}). Da tali risultati si ha quindi la conferma dell'utilità del lavoro esposto, in particolare per gli addetti al controllo della rete ferroviaria: viene ridotto al $11,31\%$ il numero di segmenti di rete ferroviaria da manutenere più frequentemente; ciò comporta senza ombra di dubbio una riduzione, in termini di costi e di tempi, per gli addetti ai lavori.\newline
 In Figura \ref{rankinglinee} è possibile avere una visione d'insieme dei risultati ottenuti dall'applicazione del metodo NMCE sui segmenti delle linee che compongono la rete ferroviaria abruzzese, si noti come ogni segmento in figura ha lo stesso colore della fascia di rischio a cui appartiene.
-\begin{figure}[h]
+\begin{figure}[hpt]
 	\centering
 	\includegraphics[width=0.4\linewidth]{img/reteRanking.jpeg}
 	\caption{Visione d'insieme della classificazione in fasce di rischio dei segmenti della rete ferroviaria abruzzese}
 	\label{rankinglinee}
 \end{figure}
-\newpage
-La classifica riportata in tabella \ref{top20segmenti} mostra i primi venti (di $690$) segmenti ordinati in maniera decrescente rispetto il relativo valore di \textit{exposure}. In riferimento al singolo segmento, per ognuno di essi vengono mostrati la linea di appartenenza, il numero del segmento e il relativo valore di \textit{exposure}.
-\begin{table}[h]
+\newline
+La classifica riportata in Tabella \ref{top20segmenti} mostra i primi venti (di $690$) segmenti ordinati in maniera decrescente rispetto il relativo valore di \textit{exposure}. In riferimento al singolo segmento, per ognuno di essi vengono mostrati la linea di appartenenza, il numero del segmento e il relativo valore di \textit{exposure}.
+\begin{table}[hpt]
 \centering
 \begin{tabular}{|c|c|c|c|}
 \hline
 \rowcolor{lightgray}
 n. & Linea Ferroviaria          & \# Segmento & Valore di Exp. del Segmento \\ \hline \rowcolor{flamingopink}
-1  & Sulmona - L'Aquila - Rieti & $15$        & $130,14$                    \\ \hline \rowcolor{flamingopink}
-2  & Sulmona - L'Aquila - Rieti & $14$        & $107,79$                    \\ \hline \rowcolor{flamingopink}
-3  & Sulmona - L'Aquila - Rieti & $17$        & $103,77$                    \\ \hline \rowcolor{flamingopink}
-4  & Sulmona - L'Aquila - Rieti & $16$        & $93,95$                     \\ \hline \rowcolor{flamingopink}
-5  & Sulmona - Carpinone        & $57$        & $82,19$                     \\ \hline \rowcolor{flamingopink}
-6  & Pescara - Roma             & $47$        & $76,54$                     \\ \hline \rowcolor{flamingopink}
-7  & Pescara - Roma             & $46$        & $74,56$                     \\ \hline \rowcolor{flamingopink}
-8  & Sulmona - L'Aquila - Rieti & $13$        & $71,89$                     \\ \hline \rowcolor{flamingopink}
-9  & Sulmona - Carpinone        & $10$        & $64,49$                     \\ \hline \rowcolor{flamingopink}
-10 & Pescara - Roma             & $158$       & $62,02$                     \\ \hline \rowcolor{flamingopink}
-11 & Sulmona - Carpinone        & $58$        & $61,57$                     \\ \hline \rowcolor{flamingopink}
-12 & Pescara - Roma             & $78$        & $59,00$                     \\ \hline \rowcolor{flamingopink}
-13 & Sulmona - Carpinone        & $56$        & $55,16$                     \\ \hline \rowcolor{flamingopink}
-14 & Sulmona - L'Aquila - Rieti & $37$        & $53,91$                     \\ \hline \rowcolor{flamingopink}
-15 & Pescara - Roma             & $50$        & $51,42$                     \\ \hline \rowcolor{flamingopink}
-16 & Roccasecca - Avezzano      & $35$        & $50,76$                     \\ \hline \rowcolor{flamingopink}
-17 & Sulmona - L'Aquila - Rieti & $23$        & $49,65$                     \\ \hline \rowcolor{flamingopink}
-18 & Sulmona - Carpinone        & $62$        & $48,71$                     \\ \hline \rowcolor{flamingopink}
-19 & Sulmona - Carpinone        & $36$        & $48,04$                     \\ \hline \rowcolor{flamingopink}
-20 & Sulmona - Carpinone        & $41$        & $47,93$                     \\ \hline 
+$1$  & Sulmona - L'Aquila - Rieti & $15$        & $130,14$                    \\ \hline \rowcolor{flamingopink}
+$2$  & Sulmona - L'Aquila - Rieti & $14$        & $107,79$                    \\ \hline \rowcolor{flamingopink}
+$3$  & Sulmona - L'Aquila - Rieti & $17$        & $103,77$                    \\ \hline \rowcolor{flamingopink}
+$4$  & Sulmona - L'Aquila - Rieti & $16$        & $93,95$                     \\ \hline \rowcolor{flamingopink}
+$5$  & Sulmona - Carpinone        & $57$        & $82,19$                     \\ \hline \rowcolor{flamingopink}
+$6$  & Pescara - Roma             & $47$        & $76,54$                     \\ \hline \rowcolor{flamingopink}
+$7$  & Pescara - Roma             & $46$        & $74,56$                     \\ \hline \rowcolor{flamingopink}
+$8$  & Sulmona - L'Aquila - Rieti & $13$        & $71,89$                     \\ \hline \rowcolor{flamingopink}
+$9$  & Sulmona - Carpinone        & $10$        & $64,49$                     \\ \hline \rowcolor{flamingopink}
+$10$ & Pescara - Roma             & $158$       & $62,02$                     \\ \hline \rowcolor{flamingopink}
+$11$ & Sulmona - Carpinone        & $58$        & $61,57$                     \\ \hline \rowcolor{flamingopink}
+$12$ & Pescara - Roma             & $78$        & $59,00$                     \\ \hline \rowcolor{flamingopink}
+$13$ & Sulmona - Carpinone        & $56$        & $55,16$                     \\ \hline \rowcolor{flamingopink}
+$14$ & Sulmona - L'Aquila - Rieti & $37$        & $53,91$                     \\ \hline \rowcolor{flamingopink}
+$15$ & Pescara - Roma             & $50$        & $51,42$                     \\ \hline \rowcolor{flamingopink}
+$16$ & Roccasecca - Avezzano      & $35$        & $50,76$                     \\ \hline \rowcolor{flamingopink}
+$17$ & Sulmona - L'Aquila - Rieti & $23$        & $49,65$                     \\ \hline \rowcolor{flamingopink}
+$18$ & Sulmona - Carpinone        & $62$        & $48,71$                     \\ \hline \rowcolor{flamingopink}
+$19$ & Sulmona - Carpinone        & $36$        & $48,04$                     \\ \hline \rowcolor{flamingopink}
+$20$ & Sulmona - Carpinone        & $41$        & $47,93$                     \\ \hline 
 \end{tabular}
 \caption{Classifica generale dei primi venti (di $690$) segmenti con relativo valore di \textit{exposure} e linea di appartenenza}
 \label{top20segmenti}
@@ -476,7 +473,7 @@ n. & Linea Ferroviaria          & \# Segmento & Valore di Exp. del Segmento \\ \
 Si espone qui di seguito un'analisi puntuale dei risultati per ogni linea ferroviaria.
 
 \subsection{Linea Bologna - Bari}
-Si riportano in Tabella \ref{classificabolognabari} i primi dieci (di 125) segmenti di tale tratta ferroviaria ordinati in maniera decrescente rispetto il valore di \textit{exposure}.
+Si riportano in Tabella \ref{classificabolognabari} i primi dieci (di $125$) segmenti di tale tratta ferroviaria ordinati in maniera decrescente rispetto il valore di \textit{exposure}.
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|c|c|}
@@ -494,7 +491,7 @@ n. & \# Segmento & Valore di Exp. del Segmento \\ \hline \rowcolor{icterine}
 9  & $85$        & $4,57$                      \\ \hline \rowcolor{icterine}
 10 & $86$        & $4,27$                      \\ \hline
 \end{tabular}
-\caption{Classifica dei primi dieci (di 125) segmenti appartenenti alla linea Bologna - Bari}
+\caption{Classifica dei primi dieci (di $125$) segmenti appartenenti alla linea Bologna - Bari}
 \label{classificabolognabari}
 \end{table}
 \newline
@@ -592,7 +589,7 @@ n. & \# Segmento & Valore di Exp. del Segmento \\ \hline \rowcolor{flamingopink}
 \end{table}
 \newline
 La Figura \ref{sanvitocasteldisangro} mostra invece una visione d'insieme della classificazione in fasce di rischio dei segmenti che compongono la linea.
-\begin{figure}[h]
+\begin{figure}[hpt]
 \centering
 \includegraphics[width=0.4\linewidth]{img/sanvitocasteldisangro.jpeg}
 \caption{Visione d'insieme della classificazione in fasce di rischio dei segmenti della linea Marina di San Vito - Castel di Sangro}
@@ -601,7 +598,7 @@ La Figura \ref{sanvitocasteldisangro} mostra invece una visione d'insieme della 
 \newline
 Analizzando i risultati esposti in Tabella \ref{percentualesanvitocasteldisangro} si evince che in questa linea solo il $0,95\%$ dei segmenti si trova in fascia \textit{High} e quindi deve essere sottoposto a controlli più frequenti vista la sua esposizione al rischio idrogeologico. 
 Per una visione completa della classificazione dei segmenti della linea Marina di San Vito - Castel di Sangro si rimanda alla lettura dell'appendice \ref{app:sanvitocasteldisangro}.
-\begin{table}[h]
+\begin{table}[hpt]
 \centering
 \begin{tabular}{|c|c|c|}
 \hline \rowcolor{lightgray}
@@ -615,8 +612,8 @@ Low      & $17$          & $16,19$ \\ \hline
 \end{table}
 \newpage
 \subsection{Linea Pescara - Roma}
-Si riportano in Tabella \ref{classificapescararoma} i primi dieci (di 170) segmenti di tale tratta ferroviaria ordinati in maniera decrescente rispetto il valore di \textit{exposure}.
-\begin{table}[h]
+Si riportano in Tabella \ref{classificapescararoma} i primi dieci (di $170$) segmenti di tale tratta ferroviaria ordinati in maniera decrescente rispetto il valore di \textit{exposure}.
+\begin{table}[hpt]
 \centering
 \begin{tabular}{|c|c|c|}
 \hline
@@ -633,12 +630,12 @@ n. & \# Segmento & Valore di Exp. del Segmento \\ \hline \rowcolor{flamingopink}
 9  & $98$        & $38,57$                      \\ \hline \rowcolor{flamingopink}
 10 & $89$        & $36,85$                      \\ \hline
 \end{tabular}
-\caption{Classifica dei primi dieci (di 170) segmenti appartenenti alla linea Pescara - Roma}
+\caption{Classifica dei primi dieci (di $170$) segmenti appartenenti alla linea Pescara - Roma}
 \label{classificapescararoma}
 \end{table}
 \newline
 La Figura \ref{pescararoma} mostra invece una visione d'insieme della classificazione in fasce di rischio dei segmenti che compongono la linea.
-\begin{figure}[h]
+\begin{figure}[hpt]
 \centering
 \includegraphics[width=0.4\linewidth]{img/romapescara.jpeg}
 \caption{Visione d'insieme della classificazione in fasce di rischio dei segmenti della linea Pescara - Roma}
@@ -647,7 +644,7 @@ La Figura \ref{pescararoma} mostra invece una visione d'insieme della classifica
 \newline
 Analizzando i risultati esposti in Tabella \ref{percentualepescararoma} si evince che in questa linea solo il $12,94\%$ dei segmenti si trova in fascia \textit{High} e quindi deve essere sottoposto a controlli più frequenti vista la sua esposizione al rischio idrogeologico. 
 Per una visione completa della classificazione dei segmenti della linea Pescara - Roma si rimanda alla lettura dell'appendice \ref{app:pescararoma}.
-\begin{table}[h]
+\begin{table}[hpt]
 \centering
 \begin{tabular}{|c|c|c|}
 \hline \rowcolor{lightgray}
@@ -662,7 +659,7 @@ Low      & $61$          & $35,88$ \\ \hline
 \newpage
 \subsection{Linea Roccasecca - Avezzano}
 Si riportano in Tabella \ref{classificaroccaseccaavezzano} i primi dieci (di 46) segmenti di tale tratta ferroviaria ordinati in maniera decrescente rispetto il valore di \textit{exposure}.
-\begin{table}[h]
+\begin{table}[hpt]
 \centering
 \begin{tabular}{|c|c|c|}
 \hline
@@ -693,7 +690,7 @@ La Figura \ref{avezzanoroccasecca} mostra invece una visione d'insieme della cla
 \newline
 Analizzando i risultati esposti in Tabella \ref{percentualeavezzanoroccasecca} si evince che in questa linea solo il $17,39\%$ dei segmenti si trova in fascia \textit{High} e quindi deve essere sottoposto a controlli più frequenti vista la sua esposizione al rischio idrogeologico. 
 Per una visione completa della classificazione dei segmenti della linea Roccasecca - Avezzano si rimanda alla lettura dell'appendice \ref{app:avezzanoroccasecca}.
-\begin{table}[h]
+\begin{table}[hpt]
 \centering
 \begin{tabular}{|c|c|c|}
 \hline \rowcolor{lightgray}
@@ -708,7 +705,7 @@ Low      & $3$          & $6,52$ \\ \hline
 \newpage
 \subsection{Linea Archi Stazione - Atessa}
 Si riportano in Tabella \ref{classificaarchiatessa} i primi dieci (di 15) segmenti di tale tratta ferroviaria ordinati in maniera decrescente rispetto il valore di \textit{exposure}.
-\begin{table}[h]
+\begin{table}[hpt]
 \centering
 \begin{tabular}{|c|c|c|}
 \hline
@@ -730,7 +727,7 @@ n. & \# Segmento & Valore di Exp. del Segmento \\ \hline \rowcolor{icterine}
 \end{table}
 \newline
 La Figura \ref{archiatessa} mostra invece una visione d'insieme della classificazione in fasce di rischio dei segmenti che compongono la linea.
-\begin{figure}[h]
+\begin{figure}[hpt]
 \centering
 \includegraphics[width=0.4\linewidth]{img/archiatessa.jpeg}
 \caption{Visione d'insieme della classificazione in fasce di rischio dei segmenti della linea Archi Stazione - Atessa}
@@ -754,7 +751,7 @@ Low      & $0$          & $0$ \\ \hline
 \newpage
 \subsection{Linea Sulmona - Carpinone}
 Si riportano in Tabella \ref{classificasulmonacarpinone} i primi dieci (di 86) segmenti di tale tratta ferroviaria ordinati in maniera decrescente rispetto il valore di \textit{exposure}.
-\begin{table}[h]
+\begin{table}[hpt]
 \centering
 \begin{tabular}{|c|c|c|}
 \hline
@@ -771,12 +768,12 @@ n. & \# Segmento & Valore di Exp. del Segmento \\ \hline \rowcolor{flamingopink}
 9  & $12$        & $41,53$                      \\ \hline \rowcolor{flamingopink}
 10 & $19$        & $39,95$                      \\ \hline
 \end{tabular}
-\caption{Classifica dei primi dieci (di 86) segmenti appartenenti alla linea Sulmona - Carpinone}
+\caption{Classifica dei primi dieci (di $86$) segmenti appartenenti alla linea Sulmona - Carpinone}
 \label{classificasulmonacarpinone}
 \end{table}
 \newline
 La Figura \ref{sulmonacarpinone} mostra invece una visione d'insieme della classificazione in fasce di rischio dei segmenti che compongono la linea.
-\begin{figure}[h]
+\begin{figure}[hpt]
 \centering
 \includegraphics[width=0.4\linewidth]{img/sulmonacarpinone.jpeg}
 \caption{Visione d'insieme della classificazione in fasce di rischio dei segmenti della linea Sulmona - Carpinone}
@@ -785,7 +782,7 @@ La Figura \ref{sulmonacarpinone} mostra invece una visione d'insieme della class
 \newline
 Analizzando i risultati esposti in Tabella \ref{percentualesulmonacarpinone} si evince che in questa linea solo il $32,56\%$ dei segmenti si trova in fascia \textit{High} e quindi deve essere sottoposto a controlli più frequenti vista la sua esposizione al rischio idrogeologico. 
 Per una visione completa della classificazione dei segmenti della linea Sulmona - Carpinone si rimanda alla lettura dell'appendice \ref{app:sulmonacarpinone}.
-\begin{table}[h]
+\begin{table}[hpt]
 \centering
 \begin{tabular}{|c|c|c|}
 \hline \rowcolor{lightgray}
@@ -800,7 +797,7 @@ Low      & $14$          & $16,28$ \\ \hline
 \newpage
 \subsection{Linea Sulmona - L'Aquila - Rieti}
 Si riportano in Tabella \ref{classificasulmonarieti} i primi dieci (di 81) segmenti di tale tratta ferroviaria ordinati in maniera decrescente rispetto il valore di \textit{exposure}.
-\begin{table}[h]
+\begin{table}[hpt]
 \centering
 \begin{tabular}{|c|c|c|}
 \hline
@@ -822,7 +819,7 @@ n. & \# Segmento & Valore di Exp. del Segmento \\ \hline \rowcolor{flamingopink}
 \end{table}
 \newline
 La Figura \ref{sulmonarieti} mostra invece una visione d'insieme della classificazione in fasce di rischio dei segmenti che compongono la linea. Questa è la tratta che tra tutte presenta i valori di \textit{exposure} dei segmenti più alti. 
-\begin{figure}[h]
+\begin{figure}[hpt]
 \centering
 \includegraphics[width=0.4\linewidth]{img/rietisulmona.jpeg}
 \caption{Visione d'insieme della classificazione in fasce di rischio dei segmenti della linea Sulmona - L'Aquila - Rieti}
@@ -830,7 +827,7 @@ La Figura \ref{sulmonarieti} mostra invece una visione d'insieme della classific
 \end{figure}
 \newline
 Analizzando i risultati esposti in Tabella \ref{percentualesulmonarieti} si evince che in questa linea solo il $23,46\%$ dei segmenti si trova in fascia \textit{High} e quindi deve essere sottoposto a controlli più frequenti vista la sua esposizione al rischio idrogeologico. Per una visione completa della classificazione dei segmenti della linea Sulmona - L'Aquila - Rieti si rimanda alla lettura dell'appendice \ref{app:sulmonarieti}.
-\begin{table}[h]
+\begin{table}[hpt]
 \centering
 \begin{tabular}{|c|c|c|}
 \hline \rowcolor{lightgray}
@@ -844,8 +841,8 @@ Low      & $29$          & $35,80$ \\ \hline
 \end{table}
 \newpage
 \subsection{Linea Giulianova - Teramo}
-Si riportano in Tabella \ref{classificagiulianovateramo} i primi dieci (di 26) segmenti di tale tratta ferroviaria ordinati in maniera decrescente rispetto il valore di \textit{exposure}.
-\begin{table}[h]
+Si riportano in Tabella \ref{classificagiulianovateramo} i primi dieci (di $26$) segmenti di tale tratta ferroviaria ordinati in maniera decrescente rispetto il valore di \textit{exposure}.
+\begin{table}[hpt]
 \centering
 \begin{tabular}{|c|c|c|}
 \hline
@@ -862,7 +859,7 @@ n. & \# Segmento & Valore di Exp. del Segmento \\ \hline \rowcolor{icterine}
 9  & $25$        & $0,80$                      \\ \hline \rowcolor{inchworm}
 10 & $12$        & $0,72$                      \\ \hline
 \end{tabular}
-\caption{Classifica dei primi dieci (di 26) segmenti appartenenti alla linea Giulianova - Teramo}
+\caption{Classifica dei primi dieci (di $26$) segmenti appartenenti alla linea Giulianova - Teramo}
 \label{classificagiulianovateramo}
 \end{table}
 \newline
@@ -902,7 +899,7 @@ Per la validazione dei risultati ottenuti dall'applicazione del metodo NMCE, dis
 \end{figure}
 \newline
 Il metodo NMCE presenta inoltre una criticità che determina in alcuni casi la presenza di \textit{falsi positivi}: L'assenza di un dataset che informi circa la presenza di gallerie ferroviarie: Il metodo, non avendo conoscenza della loro presenza o meno, non riesce ad individuare le situazioni in cui i binari della linea ferroviaria proseguono all'interno di una galleria e crede che la tratta prosegui arrampicandosi sul il pendio, generando così valori di \textit{exposure} errati.
-In Figura \ref{} è possibile osservare una di queste situazioni critiche, corrispondenti alla tratta ferroviaria Pescara - Roma, dal km $154$ al km $157$, mentre in Figura \ref{esempiogalleria} è possibile osservare la stessa tratta fotografata tramite GoogleMaps.
+In Figura \ref{esempiogalleria} è possibile osservare una di queste situazioni critiche, corrispondenti alla tratta ferroviaria Pescara - Roma, dal km $154$ al km $157$ ovvero la galleria \textit{Colli di Monte Bove} nei pressi dell'omonima stazione ferroviaria, mentre in Figura \ref{maps} è possibile osservare la stessa tratta fotografata tramite GoogleMaps.
 \begin{figure}[bth]
 \myfloatalign
 \subfloat[]
@@ -912,5 +909,9 @@ In Figura \ref{} è possibile osservare una di queste situazioni critiche, corri
 \caption{ Vista $2$D (a) e $3$D (b) della tratta Pescara - Roma dal km $154$ al $157$}
 \label{esempiogalleria}
 \end{figure}
-
-%inserire immagine googlemaps e revisionare paginazione
+\begin{figure}[tbh]
+	\centering
+	\includegraphics[width=1\linewidth]{img/maps}
+	\caption{Istantanea di GoogleMaps della galleria \textit{Colli di Monte Bove}}
+	\label{maps}
+\end{figure}
