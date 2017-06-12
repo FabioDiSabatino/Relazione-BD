@@ -1,10 +1,10 @@
+\justify
 \chapter{UDF}
 \label{udf}
 \section{UDF del NMC}
 \label{udfnmc}
-\justify
 In questa sezione verranno mostrate tutte le User Defined Function (da qui in avanti indicate con l'acronimo UDF) che implementano NMC e che quindi calcolano del valore di exposure delle stazione ferroviarie.\\ Il linguaggio utilizzato nelle UDF è PL/pgSQL offerto da PostgreSQL, in particolare sono state fruttatele una serie di funzioni fornite dall’estensione spaziale PostGIS.\\
-La struttura utilizzata per l'utilizzo delle UDF consiste in nell'esecuzione di una funzione principale denominata \textit{esposizione} che richiama 3 UDF. Queste vengono eseguite consecutivamente in quanto l'elaborazione dell'una prevede l'utilizzo dei risultati dell'elaborazione della precedente. \\
+La struttura utilizzata per l'esecuzione delle UDF consiste in una funzione principale denominata \textit{esposizione} che richiama le altre UDF. Queste vengono eseguite consecutivamente in quanto l'elaborazione dell'una prevede l'utilizzo dei risultati dell'elaborazione della precedente. \\
 All'interno dell'UDF \textit{esposizione} per ogni stazione analizzata vengono richiamate nell'ordine le UDF \textit{quotaMediaZoneVicine}, \textit{stimaQuotaStazione} e \textit{dislivelloPiuVicino}. Le 4 UDF citate vanno a implementare i 4 algoritmi descritti nella sezione \ref{algoritmonmc}. In Particolare \textit{quotaMediaZoneVicine} implementa \textit{averageElevationNearZones} , \textit{stimaQuotaStazione} implementa \textit{elevationBuild}, \textit{dislivelloPiuVicino} implementa \textit{slopeFactor} ed infine \textit{esposizione} implementa \textit{computeExposure}.\\
 Poiché lo scopo di questa sezione è mostrare come sono state implementate le cose e non quello di spiegarne la logica di funzionamento, all'interno delle UDF per semplicità realizzativa è stato utilizzato un naming diverso rispetto a quello utilizzato precedentemente. Per questo motivo prima di ogni UDF verrà mostrata una tabella riassuntiva che mostra come questi nomi sono stati mappati.   
 
@@ -272,6 +272,7 @@ Rappresenta la main function che richiama le altre UDF. Salva il risultato dei c
 \textbf{Input:}
 \begin{itemize}
 \item \textit{tabInput text} corrisponde al nome della tabella contenente i punti sul quale si vuole calcolare l'exposure. 
+\item \textit{stessaTab BOOL} corrisponde a un booleano che se posto a \textit{TRUE} permette di salvare i risultati nella stessa tabella di input.
 \item \textit{raggioBuffer FLOAT} rappresenta il raggio del buffer circolare espresso in \textit{m}.
 \item \textit{alphaSlope FLOAT} rappresenta il parametro che da un peso al fattore pendenza.
 \item \textit{raggioBuffer FLOAT } rappresenta il raggio del buffer circolare centrato sulla stazione espresso in \textit{m}.
@@ -293,7 +294,7 @@ experiment\_station & tabella\_risultati \\ \hline
 
 \newpage
 \begin{lstlisting}[style=mySQL]
-CREATE or REPLACE FUNCTION esposizione(tabInput text, alphaSlope FLOAT, raggioBuffer FLOAT) RETURNS VOID
+CREATE or REPLACE FUNCTION esposizione(tabInput text, stessaTab BOOL, alphaSlope FLOAT, raggioBuffer FLOAT) RETURNS VOID
 	LANGUAGE plpgsql
 	as $$
 	DECLARE
@@ -344,12 +345,61 @@ CREATE or REPLACE FUNCTION esposizione(tabInput text, alphaSlope FLOAT, raggioBu
 			END LOOP;
 			exp:=exp+(fattorePendenzaPiuVicina*pesoPendenza);
 			INSERT INTO tabella_risultati(id, quota, pendenza, exposure) VALUES (stazione.gid, quotaStimataStazione, (fattorePendenzaPiuVicina*pesoPendenza), exp);
+			IF stessaTab THEN
+				EXECUTE ( 'UPDATE '|| tabInput ||' SET exposure='|| exp ||' WHERE '|| tabInput ||'.id='|| stazione.gid ||'');
+			END IF;
 		END LOOP;
 
 		-- cancellazione tabelle di appoggio --
 		DROP TABLE zoneVicine;
 		DROP TABLE tempo;
 		DROP TABLE tempo1;
+	END;
+$$;
+\end{lstlisting}
+
+\section{UDF del NMCE}
+\label{udfnmce}
+In questa sezione verranno mostrate tutte le UDF che implementano NMCE e che contribuiscono al calcolano valore di exposure delle linee ferroviarie.\\ 
+Così come per le stazioni ferroviarie la struttura utilizzata per l'esecuzione delle UDF relative alle linee ferroviarie consiste in una funzione principale denominata \textit{esposizione\_linee} che richiama le altre UDF.
+Queste vengono eseguite consecutivamente in quanto l'elaborazione dell'una prevede l'utilizzo dei risultati dell'elaborazione della precedente. \\
+All'interno dell'UDF \textit{esposizione\_linee} vengono richiamate nell'ordine le UDF \textit{semplificaLinee}, \textit{campiona}, \textit{dividiInSegmenti}, \textit{esposizione} e \textit{expSegmenti}.
+Poiché lo scopo di questa sezione è mostrare come sono state implementate le cose e non quello di spiegarne la logica di funzionamento, all'interno delle UDF per semplicità realizzativa è stato utilizzato un naming diverso rispetto a quello utilizzato precedentemente. Per questo motivo prima di ogni UDF verrà mostrata una tabella riassuntiva che mostra come questi nomi sono stati mappati.   
+
+\subsection{semplificaLinee}
+La funzione a partire dalle \textit{MultiLineString} che rappresentano le linee ferroviarie ricava delle geometrie più semplici ossia \textit{Linestring}.\\
+
+\begin{table}[h]
+\centering
+\caption{Tabella di corrispondenza dei nomi}
+\label{mapTb3}
+\begin{tabular}{|l|l|}
+\hline
+Schema logico       & UDF                \\ \hline
+Raylway          & linee              \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{lstlisting}[style=mySQL]
+CREATE or REPLACE FUNCTION semplificaLinee() RETURNS VOID
+	LANGUAGE plpgsql
+	as $$
+	DECLARE
+		-- variabili di ausilio --
+		linea RECORD;
+		lineaSemplice GEOMETRY;
+	BEGIN
+		ALTER SEQUENCE only_line_id_seq RESTART WITH 1;
+		-- ciclo sulle linee ferroviarie --
+		FOR linea in (SELECT * FROM linee) LOOP
+			lineaSemplice:=(SELECT st_linemerge(linea.geom));
+			-- si tenta di riunire multilinestring in linestring, se non è possibile si spezza la multilinestring in più linestring --
+			IF st_geometrytype(lineaSemplice)='ST_MultiLineString' THEN
+				INSERT INTO only_line(geom, old_id, p) VALUES ((st_dump(st_linemerge(linea.geom))).geom, linea.gid, (st_dump(st_linemerge(linea.geom))).path) ;
+			ELSE
+				INSERT INTO only_line(geom, old_id) VALUES (lineaSemplice, linea.gid);
+			END IF;
+		END LOOP;
 	END;
 $$;
 \end{lstlisting}
