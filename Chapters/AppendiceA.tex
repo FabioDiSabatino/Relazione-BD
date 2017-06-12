@@ -96,15 +96,41 @@ Come si può vedere chiaramente i valori del perimetro e dell'area delle varie z
 \subsection{Processamento dei poligoni interni}
 Al fine di realizzare un algoritmo in grado di realizzare dei frazionamenti successivi dei poligoni interni "enormi" presenti nel dataset delle zone che abbiamo preso come punto di partenza abbiamo realizzato uno studio della funzione \textbf{ST\_Subdivide()}, con lo scopo di comprendere quali sono i suoi limiti applicativi. Da questo studio è emerso che tale funzione risulta essere inapplicabile per $1257$ delle $24142$ zone in cui abbiamo diviso il territorio. Questi $1257$ elementi presentano un'area maggiore di $0,1$ kmq e hanno numero di vertici inferiore ad $8$, motivo per cui non sono processabili ulteriormente tramite la funzione ST\_Subdivide().\newline
 Abbiamo ricercato dunque un'altra funzione che potesse venirci in aiuto per raggiungere il nostro obiettivo e consultando il manuale PostGIS 2.3.2dev abbiamo ritenuto opportuno utilizzare la funzione \textbf{ST\_Segmentize} per processare queste $1257$ zone "\textit{problematiche}". Applicando tale funzione abbiamo ottenuto $37875$ zone geometricamente omogenee la cui area massima è pari a $0,5$ kmq. E' stato necessario, di conseguenza, implementare un meccanismo di aggregazione di tali zone con lo scopo di ottenere zone geometricamente eterogenee. Il metodo di aggregazione che abbiamo proposto e implementato sfrutta approccio \textit{random}: \newline
-Per 1/3 delle zone, scelte in maniera random tra tutte le zone "problematiche", abbiamo utilizzato la funzione \textbf{ST\_buffer()}, con centro situato nel centroide della zona e raggio pari a $400$ m, per individuare le zone confinanti con essa, candidate ad essere aggregate; Tra tutte le zone candidate ad essere aggregate, individuo in maniera random una di queste e tramite la funzione \textit{ST\_Relate} determino se esse sono effettivamente confinanti. Nel caso in cui la loro intersezione è una linea/geometria di dimensione 1, avviene effettivamente l'aggregazione. Questa operazione di aggregazione avviene un massimo di tre volte.
+Per 1/3 delle zone, scelte in maniera random tra tutte le zone "problematiche", abbiamo utilizzato la funzione \textbf{ST\_buffer()}, con centro situato nel centroide della zona e raggio pari a $400$ m, per individuare le zone confinanti con essa, candidate ad essere aggregate; Tra tutte le zone candidate ad essere aggregate, individuo in maniera random una di queste e tramite la funzione \textit{ST\_Relate} determino se esse sono effettivamente confinanti. Nel caso in cui la loro intersezione è una linea/geometria di dimensione 1, avviene effettivamente l'aggregazione. Questa operazione di aggregazione avviene un massimo di tre volte e porta da una situazione come quella rappresentata in Fig \ref{fig:zoneAggregate}a a una situazione come quella visibile in Fig \ref{fig:zoneAggregate}b.
+
+\begin{figure}[bth]
+\myfloatalign
+\subfloat[]
+{\includegraphics[width=0.38\linewidth]{img/prima.png}} \quad
+\subfloat[]
+{\label{fig:dopo}
+\includegraphics[width=0.38\linewidth]{img/dopo.png}} 
+\caption[]{Zone prima dell'aggregazione (a) e zone dopo l'aggregazione (b)}\label{fig:zoneAggregate}
+\end{figure}
+
+
+
 \subsection{Processamento dei poligoni lungo il bordo}
 Come abbiamo già discusso nella Sez. \ref{nostraProposta} le zone presenti sul bordo hanno un'area distante molti ordini di grandezza rispetto l'obiettivo che ci siamo prefissati. Di conseguenza è stato necessario implementare un meccanismo di aggregazione di tali zone con lo scopo di ottenere delle aree con estensione più accettabile e vicina al valore medio che ci siamo posti come obiettivo: \newline
 \begin{itemize}
 \item Per ogni zona problematica del bordo, che andremo a chiamare $z_{bordo}$, andiamo a realizzare un buffer con un certo raggio (che a livello implementativo abbiamo fissato a $150$m) con lo scopo di costruire un cerchio.
 \item Tale cerchio verrà intersecato, tramite la funzione \textbf{ST\_Intersect()}, con tutte le zone problematiche del bordo al fine di individuare quali sono le zone che intersecano la sua geometria, che andremo a chiamare $z_{cerchio}$.
 \item Per ogni $z_{cerchio}$, sfruttando la funzione \textbf{ST\_Relate} e la definizione di \textit{DE-9IM matrix pattern}, riusciamo a stabilire se risulta essere adiacente con la zona $z_{bordo}$ (la funzione \textbf{ST\_Relate} restituirà \textit{true} o \textit{false} se l'intersezione tra le due zone, rappresentate come poligoni, è una linea/geometria di dimensione 1).
-\item Una volta individuate tutte le zone adiacenti alla zona presa in esame, che indicheremo con $z_{adiacente}$, opero un'operazione di aggregazione ovvero unisco la $z_{bordo}$ con la $z_{adiacente}$ più piccola. Se dall'unione risulta che l'area è ancora troppo piccola ripeto l'operazione di aggregazione.
+\item Una volta individuate tutte le zone adiacenti alla zona presa in esame, che indicheremo con $z_{adiacente}$, realizzo un'operazione di aggregazione ovvero unisco la $z_{bordo}$ con la $z_{adiacente}$ più piccola. Se dall'unione risulta che l'area è ancora troppo piccola ripeto l'operazione di aggregazione.
 \end{itemize}
+Dopo il processamento i poligoni lungo il bordo vengono quindi aggregati passando da una situazione come quella mostrata in Fig \ref{fig:zoneAggregateBordo}a a una situazione come quella visibile in Fig \ref{fig:zoneAggregateBordo}b.
+
+\begin{figure}[bth]
+\myfloatalign
+\subfloat[]
+{\includegraphics[width=0.38\linewidth]{img/primaBordo.png}} \quad
+\subfloat[]
+{\label{fig:dopoBordo}
+\includegraphics[width=0.38\linewidth]{img/dopoBordo.png}} 
+\caption[]{Zone prima dell'aggregazione (a) e zone dopo l'aggregazione (b)}\label{fig:zoneAggregateBordo}
+\end{figure}
+
+\newpage
 \subsection{Conclusioni}
 Le operazioni realizzate per realizzare il dataset così come le abbiamo pensate, risultano essere molto pesanti e i tempi di esecuzione sono molto lunghi, ragion per cui non sono state mai eseguite per intero ma per alcune aree. 
 \section{QuantumGIS}
