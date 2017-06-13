@@ -62,7 +62,7 @@ CREATE or REPLACE FUNCTION esposizione(tabInput text, stessaTab BOOL, alphaSlope
 		raggio:=raggioBuffer; -- parametro che indica il raggio del buffer circolare centrato sulla stazione --
 		-- creazione della tabella dei risultati --
 		IF NOT(stessaTab) THEN
-			CREATE TABLE IF NOT EXISTS tabella_risultati(id INT PRIMARY KEY REFERENCES stazioni(gid), quota INT, pendenza FLOAT, exposure FLOAT) ;
+			CREATE TABLE IF NOT EXISTS tabella_risultati(id SERIAL PRIMARY KEY, gidStazione INT REFERENCES stazioni(gid), quota INT, pendenza FLOAT, exposure FLOAT) ;
 		END IF;
 		-- pulizia della tabella per evitare risultati doppi --
 		DELETE FROM tabella_risultati;
@@ -72,7 +72,7 @@ CREATE or REPLACE FUNCTION esposizione(tabInput text, stessaTab BOOL, alphaSlope
 		CREATE TABLE tempo1(id INT PRIMARY KEY, geom geometry(MULTILINESTRING),elevation INT, distanza FLOAT);
 
 		-- ciclo su tutte le stazioni --
-		FOR stazione IN  EXECUTE 'SELECT * FROM '|| tabInput ||' WHERE gid=3'  LOOP
+		FOR stazione IN  EXECUTE 'SELECT * FROM '|| tabInput ||''  LOOP
 			exp:=0;
 			buffer:=st_buffer(stazione.geom, raggio);
 
@@ -98,7 +98,7 @@ CREATE or REPLACE FUNCTION esposizione(tabInput text, stessaTab BOOL, alphaSlope
 			IF stessaTab THEN
 				EXECUTE ( 'UPDATE '|| tabInput ||' SET exposure='|| exp ||' WHERE '|| tabInput ||'.gid='|| stazione.gid ||'');
 			ELSE
-				INSERT INTO tabella_risultati(id, quota, pendenza, exposure) VALUES (stazione.gid, quotaStimataStazione, (fattorePendenzaPiuVicina*pesoPendenza), exp);
+				INSERT INTO tabella_risultati(gidStazione, quota, pendenza, exposure) VALUES (stazione.gid, quotaStimataStazione, (fattorePendenzaPiuVicina*pesoPendenza), exp);
 			END IF;
 		END LOOP;
 
@@ -399,6 +399,14 @@ CREATE or REPLACE FUNCTION esposizione_linee(passoCampionamento INT, lunghezzaSe
 	BEGIN
 		-- creazione tabella di appoggio --
 		CREATE TABLE only_line(id SERIAL PRIMARY KEY, old_id INT, geom geometry(LINESTRING), p INTEGER[]);
+		-- creazione tabelle dei risultati --
+		CREATE TABLE IF NOT EXISTS punti_linea(gid SERIAL PRIMARY KEY, old_id INT REFERENCES linee(gid), exposure FLOAT, geom geometry(POINT));
+		CREATE TABLE IF NOT EXISTS segmenti( id SERIAL PRIMARY KEY, numero SERIAL, old_id INT REFERENCES linee(gid), geom geometry(LINESTRING), exp_segmento FLOAT);
+		-- pulizia delle tabelle --
+		DELETE FROM punti_linea;
+		DELETE FROM segmenti;
+		DELETE FROM only_line;
+		
 		PERFORM semplificaLinee();
 		PERFORM campiona(passoCampionamento);
 		PERFORM dividiInSegmenti(lunghezzaSegmento);
