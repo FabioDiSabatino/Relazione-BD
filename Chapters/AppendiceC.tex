@@ -60,6 +60,10 @@ CREATE or REPLACE FUNCTION esposizione(tabInput text, stessaTab BOOL, alphaSlope
 	BEGIN
 		pesoPendenza:=alphaSlope; -- pesopendenza rappresenta alphaSlope
 		raggio:=raggioBuffer; -- parametro che indica il raggio del buffer circolare centrato sulla stazione --
+		-- creazione della tabella dei risultati --
+		IF NOT(stessaTab) THEN
+			CREATE TABLE IF NOT EXISTS tabella_risultati(id INT PRIMARY KEY REFERENCES stazioni(gid), quota INT, pendenza FLOAT, exposure FLOAT) ;
+		END IF;
 		-- pulizia della tabella per evitare risultati doppi --
 		DELETE FROM tabella_risultati;
 		-- creazione delle tabelle di appoggio tempo, tempo1 e zoneVicine --
@@ -91,9 +95,10 @@ CREATE or REPLACE FUNCTION esposizione(tabInput text, stessaTab BOOL, alphaSlope
 				END IF;
 			END LOOP;
 			exp:=exp+(fattorePendenzaPiuVicina*pesoPendenza);
-			INSERT INTO tabella_risultati(id, quota, pendenza, exposure) VALUES (stazione.gid, quotaStimataStazione, (fattorePendenzaPiuVicina*pesoPendenza), exp);
 			IF stessaTab THEN
-				EXECUTE ( 'UPDATE '|| tabInput ||' SET exposure='|| exp ||' WHERE '|| tabInput ||'.id='|| stazione.gid ||'');
+				EXECUTE ( 'UPDATE '|| tabInput ||' SET exposure='|| exp ||' WHERE '|| tabInput ||'.gid='|| stazione.gid ||'');
+			ELSE
+				INSERT INTO tabella_risultati(id, quota, pendenza, exposure) VALUES (stazione.gid, quotaStimataStazione, (fattorePendenzaPiuVicina*pesoPendenza), exp);
 			END IF;
 		END LOOP;
 
