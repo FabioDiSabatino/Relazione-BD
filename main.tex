@@ -14,10 +14,22 @@
 \input{classicthesis-config}
 
 \addbibresource{Bibliography.bib} 
-
+\usepackage{eso-pic}
+\usepackage{tikz}
+\newcommand\BackgroundPic{%
+	\put(0,0){%
+		\parbox[b][\paperheight]{\paperwidth}{%
+			\vfill
+			\centering
+			\includegraphics[width=\paperwidth,height=\paperheight,%
+			keepaspectratio]{img/train.jpg}%
+			\vfill
+}}}
 
 
 \begin{document}
+
+\AddToShipoutPicture*{\BackgroundPic}
 
 \frenchspacing % Reduces space after periods to make text more compact
 
