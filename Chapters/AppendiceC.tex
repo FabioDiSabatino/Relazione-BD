@@ -1,12 +1,12 @@
 \justify
-\chapter{UDF}
+\chapter{User Defined Function}
 \label{udf}
 \section{UDF del NMC}
 \label{udfnmc}
-In questa sezione verranno mostrate tutte le User Defined Function (da qui in avanti indicate con l'acronimo UDF) che implementano NMC e che quindi calcolano del valore di exposure delle stazione ferroviarie.\\ Il linguaggio utilizzato nelle UDF è PL/pgSQL offerto da PostgreSQL, in particolare sono state fruttatele una serie di funzioni fornite dall’estensione spaziale PostGIS.\\
+In questa sezione verranno mostrate tutte le UDF (da qui in avanti indicate con l'acronimo UDF) che implementano NMC e che quindi calcolano del valore di exposure delle stazione ferroviarie.\\ Il linguaggio utilizzato nelle UDF è PL/pgSQL offerto da PostgreSQL, in particolare sono state fruttatele una serie di funzioni fornite dall’estensione spaziale PostGIS.\\
 La struttura utilizzata per l'esecuzione delle UDF consiste in una funzione principale denominata \textit{esposizione} che richiama le altre UDF. Queste vengono eseguite consecutivamente in quanto l'elaborazione dell'una prevede l'utilizzo dei risultati dell'elaborazione della precedente. \\
 All'interno dell'UDF \textit{esposizione} per ogni stazione analizzata vengono richiamate nell'ordine le UDF \textit{quotaMediaZoneVicine}, \textit{stimaQuotaStazione} e \textit{dislivelloPiuVicino}. Le 4 UDF citate vanno a implementare i 4 algoritmi descritti nella sezione \ref{algoritmonmc}. In Particolare \textit{quotaMediaZoneVicine} implementa \textit{averageElevationNearZones} , \textit{stimaQuotaStazione} implementa \textit{elevationBuild}, \textit{dislivelloPiuVicino} implementa \textit{slopeFactor} ed infine \textit{esposizione} implementa \textit{computeExposure}.\\
-Poiché lo scopo di questa sezione è mostrare come sono state implementate le cose e non quello di spiegarne la logica di funzionamento, all'interno delle UDF per semplicità realizzativa è stato utilizzato un naming diverso rispetto a quello utilizzato precedentemente. Per questo motivo prima di ogni UDF verrà mostrata una tabella riassuntiva che mostra come questi nomi sono stati mappati.\\
+Poiché lo scopo di questa sezione è mostrare come sono state implementate le cose e non quello di spiegarne la logica di funzionamento, all'interno delle UDF per semplicità realizzativa è stato utilizzato un naming diverso rispetto a quello utilizzato precedentemente. Per questo motivo prima di ogni UDF verrà mostrata una tabella di corrispondenza dei nomi.\\
 L'invocazione alla main function \textit{esposizione} eseguita durante la sperimentazione è la seguente:
 
 \begin{lstlisting}[style=mySQL]
@@ -15,7 +15,7 @@ SELECT esposizione('stazioni', FALSE, 5, 500);
 
 Dai parametri della funzione si osserva che il fattore \textit{alpha\_slope} è settato a 5, mentre il raggio del buffer è posto pari a 500 m.
 
-\subsection{esposizione}
+\subsection{\textbf{ESPOSIZIONE}}
 Rappresenta la main function che richiama le altre UDF.
 \textbf{Input:}
 \begin{itemize}
@@ -110,7 +110,7 @@ CREATE or REPLACE FUNCTION esposizione(tabInput text, stessaTab BOOL, alphaSlope
 $$;
 \end{lstlisting}
 
-\subsection{quotaMediaZoneVicine}
+\subsection{\textbf{QUOTAMEDIAZONEVICINE}}
 La funzione calcola la quota delle zone che intersecano il buffer attraverso la media delle \textit{elevation} delle linee di livello che intersecano ognuna di queste zone. Inoltre la funzione conserva nella tabella \textit{zoneVicine} tutte le zone che intersecano il buffer con la quota media calcolata in modo da consentire alle successive UDF un immediato utilizzo di questi risultati.\\
 \textbf{Input:} 
 \begin{itemize}
@@ -169,7 +169,7 @@ CREATE or REPLACE FUNCTION quotaMediaZoneVicine(buffer GEOMETRY) RETURNS VOID
 $$;
 \end{lstlisting}
 
-\subsection{stimaQuotaStazione}
+\subsection{\textbf{STIMAQUOTASTAZIONE}}
 La funzione calcola una stima della quota della stazione attraverso una media ponderata tra l'\textit{elavation} delle linee di livello più vicine ad essa. Inoltre la funzione conserva nella tabella \textit{tempo} tutte le intersezione tra le linee di livello e le zone che intersecano il buffer centrato sulla stazione, in modo da consentire alle successive UDF un immediato utilizzo di questi risultati.\\
 \textbf{Input:} 
 \begin{itemize}
@@ -255,7 +255,7 @@ CREATE or REPLACE FUNCTION stimaQuotaStazione(gidStazione INTEGER, geomStazione 
 $$;
 \end{lstlisting}
 
-\subsection{dislivelloPiuVicino}
+\subsection{\textbf{DISLIVELLOPIUVICINO}}
 La funzione calcola la somma delle pendenze tra le linee di livello lungo il vettore direzionale.\\
 \textbf{Input:} 
 \begin{itemize}
@@ -369,7 +369,7 @@ $$;
 \end{lstlisting}
 
 
-\section{UDF del NMCE}
+\section{User Defined Function del NMCE}
 \label{udfnmce}
 In questa sezione verranno mostrate tutte le UDF che implementano NMCE e che contribuiscono al calcolano valore di exposure delle linee ferroviarie.\\ 
 Così come per le stazioni ferroviarie la struttura utilizzata per l'esecuzione delle UDF relative alle linee ferroviarie consiste in una funzione principale denominata \textit{esposizione\_linee} che richiama le altre UDF.
@@ -382,7 +382,7 @@ L'invocazione alla main function \textit{esposizione\_linee} eseguita durante la
 SELECT esposizione_linee(300, 1000);
 \end{lstlisting}     
 
-\subsection{esposizione\_linee}
+\subsection{\textbf{ESPOSIZIONE\_LINEE}}
 Rappresenta la main function che richiama le altre UDF.\\
 \textbf{Input:} 
 \begin{itemize}
@@ -419,7 +419,7 @@ CREATE or REPLACE FUNCTION esposizione_linee(passoCampionamento INT, lunghezzaSe
 $$;
 \end{lstlisting}
 
-\subsection{semplificaLinee}
+\subsection{\textbf{SEMPLIFICALINEE}}
 La funzione a partire dalle \textit{MultiLineString} che rappresentano le linee ferroviarie ricava delle geometrie più semplici ossia \textit{Linestring} e le salva nella tabella \textit{only\_line}.\\
 
 \begin{table}[h]
@@ -457,7 +457,7 @@ CREATE or REPLACE FUNCTION semplificaLinee() RETURNS VOID
 $$;
 \end{lstlisting}
 
-\subsection{campiona}
+\subsection{\textbf{CAMPIONA}}
 Funzione che campiona la le linee semplici presenti nella tabella \textit{only\_line} contente le \textit{Linestring} ricavate dalle linee ferroviarie.\\
 \textbf{Input:} 
 \begin{itemize}
@@ -570,7 +570,7 @@ CREATE or REPLACE FUNCTION dividiInSegmenti(passo INT) RETURNS VOID
 $$;
 \end{lstlisting}
 
-\subsection{expSegmenti}
+\subsection{\textbf{EXPSEGMENTI}}
 Funzione che per ogni segmento delle linee ferroviarie calcola un valore di \textit{exposure} pari alla media del valore di \textit{exposure} dei punti campionati che interseca.\\
 
 \begin{table}[h]

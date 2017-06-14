@@ -416,21 +416,21 @@ La Tabella \ref{rangeLinee} mostra la suddetta divisione in fasce di rischio, gl
 \textbf{Fascia} & \textbf{Intervallo valori Exp$\mathbf{\_}$$\mathbf{segmento}$} & $\mathbf{\#segmenti}$ & \textbf{\%} \\
 \hline
 \rowcolor{flamingopink}
-High & 20 < Exp$\_$$b_i$  & 78 & 11,31\%\\
+High & 20 < Exposure  & 78 & 11,31\%\\
 \hline
 \rowcolor{icterine}
-Moderate & 1 < Exp$\_$$b_i$ < 20 & 386 & 55,94\%\\
+Moderate & 1 < Exposure < 20 & 386 & 55,94\%\\
 \hline
 \rowcolor{inchworm}
-Low & $0$ < Exp$\_$$b_i$ < 1 & 226 & 32,75\%\\
+Low & $0$ < Exposure < 1 & 226 & 32,75\%\\
 \hline
 \end{tabular}
 \caption{Aggregazione dei segmenti in base al valore di \textit{exposure} }
 \label{rangeLinee}
 \end{table}
 \newline
-Come è possibile notare chiaramente dai dati riportati in Tabella \ref{rangeLinee} solo una bassa percentuale de segmenti presenta un livello di esposizione al rischio di frane tale da far emergere il bisogno di controlli più frequenti (livello di esposizione \textit{High}). Da tali risultati si ha quindi la conferma dell'utilità del lavoro esposto, in particolare per gli addetti al controllo della rete ferroviaria: viene ridotto al $11,31\%$ il numero di segmenti di rete ferroviaria da manutenere più frequentemente; ciò comporta senza ombra di dubbio una riduzione, in termini di costi e di tempi, per gli addetti ai lavori.\newline
-In Figura \ref{rankinglinee} è possibile avere una visione d'insieme dei risultati ottenuti dall'applicazione del metodo NMCE sui segmenti delle linee che compongono la rete ferroviaria abruzzese, si noti come ogni segmento in figura ha lo stesso colore della fascia di rischio a cui appartiene.
+Come è possibile notare chiaramente dai dati riportati in Tabella \ref{rangeLinee} solo una bassa percentuale dei segmenti presenta un livello di esposizione al rischio di frane tale da far emergere il bisogno di controlli più frequenti (livello di esposizione \textit{High}). Da tali risultati si ha quindi la conferma dell'utilità del lavoro esposto, in particolare per gli addetti al controllo della rete ferroviaria: viene ridotto al $11,31\%$ il numero di segmenti di rete ferroviaria da manutenere più frequentemente; ciò comporta senza ombra di dubbio una riduzione, in termini di costi e di tempi, per gli addetti ai lavori.\newline
+In Figura \ref{rankinglinee} è possibile avere una visione d'insieme dei risultati ottenuti dall'applicazione del metodo NMCE sui segmenti delle linee che compongono la rete ferroviaria abruzzese, si noti come ogni segmento in Figura \ref{rankinglinee} ha lo stesso colore della fascia di rischio a cui appartiene.
 \begin{figure}[hpt]
 	\centering
 	\includegraphics[width=0.4\linewidth]{img/reteRanking.jpeg}
@@ -438,7 +438,7 @@ In Figura \ref{rankinglinee} è possibile avere una visione d'insieme dei risult
 	\label{rankinglinee}
 \end{figure}
 \newline
-La classifica riportata in Tabella \ref{top20segmenti} mostra i primi venti (di $690$) segmenti ordinati in maniera decrescente rispetto il relativo valore di \textit{exposure}. In riferimento al singolo segmento, per ognuno di essi vengono mostrati la linea di appartenenza, il numero del segmento e il relativo valore di \textit{exposure}.
+La classifica riportata in Tabella \ref{top20segmenti} mostra i primi venti (di $690$) segmenti ordinati in maniera decrescente rispetto il relativo valore di \textit{exposure}. Per ognuno di essi vengono mostrati la linea di appartenenza, il numero del segmento e il relativo valore di \textit{exposure}.
 \begin{table}[hpt]
 \centering
 \begin{tabular}{|c|c|c|c|}
@@ -473,7 +473,7 @@ $20$ & Sulmona - Carpinone        & $41$        & $47,93$                     \\
 Si espone qui di seguito un'analisi puntuale dei risultati per ogni linea ferroviaria.
 
 \subsection{Linea Bologna - Bari}
-Si riportano in Tabella \ref{classificabolognabari} i primi dieci (di $125$) segmenti di tale tratta ferroviaria ordinati in maniera decrescente rispetto il valore di \textit{exposure}.
+Si riportano in Tabella \ref{classificabolognabari} i primi dieci (di $125$) segmenti di tale tratta ferroviaria ordinati in maniera decrescente rispetto il valore di \textit{exposure}. Si ricorda che i colori indicano le diverse fasce di \textit{exposure} già viste in precedenza.
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|c|c|}
@@ -503,7 +503,7 @@ La Figura \ref{bolognabari} mostra invece una visione d'insieme della classifica
 \label{bolognabari}
 \end{figure}
 \newline
-Analizzando i risultati esposti in Tabella \ref{percentualebolognabari} si evince che in questa linea non ci sono segmenti che destano preoccupazione circa il rischio di smottamenti. 
+Analizzando i risultati esposti in Tabella \ref{percentualebolognabari} si evince che in questa linea non ci sono segmenti che destano preoccupazione circa il rischio di smottamenti del terreno. 
 Per una visione completa della classificazione dei segmenti della linea Bologna - Bari si rimanda alla lettura dell'appendice \ref{app:bolognabari}.
 \begin{table}[h]
 \centering
@@ -889,17 +889,17 @@ Low      & $18$          & $69,23$ \\ \hline
 \subsection{Discussione dei risultati ottenuti}
 \label{discussioneLinee}
 Per la validazione dei risultati ottenuti dall'applicazione del metodo NMCE, discusso nella Sezione \ref{metodoLinee}, sono stati utilizzati il software QGIS, presentato in appendice \ref{qgis}, e GoogleMaps, con lo scopo di verificare, almeno dal punto di vista visivo, la classificazione in fasce di rischio ottenuta. 
- Un ulteriore controllo è stato realizzato confrontando la fascia di rischio associata al segmento della linea ferroviaria e la fascia di rischio associata alla stazione che insiste su di esso: In alcuni casi la fascia del segmento è in contrasto con la fascia assegnata alla stazione ferroviaria dal NMC. Questi casi corrispondono ai casi critici di cui abbiamo ampiamente parlato nella sezione \ref{discussioneRisultati}. Ad esempio la stazione di Aversa sappiamo essere stata classificata erroneamente nella fascia \textit{Moderate} dal NMC. Invece il NMCE classifica i segmenti in prossimità della stazione nella fascia \textit{High} come si evince dalla Fig.\ref{aversalinea}
+ Un ulteriore controllo è stato realizzato confrontando la fascia di rischio associata al segmento della linea ferroviaria e la fascia di rischio associata alla stazione che insiste su di esso: in alcuni casi la fascia del segmento è in contrasto con la fascia assegnata alla stazione ferroviaria dal NMC. Questi casi corrispondono ai casi critici di cui abbiamo ampiamente parlato nella sezione \ref{discussioneRisultati}. Ad esempio la stazione di Aversa sappiamo essere stata classificata erroneamente nella fascia \textit{Moderate} dal NMC. Invece il NMCE classifica i segmenti in prossimità della stazione nella fascia \textit{High} come si evince dalla Fig.\ref{aversalinea}
 \begin{figure}[bth]
 \myfloatalign
 \subfloat[]
 {\includegraphics[width=0.4\linewidth]{img/aversaLinea}} \quad
 \subfloat[]
 {\includegraphics[width=0.4\linewidth]{img/AversaLinea3}} 
-\caption{Vista $2$D (a) e $3$D (b) della stazione di Aversa e della linea ferroviaria che l’attraversa}\label{aversalinea}
+\caption{Vista $2$D (a) e $3$D (b) della stazione di Aversa e della linea ferroviaria che  transita per essa }\label{aversalinea}
 \end{figure}
 \newline
-Il metodo NMCE presenta inoltre una criticità che determina in alcuni casi la presenza di \textit{falsi positivi}: L'assenza di un dataset che informi circa la presenza di gallerie ferroviarie: Il metodo, non avendo conoscenza della loro presenza o meno, non riesce ad individuare le situazioni in cui i binari della linea ferroviaria proseguono all'interno di una galleria e crede che la tratta prosegui arrampicandosi sul il pendio, generando così valori di \textit{exposure} errati.
+Il metodo NMCE presenta inoltre una criticità che determina in alcuni casi la presenza di \textit{falsi positivi}: l'assenza di un dataset che informi circa la presenza di gallerie ferroviarie. Il metodo, non avendo conoscenza della loro presenza o meno, non riesce ad individuare le situazioni in cui i binari della linea ferroviaria proseguono all'interno di una galleria e crede che la tratta prosegui arrampicandosi sul pendio, generando così valori di \textit{exposure} errati.
 In Figura \ref{esempiogalleria} è possibile osservare una di queste situazioni critiche, corrispondenti alla tratta ferroviaria Pescara - Roma, dal km $154$ al km $157$ ovvero la galleria \textit{Colli di Monte Bove} nei pressi dell'omonima stazione ferroviaria, mentre in Figura \ref{maps} è possibile osservare la stessa tratta fotografata tramite GoogleMaps.
 \begin{figure}[bth]
 \myfloatalign
