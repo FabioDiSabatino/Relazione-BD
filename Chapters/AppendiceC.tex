@@ -16,12 +16,11 @@ SELECT esposizione('stazioni', FALSE, 5, 500);
 Dai parametri della funzione si osserva che il fattore \textit{alpha\_slope} è settato a 5, mentre il raggio del buffer è posto pari a 500 m.
 
 \subsection{\textbf{ESPOSIZIONE}}
-Rappresenta la main function che richiama le altre UDF.
+Rappresenta la main function che richiama le altre UDF. \newline
 \textbf{Input:}
 \begin{itemize}
 \item \textit{tabInput text} corrisponde al nome della tabella contenente i punti sul quale si vuole calcolare l'exposure. 
 \item \textit{stessaTab BOOL} corrisponde a un booleano che se posto a \textit{TRUE} permette di salvare i risultati nella stessa tabella di input altrimenti li conserva nella tabella di default \textit{tabella\_risultati}. I parametri dell'UDF \textit{tabInput} e \textit{stessaTab} sono stati inseriti per dare un maggior grado di libertà al codice in modo da poter essere riutilizzato come verrà fatto in seguito dal NMCE. 
-\item \textit{raggioBuffer FLOAT} rappresenta il raggio del buffer circolare espresso in \textit{m}.
 \item \textit{alphaSlope FLOAT} rappresenta il parametro che da un peso al fattore pendenza.
 \item \textit{raggioBuffer FLOAT } rappresenta il raggio del buffer circolare centrato sulla stazione espresso in \textit{m}.
 \end{itemize}
@@ -247,7 +246,6 @@ CREATE or REPLACE FUNCTION stimaQuotaStazione(gidStazione INTEGER, geomStazione 
 		END IF;
 		-- calcolo della quota della stazione come media ponderata delle quote delle linee di livello più vicina ad essa --
 		altezzaStazione:=((SELECT tempo.elevation FROM tempo WHERE id=idmin)*dquasimin+(SELECT tempo.elevation FROM tempo WHERE id=idquasimin)*dmin)/(dmin+dquasimin);
-		UPDATE stazioni SET quota=altezzaStazione WHERE stazioni.gid=gidStazione;
 		risultatiFun[0]=altezzaStazione;
 		risultatiFun[1]=idmin;
 		RETURN  risultatiFun;
@@ -342,7 +340,7 @@ CREATE or REPLACE FUNCTION dislivelloPiuVicino(buffer GEOMETRY, raggioBuffer FLO
 					END IF;
 					primo:=FALSE ;
 
-				-- calcola della pendenza tra una linea di livello e la succesiva  --
+				-- calcola della pendenza tra una linea di livello e la successiva  --
 				ELSE
 					IF (stazioneStessaQuotaLinea=FALSE) THEN
 						IF ((salita=TRUE) AND lineaInBuffer.elevation>elevationUltimaLinea) OR ((salita=FALSE) AND lineaInBuffer.elevation<elevationUltimaLinea) THEN
@@ -386,7 +384,7 @@ SELECT esposizione_linee(300, 1000);
 Rappresenta la main function che richiama le altre UDF.\\
 \textbf{Input:} 
 \begin{itemize}
-\item \textit{passoCampionamto INTEGER} definisce il passo di campionamento espresso in \textit{m} delle linee ferroviarie.
+\item \textit{passoCampionamento INTEGER} definisce il passo di campionamento espresso in \textit{m} delle linee ferroviarie.
 \item \textit{lunghezzaSegmento INTEGER} definisce la lunghezza che si vuole dare ai segmenti che formano le linee ferroviarie.
 \end{itemize}
 \textbf{Output:} \textit{VOID} 

@@ -41,14 +41,14 @@
 
 \pagestyle{plain} % Suppress headers for the pre-content pages
 
-%----------------------------------------------------------------------------------------
-%	Frontespizio-Indice-Abstract
-%----------------------------------------------------------------------------------------
+%-------------------------------------------------------------------
+%	Frontespizio-Indice
+%-------------------------------------------------------------------
 
 \include{FrontBackMatter/Titlepage} % Main title page
-
+\cleardoublepage
 \cleardoublepage\include{FrontBackMatter/Contents} % Contents, list of figures/tables/listings and acronyms
-\cleardoublepage\include{FrontBackMatter/Abstract} % Abstract page
+
 \cleardoublepage
 
 \pagenumbering{arabic} 
@@ -64,7 +64,7 @@
 \include{Chapters/UnCasoDiStudio}
 \include{Chapters/RisultatiEDiscussione}
 \include{Chapters/ConclusioniLavoriFuturi}
-\cleardoublepage % Empty page before the start of the next part
+\cleardoublepage
 
 %----------------------------------------------------------------------------------------
 %	Appendici della relazione
